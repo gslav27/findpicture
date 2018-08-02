@@ -47,6 +47,7 @@ export const fetchUserHistory = () => (dispatch, getState) => {
 
       // if user is new, create record in usersHistory collection (in database)
       if (userHistory.length === 0) {
+        dispatch(waitApiResponse(false));
         let fetchObj = {
           method: ('POST'),
           headers: {
