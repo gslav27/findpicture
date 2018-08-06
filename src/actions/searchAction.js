@@ -19,11 +19,11 @@ import { fetchViewerImg, fetchViewerOpen, fetchWaitNextData } from './imgViewerA
 
 
 // type "1" = fetchImages, type "2" = fetchMoreImages
-const waitApiResponse = (loading = true, type = 1) => (dispatch) => {
-  dispatch({
+const waitApiResponse = (loading = true, type = 1) => {
+  return {
     type: (type === 1) ? WAIT_API_RESPONSE_TYPE_1 : WAIT_API_RESPONSE_TYPE_2,
     payload: loading,
-  })
+  };
 }
 
 
@@ -60,15 +60,16 @@ export const fetchImages = (pathPage = 1) => (dispatch, getState) => {
 }
 
 
-export const fetchSearchText = (input) => dispatch => {
-  dispatch({
+// export const fetchSearchText = (input) => dispatch => {
+export const fetchSearchText = (input) => {
+  return {
     type: FETCH_SEARCH_TEXT,
     payload: input,    
-  })
+  };
 }
 
 
-export const fetchAmount = (width, amount=null) => dispatch => {
+export const fetchAmount = (width, amount=null) => {
   let _amount;
   if (amount !== null) { 
     _amount = amount;
@@ -85,58 +86,58 @@ export const fetchAmount = (width, amount=null) => dispatch => {
         break;
     }
   }
-  dispatch({
+  return {
     type: FETCH_AMOUNT,
     payload: _amount,
-  })
+  };
 }
 
 
-export const fetchOrder = (input) => dispatch => {
-  dispatch({
+export const fetchOrder = (input) => {
+  return {
     type: FETCH_ORDER,
     payload: input,
-  })
+  };
 }
 
 
-export const fetchOrientation = (input) => dispatch => {
-  dispatch({
+export const fetchOrientation = (input) => {
+  return {
     type: FETCH_ORIENTATION,
     payload: input,
-  })
+  };
 }
 
 
-export const fetchImageType = (input) => dispatch => {
-  dispatch({
+export const fetchImageType = (input) => {
+  return {
     type: FETCH_IMAGE_TYPE,
     payload: input,
-  })
+  };
 }
 
 
-export const fetchCategory = (input) => dispatch => {
-  dispatch({
+export const fetchCategory = (input) => {
+  return {
     type: FETCH_CATEGORY,
     payload: input,
-  })
+  };
 }
 
 
-export const fetchColor = (input = [null]) => dispatch => {
-  dispatch({
+export const fetchColor = (input = [null]) => {
+  return {
     type: FETCH_COLOR,
     payload: input,
-  })
+  };
 }
 
 
-export const fetchPage = (input) => dispatch => {
-  dispatch({
+export const fetchPage = (input) => {
+  return {
     type: FETCH_PAGE,
     payload: input,
-  })
+  };
 }
 
 
@@ -179,8 +180,8 @@ export const fetchMoreImages = (wait = false, addAfter = true, prevPage = null) 
 }
 
 
-export const cutDownSearchStore = () => dispatch => {
-  dispatch({
+export const cutDownSearchStore = () => {
+  return {
     type: CUT_DOWN_SEARCH_STORE,
-  })
+  };
 }

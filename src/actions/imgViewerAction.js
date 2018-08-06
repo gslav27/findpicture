@@ -30,9 +30,9 @@ export const fetchViewerImg = (newImgInd = null, isAuthenticated) => (dispatch, 
 }
 
 
-export const fetchWaitNextData = (loading = true) => (dispatch) => {
-  dispatch({
+export const fetchWaitNextData = (loading = true) => {
+  return {
     type: VIEWER_WAIT_API_RESPONSE,
     payload: loading,
-  })
+  }
 }

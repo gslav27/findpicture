@@ -9,20 +9,19 @@ import {
 } from './types';
 
 
-const waitApiResponse = (loading = true, type = 1) => (dispatch) => {
-  dispatch({
-    // type: (type === 1) ? WAIT_API_RESPONSE_TYPE_1 : WAIT_API_RESPONSE_TYPE_2,
+const waitApiResponse = (loading = true, type = 1) => {
+  return {
     type: WAIT_API_RESPONSE_TYPE_3,
     payload: loading,
-  })
+  };
 }
 
 
-export const authDialogOpen = (open = true) => (dispatch) => {
-  dispatch({
+export const authDialogOpen = (open = true) => {
+  return {
     type: SET_AUTH_DIALOG_STATUS,
     payload: open,
-  })
+  };
 }
 
 
@@ -82,15 +81,15 @@ export const fetchUserHistory = () => (dispatch, getState) => {
 }  
 
 
-export const clearUserHistory = () => (dispatch) => {
+export const clearUserHistory = () => {
   let userHistory = {
     favorites: [],
     recentlywatched: [],
   }
-  dispatch({
+  return {
     type: UPDATE_USER_HISTORY,
     payload: userHistory,
-  })
+  };
 }
 
 
@@ -236,11 +235,11 @@ export const updateRecentlyWatched = (ImgInd) => (dispatch, getState) => {
 }  
 
 
-export const setWindowTop = (current = true) => (dispatch) => {
-  dispatch({
+export const setWindowTop = (current = true) => {
+  return {
     type: WINDOW_TOP,
     payload: current,
-  })
+  };
 }
 
 
@@ -259,7 +258,7 @@ export const favoritesOrder = (orderType, higherFirst) => (dispatch, getState) =
   // set new order type
   newFavoritesOrderType[orderType] = higherFirst ? [true, false] : [false, true];
 
-  dispatch({
+  dispatch ({
     type: UPDATE_FAVORITES_ORDER,
     payload: [favoritesImgs, newFavoritesOrderType],
   })
