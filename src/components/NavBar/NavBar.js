@@ -13,17 +13,18 @@ import {
   fetchOrientation,
   fetchPage,
   fetchSearchText,
-} from '../actions/searchAction';
-import { setWindowTop, fetchUserHistory, clearUserHistory, authDialogOpen } from '../actions/appAddsAction';
+} from '../../actions/searchAction';
+import { setWindowTop, fetchUserHistory, clearUserHistory, authDialogOpen } from '../../actions/appAddsAction';
 
-import MenuDrawer from './Drawer';
-import SearchFilters from './Filters/SearchFilters';
-import FavoritesFilters from './Filters/FavoritesFilters';
-import AuthenticationNote from './AuthenticationNote';
+import MenuDrawer from './components/MenuDrawer/Drawer';
+import SearchFilters from './components/Filters/SearchFilters/SearchFilters';
+import FavoritesFilters from './components/Filters/FavoritesFilters/FavoritesFilters';
+import AuthenticationNote from '../Auth/AuthenticationAlert/AuthenticationAlert';
 
 import { withStyles } from '@material-ui/core/styles';
 import compose from 'recompose/compose';
 import withWidth from '@material-ui/core/withWidth';
+import navBarStyle from './NavBar.style';
 
 import IconButton from '@material-ui/core/IconButton';
 import Input from '@material-ui/core/Input';
@@ -35,176 +36,10 @@ import FilterList from '@material-ui/icons/FilterList';
 import Sort from '@material-ui/icons/FilterList';
 import Person from '@material-ui/icons/Person';
 
+import { auth } from '../Auth/AuthHOC';
 
-const styles = theme => ({
-  appBar: {
-    backgroundColor: 'rgb(38,50,56)',
-    height: 57,
-    padding: '0px 4px',
-    display: 'flex',
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    borderBottom: '1px solid #ddd',
-    transition: 'border-bottom 0.2s ease',
-  },
-  appBarBorder: {
-    borderBottom: '1px solid rgb(38, 50, 56)',
-    [theme.breakpoints.only('xs')]: {
-      borderBottom: '1px solid #ddd',
-    },
-  },
-  appBarInputGroup: {
-    marginLeft: 4,
-    width: '65%',
-    display: 'flex',
-    alignItems: 'center',
-    [theme.breakpoints.only('xs')]: {
-      width: '100%',
-    },
-    [theme.breakpoints.only('sm')]: {
-      width: '75%',
-    },
-    [theme.breakpoints.only('md')]: {
-      width: '70%',
-    },
-  },
-  appBarLastChildGroup: {
-    display: 'inline-flex',
-  },
-  appBarIcons: {
-    color: '#fff',
-  },
-  appBarIcons_noAuth: {
-    color: '#999',
-  },
-  filtersButton: {
-    height: '1.8em',
-    width: '1.8em',
-    transition: 'visibility 0.2s ease',
-    [theme.breakpoints.only('xs')]: {
-      width: '2em',
-      height: '2em',
-    },
-    '& svg': {
-      transition: 'all 0.2s ease',
-    },
-  },
-  filtersButtonTop: {
-    visibility: 'hidden',
-    '& svg': {
-      color: 'rgb(38, 50, 56)',
-    },
-    [theme.breakpoints.only('xs')]: {
-      visibility: 'visible',
-      '& svg': {
-        color: '#fff',
-      },
-    },
-  },
-  deleteSearchTextButton: {
-    height: '1.6em',
-    width: '1.6em',
-    padding: '0',
-    transition: 'visibility 1s ease',
-    visibility: 'hidden',
-  },
-  deleteSearchTextButtonDisplay: {
-    visibility: 'visible',
-  },
-  inputFieldIcons: {
-    color: 'rgb(38, 50, 56)',
-  },
-  hidden: {
-    visibility: 'hidden',
-  },
-  searchTextIconWrap: {
-    display: 'flex',
-    justifyContent: 'center',
-    height: '100%',
-    width: '4em',
-    backgroundColor: '#ffeb3b',
-    borderRadius: '0px 2px 2px 0px',
-    borderLeft: '1px solid #aaa',
-    [theme.breakpoints.only('xs')]: {
-      borderRadius: '0px 10px 0px 0px',
-    },
-  },
-  searchTextButton: {
-    height: '1.6em',
-    width: '1.6em',
-    padding: '0',
-  },
-  appBarWrapper: {
-    position: 'fixed',
-    width: '100%',
-    top: 0,
-    zIndex: 1001,
-    transition: 'all 0.1s',
-  },
-  appBarWrapperHide: {
-    transform: 'translate(0px, -57px)',
-    [theme.breakpoints.only('xs')]: {
-      transform: 'none',
-    }
-  },
-  searchFieldFormControl: {
-    width: '100%',
-  },
-  searchFieldInput: {
-    padding: '6px 0px 4px',
-    width: '100%',
-    // fix .MuiInput-inputType: {height: 1.1875em}
-    height: 'initial',
-  },
-  searchFieldInputRoot: {
-    width: '100%',
-    paddingLeft: 5,
-    fontSize: '1.2em',
-    lineHeight: '1.2em',
-    height: '2em',
-  },
-  filtersTop: {
-    position: 'relative',
-    top: 57,
-    [theme.breakpoints.only('xs')]: {
-      display: 'none',
-    },
-  },
-  filtersBody: {
-    position: 'fixed',
-    top: 0,
-    height: 57,
-    width: '100%',
-    display: 'flex',
-    alignItems: 'end',
-    transition: 'all 0.3s',
-    [theme.breakpoints.only('xs')]: {
-      top: -200,
-    },
-  },
-  filtersBodyTransform: {
-    transform: 'translate(0px, 57px)',
-    [theme.breakpoints.only('xs')]: {
-      transform: 'translate(0px, 257px)',
-    },
-  },
-  searchFieldWrap: {
-    display: 'flex',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    width: '100%',
-    height: '2em',
-    backgroundColor: '#f5f5f5',
-    borderRadius: 1,
-  },
-  searchFieldWrapMobile: {
-    borderRadius: '2px',
-    [theme.breakpoints.only('xs')]: {
-      borderRadius: '0px 10px 0px 0px',
-    },
-  },
-})
+
+const styles = theme => (navBarStyle(theme))
 
 let userHistoryLoaded = false;
 
@@ -236,10 +71,10 @@ class NavBar extends Component {
 
 
   componentDidUpdate = (prevProps, prevState) => {
-    if (!userHistoryLoaded && this.props.auth.isAuthenticated()) {
+    if (!userHistoryLoaded && auth.isAuthenticated()) {
       userHistoryLoaded = true; 
       this.props.fetchUserHistory();
-    } else if (!this.props.auth.isAuthenticated()) {
+    } else if (!auth.isAuthenticated()) {
       userHistoryLoaded = false;
     };
     if (this.props.width !== prevProps.width) {
@@ -314,7 +149,7 @@ class NavBar extends Component {
       classes,
       location,
       width,
-      auth,
+      // auth,
       authDialog,
       searchText,
       history
@@ -328,7 +163,6 @@ class NavBar extends Component {
     } = this.state;
 
     let filtersType,
-        // navigationMenuIcon,
         navigationMenuIconLeft,
         navigationMenuIconRight,
         drawerFromLeft,

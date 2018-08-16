@@ -1,9 +1,6 @@
-export const filtersStylesPattern = (theme) => {
+const filtersStylesPattern = (theme) => {
   return {
-    dialogPaperWidthSm: {
-      maxHeight: '70vh',
-      width: 460,
-    },
+    // NF CF CC
     rootSelectWrap: {
       width: '100%',
       height: '2em',
@@ -15,10 +12,132 @@ export const filtersStylesPattern = (theme) => {
         display: 'none',
       },
     },
+    // NF CF VF + MainComponents(Color)
     selectedValue: {
       height: '1em',
       color: '#d50000',
       transition: 'all 0.3s ease',
+    },
+    // NF NC
+    rootNativeControl: {
+      display: 'flex',
+      flexWrap: 'wrap',
+      maxWidth: '100%',
+      [theme.breakpoints.only('xs')]: {
+        display: 'none',
+      },
+    },
+    // NF CF CC
+    rootSelect: {
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'space-between',
+    },
+    // NF CF CC
+    select: {
+      padding: '0 24px 0 12px',
+      textAlign: 'center',
+      lineHeight: '2em',
+      [theme.breakpoints.only('xs')]: {
+        padding: '0 24px',
+      },
+    },
+    // NF NC
+    nativeControlInputLabel: {
+      marginLeft: 12,
+      fontSize: '1em',
+    },
+    // NC CF CC
+    MenuItemText: {
+      padding: '0 6px 0 10px',
+      color: '#000',
+      width: '100%',
+    },
+    // NC VF VC
+    overflow: {
+      visibility: 'hidden',
+      position: 'absolute',
+      width: '100%',
+      height: '1em',
+      transition: 'all 0.25s ease',
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'center',
+      backgroundColor: 'rgba(255, 255, 255, 0)',
+      color: '#fff',
+    },
+  }
+}
+
+
+const propStyles = (classNames, theme) => {
+  let classNamesStyles = {};
+  classNames.forEach(className => {
+    classNamesStyles[className] = filtersStylesPattern(theme)[className]
+  });
+  return classNamesStyles
+}
+
+
+
+
+export const mainComponentsStyles = (theme) => {
+  let classNames = [
+    'selectedValue',
+  ];
+
+  return {
+    MenuItemIcon: {
+      width: '0.6em',
+      height: '0.6em',
+      fill: 'rgba(0,0,0,0.8)',
+    },
+    MenuItemIconMultipleSelection: {
+      width: '0.6em',
+      height: '0.6em',
+      fill: 'rgba(0,0,0,0.8)',
+      fontSize: '1.8em',
+    },
+    ...propStyles(classNames, theme)
+  }
+}
+
+
+
+
+export const nativeControlFTStyles = (theme) => {
+  let classNames = [
+    'rootSelectWrap',
+    'selectedValue',
+    'rootNativeControl',
+    'nativeControlInputLabel',
+    'rootSelect',
+    'select'
+  ];
+
+  return {
+    nativeControlOption: {
+      color: '#000',
+    },
+    ...propStyles(classNames, theme)
+  }
+}
+
+
+
+
+export const nativeControlClrStyles = (theme) => {
+  const classNames = [
+    'rootNativeControl',
+    'nativeControlInputLabel',
+    'MenuItemText',
+    'overflow'
+   ];
+
+  return {
+    dialogPaperWidthSm: {
+      maxHeight: '70vh',
+      width: 460,
     },
     rootNativeColorSelect: {
       marginTop: 16,
@@ -29,14 +148,6 @@ export const filtersStylesPattern = (theme) => {
       fontSize: '1em',
       lineHeight: '1em',
       alignItems: 'center',
-    },
-    rootNativeControl: {
-      display: 'flex',
-      flexWrap: 'wrap',
-      maxWidth: '100%',
-      [theme.breakpoints.only('xs')]: {
-        display: 'none',
-      },
     },
     nativeColorInputHTML: {
       position: 'absolute',
@@ -52,36 +163,11 @@ export const filtersStylesPattern = (theme) => {
         color: 'transparent',
       },
     },
-    rootListWrap: {
-      display: 'none',
-      padding: 0,
-      [theme.breakpoints.only('xs')]: {
-        display: 'block',
-      },
-      borderBottom: '2px solid #ddd',
-    },
-    rootSelect: {
-      display: 'flex',
-      alignItems: 'center',
-      justifyContent: 'space-between',
-    },
-    select: {
-      padding: '0 24px 0 12px',
-      textAlign: 'center',
-      lineHeight: '2em',
-      [theme.breakpoints.only('xs')]: {
-        padding: '0 24px',
-      },
-    },
     nativeColorInput: {
       padding: '0 24px 0 12px',
       whiteSpace: 'nowrap',
       textOverflow: 'ellipsis',
       overflow: 'hidden',
-    },
-    nativeControlInputLabel: {
-      marginLeft: 12,
-      fontSize: '1em',
     },
     nativeColorInputAdornment: {
       top: 'calc(50 % - 12px)',
@@ -124,28 +210,33 @@ export const filtersStylesPattern = (theme) => {
         height: '2.4em',
       },
     },
-    nativeControlOption: {
-      color: '#000',
+    overflowBottomNative: {
+      bottom: 0,
     },
+    overflowTopNative: {
+      top: 55,
+      borderTop: '1px solid rgba(0, 0, 0, 0.12)',
+    },
+    ...propStyles(classNames, theme)
+  }
+}
+
+
+
+
+export const customControlStyles = (theme) => {
+  let classNames = [
+    'rootSelectWrap',
+    'selectedValue',
+    'MenuItemText',
+    'rootSelect',
+    'select',
+  ];
+
+  return {
     MenuPropsListPadding: {
       padding: '0 0 2px 0',
       boxSizing: 'border-box',
-    },
-    MenuItemText: {
-      padding: '0 6px 0 10px',
-      color: '#000',
-      width: '100%',
-    },
-    MenuItemIcon: {
-      width: '0.6em',
-      height: '0.6em',
-      fill: 'rgba(0,0,0,0.8)',
-    },
-    MenuItemIconMultipleSelection: {
-      width: '0.6em',
-      height: '0.6em',
-      fill: 'rgba(0,0,0,0.8)',
-      fontSize: '1.8em',
     },
     MenuItemDisabled: {
       opacity: '1',
@@ -161,6 +252,31 @@ export const filtersStylesPattern = (theme) => {
     },
     backDropRoot: {
       backgroundColor: 'rgba(0,0,0,0.2)',
+    },
+    selectedMenuPaper: {
+      maxWidth: 300,
+    },
+    ...propStyles(classNames, theme)
+  }
+}
+
+
+
+
+export const verticalXsControlStyles = (theme) => {
+  let classNames = [
+    'selectedValue',
+    'overflow',
+  ];
+
+  return {
+    rootListWrap: {
+      display: 'none',
+      padding: 0,
+      [theme.breakpoints.only('xs')]: {
+        display: 'block',
+      },
+      borderBottom: '2px solid #ddd',
     },
     listItemHeader: {
       height: '2em',
@@ -198,21 +314,6 @@ export const filtersStylesPattern = (theme) => {
       borderTop: '1px solid #d50000',
       borderBottom: '1px solid #d50000',
     },
-    selectedMenuPaper: {
-      maxWidth: 300,
-    },
-    overflow: {
-      visibility: 'hidden',
-      position: 'absolute',
-      width: '100%',
-      height: '1em',
-      transition: 'all 0.25s ease',
-      display: 'flex',
-      alignItems: 'center',
-      justifyContent: 'center',
-      backgroundColor: 'rgba(255, 255, 255, 0)',
-      color: '#fff',
-    },
     overflowBottom: {
       bottom: 1,
     },
@@ -220,12 +321,6 @@ export const filtersStylesPattern = (theme) => {
       top: '2em',
       marginTop: 1,
     },
-    overflowBottomNative: {
-      bottom: 0,
-    },
-    overflowTopNative: {
-      top: 55,
-      borderTop: '1px solid rgba(0, 0, 0, 0.12)',
-    },
+    ...propStyles(classNames, theme)
   }
 }

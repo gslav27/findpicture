@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 
 import { withStyles } from '@material-ui/core/styles';
+import drawerStyle from './Drawer.style';
 
 import Drawer from '@material-ui/core/Drawer';
 import List from '@material-ui/core/List';
@@ -19,42 +20,7 @@ import ContentLink from '@material-ui/icons/Link';
 import ExitToApp from '@material-ui/icons/ExitToApp';
 import Forward from '@material-ui/icons/Forward';
 
-const styles = {
-  drawerHeader: {
-    backgroundColor: 'rgb(38,50,56)',
-    height: 57,
-    paddingRight: 0,
-  },
-  headerIcon: {
-    color: '#fff',
-    cuheaderIconrsor: 'pointer',
-  },
-  headerText: {
-    fontSize: '1.5em',
-    color: '#fff',
-  },
-  itemText: {
-    fontSize: '1.1em',
-  },
-  authItem: {
-    padding:  '5px 24px 5px 24px', 
-    opacity: 0.8,
-    backgroundColor: '#ddd',
-    textAlign: 'center',
-  },
-  authText: {
-    fontWeight: '500', 
-    maxWidth: 225,
-    overflowX: 'hidden',
-    textOverflow: 'ellipsis',
-  },
-  locationIcon: {
-    color: '#000',
-  },
-  locationText: {
-    fontWeight: 500,
-  }
-}; 
+const styles = drawerStyle;
  
 
 

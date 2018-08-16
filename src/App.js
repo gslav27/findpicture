@@ -5,51 +5,25 @@ import { Route, Switch, Redirect } from 'react-router-dom';
 import { MuiThemeProvider } from '@material-ui/core/styles';
 import ThemeDefault from './ThemeDefault'
 
-import NavBar from './components/NavBar';
-import SearchResults from './components/SearchResults';
-import UserOptionTemplate from './components/UserOptionTemplate';
-import Auth from './components/Auth/Auth';
+import NavBar from './components/NavBar/NavBar';
+import SearchResults from './components/SearchResults/SearchResults';
+import UserOptionTemplate from './components/UserOptionTemplate/UserOptionTemplate';
+import withAuth from './components/Auth/AuthHOC';
 
-
-const auth = new Auth(); 
-
-const handleAuthentication = (nextState, replace) => {
-  if (/access_token|id_token|error/.test(nextState.location.hash)) {
-    auth.handleAuthentication();
-  }
-}
 
 class App extends Component {
   render() {
     return (
       <MuiThemeProvider theme={ThemeDefault}>
-        <div>
-          <Route path="/findpicture" render={(props) => <NavBar auth={auth} {...props} />} />
-
+        <div> 
+          <Route path="/findpicture" component={NavBar} /> 
           <Switch>
-            <Route exact path="/findpicture" render={(props) => <SearchResults auth={auth} {...props}/>} />
-            <Route path="/findpicture/recentlywatched" render={(props) => {
-              return (
-                auth.isAuthenticated()
-                  ? <UserOptionTemplate componentType='recentlyWatched' auth={auth} {...props} />
-                  : <Redirect to={{ pathname: '/findpicture', state: { from: props.location }}} />
-              )}}
-            />
-            <Route path="/findpicture/favorites" render={(props) => {
-              return (
-                auth.isAuthenticated()
-                  ? <UserOptionTemplate componentType='favorites' auth={auth} {...props} />
-                  : <Redirect to={{ pathname: '/findpicture', state: { from: props.location } }} />
-              )}}
-            />
-            <Route path="/findpicture/callback" render={(props) => {
-              handleAuthentication(props);
-              return <div/>
-              }}
-            />
-            <Route path="/findpicture/q_:query?/:page?/:viewer?" render={(props) => <SearchResults auth={auth} {...props} />} />
+            <Route exact path="/findpicture" component={SearchResults} />
+            <Route path="/findpicture/recentlyWatched" component={withAuth(UserOptionTemplate, 'recentlyWatched')} />
+            <Route path="/findpicture/favorites" component={withAuth(UserOptionTemplate, 'favorites')} />
+            <Route path="/findpicture/callback" component={withAuth(null, 'authCallback')} />
+            <Route exact path="/findpicture/q_:query?/:page?/:viewer?" component={SearchResults} />
           </Switch>
-
         </div >
       </MuiThemeProvider>
     );

@@ -2,243 +2,24 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
-import { fetchMoreImages, fetchPage, } from '../actions/searchAction';
-import { fetchViewerImg, fetchViewerOpen, fetchWaitNextData, } from '../actions/imgViewerAction';
-import { addToFavorites, authDialogOpen, formatData, findInFavorites } from '../actions/appAddsAction';
+import { fetchMoreImages, fetchPage, } from '../../actions/searchAction';
+import { fetchViewerImg, fetchViewerOpen, fetchWaitNextData, } from '../../actions/imgViewerAction';
+import { addToFavorites, authDialogOpen, formatData, } from '../../actions/appAddsAction';
 
 import { withStyles } from '@material-ui/core/styles';
+import imageViewerStyles from './ImageViewer.styles';
+
+import ImgSocialStat from './components/ImgSocialStat/ImgSocialStat';
+import LeftRightButtons from './components/LeftRightButtons/LeftRightButtons';
+
 import Dialog from '@material-ui/core/Dialog';
 import IconButton from '@material-ui/core/IconButton';
 import CircularProgress from '@material-ui/core/CircularProgress';
 
-import ChevronLeft from '@material-ui/icons/ChevronLeft';
-import ChevronRight from '@material-ui/icons/ChevronRight';
 import Close from '@material-ui/icons/Close';
-import Chat from '@material-ui/icons/Chat';
-import Pageview from '@material-ui/icons/Pageview';
-import StarBorderIcon from '@material-ui/icons/StarBorder';
-import StarIcon from '@material-ui/icons/Star';
 
 
-const styles = {
-  backDrop: {
-    width: '100%',
-    height: '100%',
-    top: 0,
-    left: 0,
-    position: 'absolute',
-    cursor: 'zoom-out',
-  },
-  moreImagesLoadingRoot: {
-    zIndex: 10000,
-    position: 'fixed',
-    backgroundColor: 'rgba(0, 0, 0, 0.50)',
-    top: 0,
-    left: 0,
-    width: '100%',
-    height: '100%',
-    display: 'flex',
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  imgLoadingRoot: {
-    zIndex: 1499,
-    backgroundColor: 'rgba(0, 0, 0, 0)',
-  },
-  moreImagesLoadingProgress: {
-    color: '#eee',
-  },
-  socialData: {
-    color: '#ccc',
-    fontSize: '1.2em',
-    marginLeft: '-6px',
-  },
-  dialogRoot: {
-    backgroundColor: 'rgba(0, 0, 0, 0.84)',
-  },
-  dialogImg: {
-    maxWidth: '80vw',
-    maxHeight: '80vh',
-    border: '2px solid #fff',
-  },
-  dialogPaperWidthSm: {
-    maxWidth: '80vw',
-  },
-  imgCounter: {
-    color: '#ccc',
-    fontSize: '1em',
-    paddingLeft: 12,
-  },
-  toolBar: {
-    position: 'fixed',
-    display: 'flex',
-    alignItems: 'center',
-    boxSizing: 'border-box',
-    width: '100%',
-    height: '9vh',
-    backgroundColor: 'rgba(0, 0, 0, 0.5)',
-  },
-  toolBarTop: {
-    top: 0,
-    justifyContent: 'space-between',
-  },
-  toolBarBottom: {
-    bottom: 0,
-    justifyContent: 'center',
-    paddingRight: '10px',
-  },
-  viewerAdds: {
-    position: 'fixed',
-    zIndex: 1501,
-    height: '100%',
-    width: '100%',
-    top: 0,
-    left: 0,
-  },
-  viewerAddsNavigation: {
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-    height: '100%',
-  },
-  viewerIconButtonLR: {
-    display: 'block',
-    boxSizing: 'border-box',
-    width: '45vw',
-    height: '40vh',
-    padding: 3,
-    cursor: 'pointer',
-    '&:hover': {
-      backgroundColor: 'rgba(0,0,0,0)',
-    },
-    zIndex: 1502,
-  },
-  viewerIconButtonLabel: {
-    width: '10vw',
-  },
-  viewerIconButtonLabelRight: {
-    '& span': {
-      float: 'right',
-    },
-  },
-  viewerIconButton: {
-    maxHeight: '10vh',
-    padding: 1,
-  },
-  buttonsHover: {
-    '&:hover svg': {
-      maxWidth: '10vw',
-      maxHeight: '10vh',
-      height: '1.8em',
-      width: '1.8em',
-      transition: 'all 0.2s ease',
-    },
-  },
-  viewerIconStyleLR: {
-    width: '1.3em',
-    height: '1.3em',
-    maxHeight: 50,
-    color: '#ccc',
-  },
-  viewerIconStyle: {
-    color: '#ccc',
-    height: '1.3em',
-    width: '1.3em',
-  },  
-};
-
-
-
-class ImgSocialStat extends Component {
-  render() {
-    const {
-      currentImg,
-      currentImgInd,
-      favorites,
-      classes,
-      auth,
-    } = this.props;
-
-    let _isFavorite = findInFavorites(currentImg.id, favorites, auth.isAuthenticated())
-
-    return (
-      <div className={`${classes.toolBar} ${classes.toolBarBottom}`}>
-        <IconButton
-          className={`${classes.viewerIconButton} ${classes.buttonsHover}`}
-          onClick={() => auth.isAuthenticated() ? this.props.addToFavorites(currentImgInd) : this.props.authDialogOpen()}
-          title={!_isFavorite ? 'add to Favorites' : 'remove from Favorites'}
-        >
-          {!_isFavorite
-            ? <StarBorderIcon className={classes.viewerIconStyle} />
-            : <StarIcon className={classes.viewerIconStyle} />
-          }
-        </IconButton>
-        <div className={classes.socialData}>
-          {formatData((!_isFavorite ? currentImg.favorites : (currentImg.favorites + 1)))}
-        </div>
-        <IconButton
-          className={`${classes.viewerIconButton} ${classes.buttonsHover}`}
-          title='read at Pixabay'
-          href={currentImg.pageURL}
-          target='_blank'
-        >
-          <Chat className={classes.viewerIconStyle} />
-        </IconButton>
-        <div className={classes.socialData}> {formatData(currentImg.comments)} </div>
-        <IconButton
-          className={`${classes.viewerIconButton} ${classes.buttonsHover}`}
-          title='see at Pixabay'
-          href={currentImg.pageURL}
-          target='_blank'
-        >
-          <Pageview className={classes.viewerIconStyle} />
-        </IconButton>
-        <div className={classes.socialData}> {formatData(currentImg.views)} </div>
-      </div>
-    );
-  }
-}
-
-
-
-class LeftRightButtons extends Component {
-  render() {
-    const {
-      mobileWithTouch,
-      classes,
-    } = this.props;
-
-    return (
-      <div className={classes.viewerAddsNavigation}>
-        <IconButton
-          onClick={() => this.props.onChange('left')}
-          classes={{
-            root: `${classes.viewerIconButtonLR} ${mobileWithTouch ? null : classes.buttonsHover}`,
-            label: classes.viewerIconButtonLabel,
-          }}
-          disableRipple
-          title='left'
-        >
-          <ChevronLeft className={classes.viewerIconStyleLR} />
-        </IconButton>
-        <IconButton
-          onClick={() => this.props.onChange('right')}
-          className={classes.viewerIconButtonLabelRight}
-          classes={{
-            root: `${classes.viewerIconButtonLR} ${mobileWithTouch ? null : classes.buttonsHover}`,
-            label: classes.viewerIconButtonLabel,
-          }}
-          disableRipple
-          title='right'
-        >
-          <ChevronRight className={classes.viewerIconStyleLR} />
-        </IconButton>
-      </div>
-    );
-  }
-}
-
-
+const styles = imageViewerStyles;
 
 
 class ImgViewer extends Component {
@@ -383,6 +164,7 @@ class ImgViewer extends Component {
       amount,
       page,
       open,
+      ...otherProps,
     } = this.props;
 
     let currentImg = images[currentImgInd];
@@ -431,13 +213,14 @@ class ImgViewer extends Component {
         {_viewerHeader}
         <LeftRightButtons
           onChange={(side) => this.handleNextButton({}, side)}
-          {...this.props}
+          mobileWithTouch={mobileWithTouch}
+          {...otherProps}
         />
         <ImgSocialStat
           currentImg={currentImg}
           currentImgInd={currentImgInd}
-          {...this.props}
-        />
+          {...otherProps}
+      />
       </div>
     )
 

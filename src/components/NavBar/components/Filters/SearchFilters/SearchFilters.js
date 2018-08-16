@@ -5,57 +5,16 @@ import { connect } from 'react-redux';
 import { withStyles } from '@material-ui/core/styles';
 import compose from 'recompose/compose';
 import withWidth from '@material-ui/core/withWidth';
+import searchFiltersStyle from './SearchFilters.style';
 
-import FiltersTemplate from './SearchFilters/FiltersTemplate';
-import ImgColor from './SearchFilters/ImgColor';
+import FiltersTemplate from './components/FiltersTemplate/FiltersTemplate';
+import ImgColor from './components/ColorFilter/ColorFilter';
 
 import Divider from '@material-ui/core/Divider';
 
 
-const styles = theme => ({
-  filtersBarWrap: {
-    width: '100%',
-  },
-  filtersBar:{
-    display: 'flex',
-    flexFlow: 'row',
-    justifyContent: 'space-evenly',
-    backgroundColor: '#fff',
-    paddingTop: '3px',
-    margin: '0px 2px',
-    borderBottom: '2px solid #fff',
-    fontSize: '1em',
-    [theme.breakpoints.down('md')]: {
-      justifyContent: 'space-around',
-    },
-    [theme.breakpoints.only('xs')]: {
-      flexFlow: 'column',
-    },
-    '& > div': {
-      maxWidth: '20%',
-      [theme.breakpoints.only('xs')]: {
-        maxWidth: '100%',
-      },
-      '&:hover': {
-        borderRadius: 2,
-      },
-    }
-  },
-  filtersBarBackdrop: {
-    display: 'none',
-    height: '100vh',
-    width: '100vw',
-    bottom: 0,
-    zIndex: -1,
-    backgroundColor: 'rgba(0, 0, 0, 0.25)',
-    transition: 'all 0.3s ease',
-    [theme.breakpoints.only('xs')]: {
-      display: 'block',
-    },
-  },
-})
-
-
+const styles = (theme) => (searchFiltersStyle(theme));
+  
 
 class SearchFilters extends Component {
   constructor(props) {

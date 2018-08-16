@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
+import authenticationAlertStyle from './AuthenticationAlert.style';
+
 import Button from '@material-ui/core/Button';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import Dialog from '@material-ui/core/Dialog';
@@ -11,36 +13,7 @@ import DialogActions from '@material-ui/core/DialogActions';
 import Report from '@material-ui/icons/Report';
 
 
-const styles = {
-  dialog: {
-    zIndex: 1503,
-  },
-  dialogContent: {
-    display: 'flex',
-    flexFlow: 'column',
-    justifyContent: 'center',
-    alignItems: 'center',
-    marginTop: -10,
-  },
-  loginButton: {
-    backgroundColor: '#ffeb3b',
-    minWidth: 150,
-    marginBottom: 10,
-    '&:hover ':{
-      backgroundColor: '#efdb2b',
-    }
-  },
-  center: {
-    justifyContent: 'center',
-    textAlign: 'center',
-  },
-  icon: {
-    width: '2.5em',
-    height: '2.5em',
-    color: '#ffeb3b',
-  }
-}
-
+const styles = authenticationAlertStyle
 
 
 class AuthenticationNote extends Component {

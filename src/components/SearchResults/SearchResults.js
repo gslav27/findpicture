@@ -15,319 +15,36 @@ import {
   fetchOrientation,
   fetchPage,
   fetchSearchText,
-} from '../actions/searchAction';
-import { fetchViewerOpen } from '../actions/imgViewerAction';
-import { addToFavorites, authDialogOpen, formatData, findInFavorites } from '../actions/appAddsAction';
+} from '../../actions/searchAction';
+import { fetchViewerOpen } from '../../actions/imgViewerAction';
+import { addToFavorites, authDialogOpen } from '../../actions/appAddsAction';
 
-import ImgViewer from './ImageViewer';
+import ImgViewer from '../ImageViewer/ImageViewer';
+import ImgCaption from './components/ImgCaption/ImgCaptions';
 
 import { withStyles } from '@material-ui/core/styles';
 import compose from 'recompose/compose';
 import withWidth from '@material-ui/core/withWidth';
+import searchResultsStyle from './SearchResults.styles';
 
 import GridList from '@material-ui/core/GridList';
 import GridListTile from '@material-ui/core/GridListTile';
 import IconButton from '@material-ui/core/IconButton';
 import CircularProgress from '@material-ui/core/CircularProgress';
-import StarBorderIcon from '@material-ui/icons/StarBorder';
-import StarIcon from '@material-ui/icons/Star';
 
 import ArrowUpward from '@material-ui/icons/ArrowUpward';
 import Close from '@material-ui/icons/Close';
 
-const styles = {
-  rootComponent: {
-    position: 'relative',
-    top: 57,
-    display: 'block',
-    margin: '0px 1px',
-    overflow: 'hidden',
-  },
-  barTitleTag: {
-    paddingRight: '0.35em',
-    cursor: 'pointer',
-    textDecoration: 'none',
-    color: '#eee',
-    '&:hover': {
-      textDecoration: 'underline',
-    },
-  },
-  exceededLimitMessage: {
-    margin: '10px 0',
-    color: '#d50000',
-    fontSize: '2em',
-    width: '100%',
-    textAlign: 'center',
-  },
-  gridList: {
-    justifyContent: 'space-around',
-    margin: '0px !important',
-  },
-  gridListTile: {
-    padding: '0px !important',
-    border: '2px solid rgba(0, 0, 0, 0)',
-    borderRadius: '2px',
-    transition: 'all 0.1s ease',
-    '&:hover': {
-      border: '2px solid rgba(0, 0, 0, 0.75)',
-    },
-    '&:hover .gridListTileBar': {
-      backgroundColor: 'rgba(0, 0, 0, 0.85)',
-    },
-  },
-  gridImg: {
-    cursor: 'zoom-in',
-  },
-  gridListTileBarRoot: {
-    height: 54,
-    transition: 'all 0.1s ease',
-    backgroundColor: 'rgba(0, 0, 0, 0.5)',
-    boxSizing: 'border-box',
-    bottom: 0,
-    width: '100%',
-    display: 'flex',
-    position: 'absolute',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-  },
-  gridListTileBarText: {
-    marginLeft: 12,
-    marginRight: 7,
-    color: '#fff',
-    overflow: 'hidden',
-    flexGrow: '0',
-    width: '100%',
-  },
-  gridListTileBarTitle: {
-    fontSize: '1em',
-    lineHeight: '1.2em',
-    overflow: 'hidden',
-    whiteSpace: 'nowrap',
-    textOverflow: 'ellipsis',
-  },
-  gridListTileBarSubtitle: {
-    fontSize: '0.75em',
-    lineHeight: '1.2em',
-    overflow: 'hidden',
-    whiteSpace: 'nowrap',
-    textOverflow: 'ellipsis',
-  },
-  iconButtonWrap: {
-    display: 'flex',  
-    alignItems: 'center',
-    justifyContent: 'flex-end',
-  },
-  iconButton:{
-    width: '3em',
-    height: '3em',
-    fontSize: '0.8em',
-    paddingRight: 4, 
-    flexGrow: '0',
-  },
-  icon: {
-    fontSize: '2em',
-    color: '#fff',
-    transition: 'all 0.1s linear',
-    '&:hover': {
-      fontSize: '3em',
-    },
-  },
-  loadingBarRoot: {
-    width: '100vw',
-    textAlign: 'center',
-  },
-  loadingBarProgress: {
-    margin: '10px 0',
-    color: 'rgb(38, 50, 56)',
-  },
-  noMatchesWrapper: {
-    display: 'flex',
-    posititon: 'fixed',
-    top: '0',
-    left: '0',
-    width: '100%',
-    height: '80vh',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  noMatches: {
-    width: '90vw',
-    textAlign: 'center',
-    fontSize: '2.5em',
-    fontWeight: 'bold',
-    color: '#aaa',
-  },
-  socialData: {
-    color: '#fff',
-    fontSize: '1.2em',
-    flexGrow: '0',
-    marginRight: '-3px',
-    float: 'right',
-  },
-  waitApiResponseImages: {
-    display: 'flex',
-    height: '80vh',
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  loadPreviousImagesRoot: {
-    position: 'absolute',
-    top: '0.8em',
-    left: 0,
-    right: 0,
-    margin: '0 auto',
-    width: '55%',
-    maxWidth: 300,
-    minWidth: 250,
-    height: 40,
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-    zIndex: 1,
-    transition: 'all 0.5s ease',
-    animation: 'loadPreviousImagesButton 0.5s ease-in',
-  },
-  loadPreviousImagesButton: {
-    width: '90%',
-    height: '100%',
-    transition: 'all 0.25s ease',
-    backgroundColor: 'rgba(255,235,59,0.95)',
-    borderRadius: 2,
-    boxShadow: '0px 5px 5px -3px rgba(0, 0, 0, 0.2), 0px 8px 10px 1px rgba(0, 0, 0, 0.14), 0px 3px 14px 2px rgba(0, 0, 0, 0.12)',
-    fontSize: 19,
-    '&:hover' : {
-      backgroundColor: 'rgba(255,235,59,1)',
-      color: 'rgba(0,0,0,0.7)',
-    }
-  },
-  loadPreviousImagesCloseButton: {
-    width: '1em',
-    height: '1em',
-    margin: '-0.5em 0 0 -0.5em',
-    alignSelf: 'start',
-    '& > span': {
-      backgroundColor: 'rgba(38, 50, 56, 0.8)',
-      width: '1em',
-      height: '1em',
-      borderRadius: '50%', 
-      margin: '0 auto',
-    },
-    '& > span > svg': {
-      fill: '#fff',
-      width: '0.7em',
-      height: '0.7em',
-    },
-    '&:hover': {
-      '& > span': {
-        backgroundColor: 'rgba(38, 50, 56, 1)',
-      },
-      '& > span > svg': {
-        fill: 'rgba(255,235,59,1)',
-      },
-    }
-  },
-  loadPreviousImagesCloseButtonMobile: {
-    width: '2em',
-    height: '2em',
-    margin: '-1em 0 0 -1em',
-  }
-};
+import { auth } from '../Auth/AuthHOC';
+
+const styles = (theme) => (searchResultsStyle(theme))
+
 
 // for calculating whole document height & windowHeight (in handleScroll())
 const body = document.body;
 const html = document.documentElement; 
 let docHeight;
 const updateDocHeightVar = () => { docHeight = Math.max(body.scrollHeight, body.offsetHeight, html.clientHeight, html.scrollHeight, html.offsetHeight)}
-
-
-
-class ImgCaption extends Component {
-  handleOnTagClick = (tag) => {
-    this.props.fetchSearchText(tag);
-    this.props.fetchPage(1);
-    this.props.fetchImages();
-  }
-  
-  render() {
-    const {
-      img,
-      imgIndex,
-      favorites,
-      classes,
-      auth,
-    } = this.props;
-    
-    let _isFavorite = findInFavorites(img.id, favorites, auth.isAuthenticated())
-
-    let _tagsArray;
-    // check divider type in img.tags property (',' or ' ' ) and convert tags string to array
-    (img.tags.split(',').length > 1)
-      ? (_tagsArray = img.tags.split(','))
-      : (_tagsArray = img.tags.split(' '))
-
-    const imgTags = (
-      <div className={classes.gridListTileBarTitle}>
-        {
-          _tagsArray.map((tag, tagIndex) => (
-            <span
-              className={classes.barTitleTag}
-              key={tagIndex}
-              title={`search for '${tag.trim()}'`}
-              onClick={() => this.handleOnTagClick(tag.trim())}
-            >
-              #{tag.trim()}
-            </span>
-          ))
-        }
-      </div>
-    )
-
-    const imgAuthor = (
-      <div className={classes.gridListTileBarSubtitle}>
-        <span>
-          by: <a 
-                className={classes.barTitleTag}
-                href={`https://pixabay.com/users/${img.user}-${img.user_id}/`}
-                target='_blank'
-                title={`'${img.user}' profile at Pixabay`}
-              >
-                {img.user}
-              </a>
-        </span>
-      </div>
-    )
-
-    const imgFavoritesQty = (
-      <div>
-        <span className={classes.socialData}>
-          {formatData((!_isFavorite ? img.favorites : (img.favorites + 1)))}
-        </span>
-      </div>
-    )
-
-    const imgFavoritesButton = (
-      <IconButton
-        className={classes.iconButton}
-        onClick={() => auth.isAuthenticated() ? this.props.addToFavorites(imgIndex) : this.props.authDialogOpen()}
-        title={!_isFavorite ? 'add to Favorites' : 'remove from Favorites'}
-      >
-        {!_isFavorite ? <StarBorderIcon className={classes.icon} /> : <StarIcon className={classes.icon} />}
-      </IconButton>
-    )
-
-    return (
-      <div className={classes.gridListTileBarRoot}>
-        <div className={classes.gridListTileBarText}>
-          {imgTags}
-          {imgAuthor}
-        </div>
-        {imgFavoritesQty}
-        {imgFavoritesButton}
-      </div>
-    );
-  }
-}
-
 
 
 class SearchResults extends Component {
@@ -433,7 +150,7 @@ class SearchResults extends Component {
       : null;
     // open Image Viewer if URL location have data about some opened images (in this.props.match.params.viewer) and application just loaded (waitApiResponseImages checking)
     ((waitApiResponseImages !== prevProps.waitApiResponseImages) && !waitApiResponseImages && (match.params.viewer !== undefined))
-      ? this.props.fetchViewerOpen(true, ((Number(match.params.viewer) - 1)-(page * amount - amount)), this.props.auth.isAuthenticated())
+      ? this.props.fetchViewerOpen(true, ((Number(match.params.viewer) - 1)-(page * amount - amount)), auth.isAuthenticated())
       : null;
   }
 
@@ -550,7 +267,7 @@ class SearchResults extends Component {
 
 
   handleImgOpen = (index) => {
-    this.props.fetchViewerOpen(true, index, this.props.auth.isAuthenticated());
+    this.props.fetchViewerOpen(true, index, auth.isAuthenticated());
     (this.props.page === 1) ? (setTimeout(() => {this.updateSearchPath()}, 100)) : null;
   }
   
@@ -573,10 +290,11 @@ class SearchResults extends Component {
       waitApiResponseMoreImages,
       windowTop,
       match,
-      auth,
       orientation,
       open,
       history,
+      favorites,
+      ...otherProps,
     } = this.props;
 
 
@@ -702,7 +420,9 @@ class SearchResults extends Component {
               <ImgCaption
                 img={img}
                 imgIndex={index}
-                {...this.props}
+                favorites={favorites}
+                auth={auth}
+                {...otherProps}
               />
             </GridListTile >
           ))}
