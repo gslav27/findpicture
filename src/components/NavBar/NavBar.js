@@ -33,7 +33,7 @@ import Search from '@material-ui/icons/Search';
 import Menu from '@material-ui/icons/Menu';
 import Close from '@material-ui/icons/Close';
 import FilterList from '@material-ui/icons/FilterList';
-import Sort from '@material-ui/icons/FilterList';
+import Sort from '@material-ui/icons/Sort';
 import Person from '@material-ui/icons/Person';
 
 import { auth } from '../Auth/AuthHOC';
@@ -225,12 +225,12 @@ class NavBar extends Component {
 
 
     // define filters & filter icon type depends on current location
-    switch (true) {
-      case (location.pathname === '/findpicture/favorites'):
+    switch (location.pathname) {
+      case '/findpicture/favorites':
         filtersType = <FavoritesFilters showFiltersBar={showFilters} onChange={() => this.setState({ showFilters: false })} />
         filtersIconType = <Sort className={classes.appBarIcons} />
         break;
-      case (location.pathname === '/findpicture/recentlywatched'):
+      case '/findpicture/recentlywatched':
         filtersType = null
         filtersIconType = null
         break;

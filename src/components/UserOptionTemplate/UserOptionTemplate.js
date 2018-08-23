@@ -38,14 +38,14 @@ class UserOptionTemplate extends Component {
       ...otherProps
     } = this.props;
     
-    switch (true) {
-      case (this.props.componentType === 'favorites'):
+    switch (this.props.componentType) {
+      case "favorites":
         imagesData = this.props.favorites;
-        noMatchesText = `unfortunately you haven't add any images to Favorites`
+        noMatchesText = `unfortunately you haven't add any images to Favorites`;
         break;
-      case (this.props.componentType === 'recentlyWatched'):
+      case "recentlyWatched":
         imagesData = this.props.recentlyWatchedImgs;
-        noMatchesText = `unfortunately you haven't watched any images yet`
+        noMatchesText = `unfortunately you haven't watched any images yet`;
         break;
       default:
         break;

@@ -355,17 +355,17 @@ class SearchResults extends Component {
 
     if (orientation === 'vertical') {
       _cellHeight = 270;
-      switch (true) {
-        case (width === 'xl'):
+      switch (width) {
+        case 'xl':
           _gridCols = 8
           break;
-        case (width === 'lg'):
+        case 'lg':
           _gridCols = 6
           break;
-        case (width === 'md'):
+        case 'md':
           _gridCols = 4
           break;
-        case (width === 'sm'):
+        case 'sm':
           _gridCols = 3
           break;
         default:
@@ -374,17 +374,17 @@ class SearchResults extends Component {
       }
     } else {
       _cellHeight = 180;
-      switch (true) {
-        case (width === 'xl'):
+      switch (width) {
+        case 'xl':
           _gridCols = 5
           break;
-        case (width === 'lg'):
+        case 'lg':
           _gridCols = 4
           break;
-        case (width === 'md'):
+        case 'md':
           _gridCols = 3
           break;
-        case (width === 'sm'):
+        case 'sm':
           _gridCols = 2
           break;
         default:

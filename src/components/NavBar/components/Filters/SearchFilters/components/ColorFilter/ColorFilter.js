@@ -164,13 +164,13 @@ class ImgColor extends Component {
 
 
     const SetIconColor = (option) => {
-      switch (true) {
-        case (optionsWithColor.get(option) === 'transparent'):
-          return <LabelOutline style={{ color: '#708090',}}/>
-        case (optionsWithColor.get(option) === 'white'):
-          return <LabelOutline />
+      switch (optionsWithColor.get(option)) {
+        case "transparent":
+          return <LabelOutline style={{ color: "#708090" }} />;
+        case "white":
+          return <LabelOutline />;
         default:
-          return <Label style={{ color: optionsWithColor.get(option), }} />
+          return <Label style={{ color: optionsWithColor.get(option) }} />;
       }
     }
 

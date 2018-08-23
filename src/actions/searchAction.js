@@ -70,15 +70,18 @@ export const fetchSearchText = (input) => {
 
 
 export const fetchAmount = (width, amount=null) => {
+  console.log('width', width);
   let _amount;
   if (amount !== null) { 
     _amount = amount;
   } else {
-    switch (true) {
-      case (width === 'xl'):
+    switch (width) {
+      case 'xl':
         _amount = 80;
         break;
-      case ((width === 'lg') || (width === 'md') || (width === 'sm')):
+      case 'lg':
+      case 'md':
+      case 'sm':
         _amount = 60;
         break;
       default:

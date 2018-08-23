@@ -96,12 +96,12 @@ export const clearUserHistory = () => {
 const updateUsersHistory = (method, dataType, data) => {
   let userID = localStorage.getItem('findpicture_userID');
   let body;
-  switch (true) {
-    case (dataType === 'favorites'):
-      body = { 'favorites' : data }    
+  switch (dataType) {
+    case "favorites":
+      body = { favorites: data };
       break;
-    case (dataType === 'recentlywatched'):
-      body = { 'recentlywatched': data }
+    case "recentlywatched":
+      body = { recentlywatched: data };
       break;
     default:
       break;
@@ -182,12 +182,12 @@ export const addToFavorites = (ImgInd, type = 0) => (dispatch, getState) => {
   let favoritesImgs = [...getState().appAdds.favorites];
   let checkImgInFavorites;
 
-  switch (true) {
-    case (type === 0):
+  switch (type) {
+    case 0:
       currentImg = getState().search.images[ImgInd];
       checkImgInFavorites = favoritesImgs.findIndex(img => img.id === currentImg.id);
       break;
-    case (type === 1):
+    case 1:
       currentImg = getState().appAdds.recentlyWatchedImgs[ImgInd];
       checkImgInFavorites = favoritesImgs.findIndex(img => img.id === currentImg.id);
       break;

@@ -54,11 +54,11 @@ class MenuDrawer extends Component {
     )
 
 
-    switch (true) {
-      case ( side === 'right' ):
+    switch (side) {
+      case 'right':
         navigationCloseIconRight = _navigationCloseIcon;
         break;
-      case ( side === 'left' ):
+      case 'left':
         navigationCloseIconLeft = _navigationCloseIcon;
         break;
       default:
