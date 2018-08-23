@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
-import { fetchImages, fetchPage, fetchSearchText } from '../../actions/searchAction';
 import { addToFavorites } from '../../actions/appAddsAction';
 
 import { withStyles } from '@material-ui/core/styles';
@@ -10,12 +9,13 @@ import compose from 'recompose/compose';
 import withWidth from '@material-ui/core/withWidth';
 import userOptionTemplate from './UserOptionTemplate.style';
 
-import ImgTags from './components/ImgTags/ImgTags';
+import ImgTags from '../UI/ImgTags';
 import ImgSocialStat from './components/ImgSocialStat/ImgSocialStat';
 
 import Card from '@material-ui/core/Card';
 import CardHeader from '@material-ui/core/CardHeader';
 import CardMedia from '@material-ui/core/CardMedia';
+import CardContent from "@material-ui/core/CardContent";
 import Avatar from '@material-ui/core/Avatar';
 import CircularProgress from '@material-ui/core/CircularProgress';
 
@@ -37,6 +37,7 @@ class UserOptionTemplate extends Component {
       classes, 
       ...otherProps
     } = this.props;
+
     
     switch (this.props.componentType) {
       case "favorites":
@@ -80,10 +81,12 @@ class UserOptionTemplate extends Component {
                 src={`https://findpicture-6dee.restdb.io/media/${img.id}`}
                 title={img.tags}
               />
-              <ImgTags
-                tagsData={img.tags}
-                {...otherProps}
-            />
+              <CardContent 
+                className={classes.cardContent} 
+                children={
+                  <ImgTags tagsData={img.tags} />
+                }
+              />
               <ImgSocialStat
                 img={img}
                 imgIndex={index}
@@ -136,9 +139,6 @@ class UserOptionTemplate extends Component {
 }
 
 UserOptionTemplate.propTypes = {
-  fetchImages: PropTypes.func,
-  fetchPage: PropTypes.func,
-  fetchSearchText: PropTypes.func,
   addToFavorites: PropTypes.func,
   recentlyWatchedImgs: PropTypes.array,
   favorites: PropTypes.array,
@@ -155,9 +155,6 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = {
   addToFavorites,
-  fetchImages,
-  fetchPage,
-  fetchSearchText,
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(compose(withStyles(styles), withWidth(), )(UserOptionTemplate))

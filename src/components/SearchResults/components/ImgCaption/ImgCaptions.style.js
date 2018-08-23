@@ -1,14 +1,16 @@
 const style = (theme) => {
-  return {
-    barTitleTag: {
-      paddingRight: '0.35em',
-      cursor: 'pointer',
-      textDecoration: 'none',
-      color: '#eee',
-      '&:hover': {
-        textDecoration: 'underline',
-      },
+  let barTitleTag = {
+    paddingRight: '0.35em',
+    cursor: 'pointer',
+    textDecoration: 'none',
+    color: '#eee',
+    '&:hover': {
+      textDecoration: 'underline',
     },
+  };
+
+  return {
+    barTitleTag,
     gridListTileBarRoot: {
       height: 54,
       transition: 'all 0.1s ease',
@@ -35,6 +37,7 @@ const style = (theme) => {
       overflow: 'hidden',
       whiteSpace: 'nowrap',
       textOverflow: 'ellipsis',
+      '& .barTitleTag': barTitleTag,
     },
     gridListTileBarSubtitle: {
       fontSize: '0.75em',

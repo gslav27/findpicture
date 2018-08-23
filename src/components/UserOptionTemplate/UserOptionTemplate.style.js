@@ -1,15 +1,17 @@
 const style = (theme) => {
-  return {
-    barTitleTag: {
-      display: 'inline-block',
-      paddingRight: '0.35em',
-      textDecoration: 'none',
-      color: '#333',
-      '&:hover': {
-        backgroundColor: '#ddd',
-        borderRadius: 2,
-      },
+  let barTitleTag = {
+    display: 'inline-block',
+    paddingRight: '0.35em',
+    textDecoration: 'none',
+    color: '#333',
+    '&:hover': {
+      backgroundColor: '#ddd',
+      borderRadius: 2,
     },
+  };
+
+  return {
+    barTitleTag,
     card: {
       padding: '5px 0px',
     },
@@ -27,6 +29,10 @@ const style = (theme) => {
       width: '100%',
       maxHeight: '90vh',
       objectFit: 'scale-down',
+    },
+    cardContent: {
+      padding: '0.8em 16px 0 16px',
+      '& .barTitleTag': barTitleTag,
     },
     loadingBarRoot: {
       width: '100vw',

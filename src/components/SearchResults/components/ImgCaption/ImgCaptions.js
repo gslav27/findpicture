@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import { formatData, findInFavorites } from '../../../../actions/appAddsAction';
 
+import ImgTags from '../../../UI/ImgTags';
+
 import { withStyles } from '@material-ui/core/styles';
 import compose from 'recompose/compose';
 import withWidth from '@material-ui/core/withWidth';
@@ -32,26 +34,9 @@ class ImgCaption extends Component {
 
     let _isFavorite = findInFavorites(img.id, favorites, auth.isAuthenticated())
 
-    let _tagsArray;
-    // check divider type in img.tags property (',' or ' ' ) and convert tags string to array
-    (img.tags.split(',').length > 1)
-      ? (_tagsArray = img.tags.split(','))
-      : (_tagsArray = img.tags.split(' '))
-
     const imgTags = (
       <div className={classes.gridListTileBarTitle}>
-        {
-          _tagsArray.map((tag, tagIndex) => (
-            <span
-              className={classes.barTitleTag}
-              key={tagIndex}
-              title={`search for '${tag.trim()}'`}
-              onClick={() => this.handleOnTagClick(tag.trim())}
-            >
-              #{tag.trim()}
-            </span>
-          ))
-        }
+        <ImgTags tagsData={img.tags} />
       </div>
     )
 
