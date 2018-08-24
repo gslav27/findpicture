@@ -20,6 +20,7 @@ import { fetchViewerOpen } from '../../actions/imgViewerAction';
 
 import ImgViewer from '../ImageViewer/ImageViewer';
 import ImgCaption from './components/ImgCaption/ImgCaptions';
+import LoadPreviousImagesButton from './components/LoadPreviousImagesButton/LoadPreviousImagesButton';
 
 import { withStyles } from '@material-ui/core/styles';
 import compose from 'recompose/compose';
@@ -28,11 +29,7 @@ import searchResultsStyle from './SearchResults.styles';
 
 import GridList from '@material-ui/core/GridList';
 import GridListTile from '@material-ui/core/GridListTile';
-import IconButton from '@material-ui/core/IconButton';
 import CircularProgress from '@material-ui/core/CircularProgress';
-
-import ArrowUpward from '@material-ui/icons/ArrowUpward';
-import Close from '@material-ui/icons/Close';
 
 import { auth } from '../Auth/AuthHOC';
 
@@ -50,7 +47,7 @@ class SearchResults extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      showLoadPreviousImagesButton: true,
+      showLoadPreviousImagesButton: false,
     };
     this.handleScroll = this.handleScroll.bind(this);
     this.handleScrollThrottled = throttle(this.handleScroll, 250);
@@ -64,9 +61,18 @@ class SearchResults extends Component {
     let { params } = this.props.match;
     (params.query !== undefined) ? this.handleSearchPath(params.query) : this.updateSearchPath();
     (params.page !== undefined) ? this.props.fetchImages(Number(params.page)) : (this.props.fetchAmount(this.props.width), this.props.fetchImages());
+
     // calculate document height variable (global)
     updateDocHeightVar();
+
+    // define if images from API were loaded not from the 1st page and if it's 'true' make 
+    // available showing LoadPreviousImagesButton when user is at the top of the page
+    (Math.ceil(this.props.images.length / this.props.amount) < this.props.page)
+      ? this.setState({ showLoadPreviousImagesButton: true })
+      : null;
+
     window.addEventListener('scroll', this.handleScrollThrottled);
+    
   }
 
 
@@ -280,10 +286,8 @@ class SearchResults extends Component {
       page,
       classes,
       width,
-      mobileWithTouch,
       waitApiResponseImages,
       waitApiResponseMoreImages,
-      windowTop,
       match,
       orientation,
       open,
@@ -318,32 +322,13 @@ class SearchResults extends Component {
     const _loadPreviousImagesOption = () => {
       if (!waitApiResponseMoreImages.previous) {
         return (
-          <div className={`${classes.loadPreviousImagesRoot} ${windowTop ? null : 'hidden'}`}>
-            <IconButton
-              classes={{root: classes.loadPreviousImagesButton,}}
-              onClick={() => { this.props.fetchMoreImages(false, false, (match.params.page - 1)) }}
-              title='load previous images'
-            >
-              <ArrowUpward />
-              <span> load previous images </span>
-              {(width !== 'xs') ? <ArrowUpward /> : null}
-            </IconButton>
-            <IconButton
-              className={`${classes.loadPreviousImagesCloseButton} ${mobileWithTouch ? classes.loadPreviousImagesCloseButtonMobile : null}`}
-              onClick={() => this.setState({ showLoadPreviousImagesButton: false })}
-              disableRipple
-              title='close'
-              size='large'
-            >
-              <Close />
-            </IconButton>
-          </div>
-        )
-      } else {
-        return (
-          _loadingIcon
-        )
-      }
+          <LoadPreviousImagesButton 
+            width={width}
+            match={match}
+            onCloseButtonClick={() => this.setState({ showLoadPreviousImagesButton: false })}
+          />
+      )}
+      return _loadingIcon
     };
     
 
@@ -388,13 +373,9 @@ class SearchResults extends Component {
     }
 
 
-    // define if images from API was loaded not from the 1st page
-    let _notFromFirstPage = (Math.ceil(images.length / amount) < page)
-
-
     const imagesResults = (
       <div>
-        {(_notFromFirstPage && this.state.showLoadPreviousImagesButton) ? _loadPreviousImagesOption() : null}
+        {this.state.showLoadPreviousImagesButton ? _loadPreviousImagesOption() : null}
         <GridList
           className={classes.gridList}
           cols={_gridCols}
@@ -490,11 +471,9 @@ SearchResults.propTypes = {
   searchText: PropTypes.string.isRequired,
   classes: PropTypes.object.isRequired,
   width: PropTypes.string.isRequired,
-  mobileWithTouch: PropTypes.bool,
   waitApiResponseImages: PropTypes.bool,
   waitApiResponseMoreImages: PropTypes.object,
   currentImgInd: PropTypes.number,
-  windowTop: PropTypes.bool,
 }
 
 const mapStateToProps = state => ({
@@ -504,7 +483,6 @@ const mapStateToProps = state => ({
   orientation: state.search.orientation,
   open: state.imgViewer.open,
   searchText: state.search.searchText,
-  mobileWithTouch: state.appAdds.mobileWithTouch,
   waitApiResponseImages: state.search.waitApiResponseImages,
   waitApiResponseMoreImages: state.search.waitApiResponseMoreImages,
   order: state.search.order,
@@ -513,7 +491,6 @@ const mapStateToProps = state => ({
   color: state.search.color,
   amount: state.search.amount,
   currentImgInd: state.imgViewer.currentImgInd,
-  windowTop: state.appAdds.windowTop,
 })
 
 const mapDispatchToProps = {
