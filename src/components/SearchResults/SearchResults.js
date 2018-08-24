@@ -17,7 +17,6 @@ import {
   fetchSearchText,
 } from '../../actions/searchAction';
 import { fetchViewerOpen } from '../../actions/imgViewerAction';
-import { authDialogOpen } from '../../actions/appAddsAction';
 
 import ImgViewer from '../ImageViewer/ImageViewer';
 import ImgCaption from './components/ImgCaption/ImgCaptions';
@@ -67,10 +66,6 @@ class SearchResults extends Component {
     (params.page !== undefined) ? this.props.fetchImages(Number(params.page)) : (this.props.fetchAmount(this.props.width), this.props.fetchImages());
     // calculate document height variable (global)
     updateDocHeightVar();
-    // show Login dialog if user isn't authenticated and due to that was redirected from other pages
-    (this.props.location.state !== undefined)
-      ? setTimeout(() => this.props.authDialogOpen(), 500)
-      : null
     window.addEventListener('scroll', this.handleScrollThrottled);
   }
 
@@ -486,7 +481,6 @@ SearchResults.propTypes = {
   fetchImageType: PropTypes.func.isRequired,
   fetchOrientation: PropTypes.func.isRequired,
   cutDownSearchStore: PropTypes.func.isRequired,
-  authDialogOpen: PropTypes.func.isRequired,
   images: PropTypes.array.isRequired,
   totalHits: PropTypes.number.isRequired,
   page: PropTypes.number.isRequired,
@@ -535,7 +529,6 @@ const mapDispatchToProps = {
   fetchColor,
   fetchImageType,
   fetchOrientation,
-  authDialogOpen,
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(compose(withStyles(styles), withWidth(), )(SearchResults))
