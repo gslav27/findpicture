@@ -6,8 +6,8 @@ export default class Auth {
   auth0 = new auth0.WebAuth({
     domain: 'gslav27.auth0.com',
     clientID: 'DpB5RTrcAl4DMJWvaxBM15dPX06FlFa2',
-    // redirectUri: 'http://localhost:3000/findpicture/callback',
-    redirectUri: 'http://gslav27.github.io/findpicture/callback',
+    redirectUri: 'http://localhost:3000/findpicture/callback',
+    // redirectUri: 'http://gslav27.github.io/findpicture/callback',
     audience: 'https://gslav27.auth0.com/userinfo',
     responseType: 'token id_token',
     scope: 'openid email'

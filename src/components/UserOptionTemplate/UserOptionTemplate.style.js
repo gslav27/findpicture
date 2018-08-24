@@ -34,6 +34,21 @@ const style = (theme) => {
       padding: '0.8em 16px 0 16px',
       '& .barTitleTag': barTitleTag,
     },
+    cardActions: {
+      '& .socialDataIconButton': {
+        maxHeight: '10vh',
+        '& svg': {
+          color: '#333',
+          height: '1.3em',
+          width: '1.3em',
+        }
+      },
+      '& .socialDataQty': {
+        color: '#333',
+        fontSize: '0.95em',
+        marginLeft: '-7px',
+      },
+    },
     loadingBarRoot: {
       width: '100vw',
       textAlign: 'center',

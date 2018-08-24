@@ -17,7 +17,7 @@ import {
   fetchSearchText,
 } from '../../actions/searchAction';
 import { fetchViewerOpen } from '../../actions/imgViewerAction';
-import { addToFavorites, authDialogOpen } from '../../actions/appAddsAction';
+import { authDialogOpen } from '../../actions/appAddsAction';
 
 import ImgViewer from '../ImageViewer/ImageViewer';
 import ImgCaption from './components/ImgCaption/ImgCaptions';
@@ -293,7 +293,6 @@ class SearchResults extends Component {
       orientation,
       open,
       history,
-      favorites,
       ...otherProps,
     } = this.props;
 
@@ -420,8 +419,6 @@ class SearchResults extends Component {
               <ImgCaption
                 img={img}
                 imgIndex={index}
-                favorites={favorites}
-                auth={auth}
                 {...otherProps}
               />
             </GridListTile >
@@ -489,7 +486,6 @@ SearchResults.propTypes = {
   fetchImageType: PropTypes.func.isRequired,
   fetchOrientation: PropTypes.func.isRequired,
   cutDownSearchStore: PropTypes.func.isRequired,
-  addToFavorites: PropTypes.func.isRequired,
   authDialogOpen: PropTypes.func.isRequired,
   images: PropTypes.array.isRequired,
   totalHits: PropTypes.number.isRequired,
@@ -498,7 +494,6 @@ SearchResults.propTypes = {
   orientation: PropTypes.string.isRequired,
   open: PropTypes.bool.isRequired,
   searchText: PropTypes.string.isRequired,
-  favorites: PropTypes.array,
   classes: PropTypes.object.isRequired,
   width: PropTypes.string.isRequired,
   mobileWithTouch: PropTypes.bool,
@@ -515,7 +510,6 @@ const mapStateToProps = state => ({
   orientation: state.search.orientation,
   open: state.imgViewer.open,
   searchText: state.search.searchText,
-  favorites: state.appAdds.favorites,
   mobileWithTouch: state.appAdds.mobileWithTouch,
   waitApiResponseImages: state.search.waitApiResponseImages,
   waitApiResponseMoreImages: state.search.waitApiResponseMoreImages,
@@ -534,7 +528,6 @@ const mapDispatchToProps = {
   fetchPage,
   fetchViewerOpen,
   cutDownSearchStore,
-  addToFavorites,
   fetchSearchText,
   fetchAmount,
   fetchOrder,

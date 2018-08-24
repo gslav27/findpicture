@@ -2,20 +2,19 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
-import { addToFavorites } from '../../actions/appAddsAction';
-
 import { withStyles } from '@material-ui/core/styles';
 import compose from 'recompose/compose';
 import withWidth from '@material-ui/core/withWidth';
 import userOptionTemplate from './UserOptionTemplate.style';
 
 import ImgTags from '../UI/ImgTags';
-import ImgSocialStat from './components/ImgSocialStat/ImgSocialStat';
+import ImgSocialStat from '../UI/ImgSocialStat';
 
 import Card from '@material-ui/core/Card';
 import CardHeader from '@material-ui/core/CardHeader';
 import CardMedia from '@material-ui/core/CardMedia';
 import CardContent from "@material-ui/core/CardContent";
+import CardActions from "@material-ui/core/CardActions";
 import Avatar from '@material-ui/core/Avatar';
 import CircularProgress from '@material-ui/core/CircularProgress';
 
@@ -35,11 +34,11 @@ class UserOptionTemplate extends Component {
 
     const { 
       classes, 
-      ...otherProps
+      componentType,
     } = this.props;
 
     
-    switch (this.props.componentType) {
+    switch (componentType) {
       case "favorites":
         imagesData = this.props.favorites;
         noMatchesText = `unfortunately you haven't add any images to Favorites`;
@@ -87,10 +86,16 @@ class UserOptionTemplate extends Component {
                   <ImgTags tagsData={img.tags} />
                 }
               />
-              <ImgSocialStat
-                img={img}
-                imgIndex={index}
-                {...otherProps}
+              <CardActions 
+                className={classes.cardActions} 
+                disableActionSpacing
+                children={
+                  <ImgSocialStat
+                    img={img}
+                    imgIndex={index}
+                    componentType={componentType}
+                  />
+                }
               />
             </Card>
             <br className={classes.cardDivider} />
@@ -139,7 +144,6 @@ class UserOptionTemplate extends Component {
 }
 
 UserOptionTemplate.propTypes = {
-  addToFavorites: PropTypes.func,
   recentlyWatchedImgs: PropTypes.array,
   favorites: PropTypes.array,
   classes: PropTypes.object.isRequired,
@@ -153,8 +157,4 @@ const mapStateToProps = state => ({
   waitApiResponseUserHistory: state.appAdds.waitApiResponseUserHistory,
 })
 
-const mapDispatchToProps = {
-  addToFavorites,
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(compose(withStyles(styles), withWidth(), )(UserOptionTemplate))
+export default connect(mapStateToProps, {})(compose(withStyles(styles), withWidth(), )(UserOptionTemplate))

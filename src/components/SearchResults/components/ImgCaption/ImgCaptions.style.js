@@ -22,6 +22,28 @@ const style = (theme) => {
       position: 'absolute',
       alignItems: 'center',
       justifyContent: 'space-between',
+      '& .socialDataIconButton': {
+        width: '3em',
+        height: '3em',
+        fontSize: '0.8em',
+        paddingRight: 4,
+        flexGrow: '0',
+        '& svg': {
+          fontSize: '2em',
+          color: '#fff',
+          transition: 'all 0.1s linear',
+          '&:hover': {
+            fontSize: '3em',
+          },
+        },
+      },
+      '& .socialDataQty': {
+        color: '#fff',
+        fontSize: '1.2em',
+        flexGrow: '0',
+        marginRight: '-3px',
+        float: 'right',
+      },
     },
     gridListTileBarText: {
       marginLeft: 12,
@@ -45,28 +67,6 @@ const style = (theme) => {
       overflow: 'hidden',
       whiteSpace: 'nowrap',
       textOverflow: 'ellipsis',
-    },
-    iconButton: {
-      width: '3em',
-      height: '3em',
-      fontSize: '0.8em',
-      paddingRight: 4,
-      flexGrow: '0',
-    },
-    icon: {
-      fontSize: '2em',
-      color: '#fff',
-      transition: 'all 0.1s linear',
-      '&:hover': {
-        fontSize: '3em',
-      },
-    },
-    socialData: {
-      color: '#fff',
-      fontSize: '1.2em',
-      flexGrow: '0',
-      marginRight: '-3px',
-      float: 'right',
     },
   }
 }

@@ -4,12 +4,12 @@ import { connect } from 'react-redux';
 
 import { fetchMoreImages, fetchPage, } from '../../actions/searchAction';
 import { fetchViewerImg, fetchViewerOpen, fetchWaitNextData, } from '../../actions/imgViewerAction';
-import { addToFavorites, authDialogOpen, formatData, } from '../../actions/appAddsAction';
+import { formatData, } from '../../actions/appAddsAction';
 
 import { withStyles } from '@material-ui/core/styles';
 import imageViewerStyles from './ImageViewer.styles';
 
-import ImgSocialStat from './components/ImgSocialStat/ImgSocialStat';
+import ImgSocialStat from '../UI/ImgSocialStat';
 import LeftRightButtons from './components/LeftRightButtons/LeftRightButtons';
 
 import Dialog from '@material-ui/core/Dialog';
@@ -19,7 +19,7 @@ import CircularProgress from '@material-ui/core/CircularProgress';
 import Close from '@material-ui/icons/Close';
 
 
-const styles = imageViewerStyles;
+const styles = imageViewerStyles();
 
 
 class ImgViewer extends Component {
@@ -153,7 +153,7 @@ class ImgViewer extends Component {
   }  
 
   
-  render() {
+  render() { 
     const { 
       classes,
       mobileWithTouch,
@@ -216,11 +216,13 @@ class ImgViewer extends Component {
           mobileWithTouch={mobileWithTouch}
           {...otherProps}
         />
-        <ImgSocialStat
-          currentImg={currentImg}
-          currentImgInd={currentImgInd}
-          {...otherProps}
-      />
+        <div className={`${classes.toolBar} ${classes.toolBarBottom}`}>
+          <ImgSocialStat
+            img={currentImg}
+            imgIndex={currentImgInd}
+            componentType='imageviewer'
+          />
+        </div>
       </div>
     )
 
@@ -256,14 +258,13 @@ class ImgViewer extends Component {
   }
 }
 
+
 ImgViewer.propTypes = {
   fetchMoreImages: PropTypes.func,
   fetchPage: PropTypes.func,
   fetchViewerOpen: PropTypes.func,
   fetchViewerImg: PropTypes.func,
   fetchWaitNextData: PropTypes.func,
-  addToFavorites: PropTypes.func,
-  authDialogOpen: PropTypes.func,
   images: PropTypes.array,
   totalHits: PropTypes.number,
   page: PropTypes.number,
@@ -271,7 +272,6 @@ ImgViewer.propTypes = {
   open: PropTypes.bool,
   currentImgInd: PropTypes.number,
   nextDataLoading: PropTypes.bool.isRequired,
-  favorites: PropTypes.array,
   classes: PropTypes.object.isRequired,
   mobileWithTouch: PropTypes.bool
 }
@@ -283,7 +283,6 @@ const mapStateToProps = state => ({
   open: state.imgViewer.open,
   currentImgInd: state.imgViewer.currentImgInd,
   nextDataLoading: state.imgViewer.nextDataLoading,
-  favorites: state.appAdds.favorites,
   mobileWithTouch: state.appAdds.mobileWithTouch,
   amount: state.search.amount,  
 })
@@ -294,8 +293,6 @@ const mapDispatchToProps = {
   fetchViewerOpen,
   fetchViewerImg,
   fetchWaitNextData,
-  addToFavorites,
-  authDialogOpen,
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(ImgViewer))
