@@ -14,7 +14,7 @@ import {
   fetchPage,
   fetchSearchText,
 } from '../../actions/searchAction';
-import { setWindowTop, fetchUserHistory, clearUserHistory, authDialogOpen } from '../../actions/appAddsAction';
+import { setWindowTop, fetchUserHistory, clearUserHistory } from '../../actions/appAddsAction';
 
 import MenuDrawer from './components/MenuDrawer/Drawer';
 import SearchFilters from './components/Filters/SearchFilters/SearchFilters';
@@ -149,8 +149,6 @@ class NavBar extends Component {
       classes,
       location,
       width,
-      // auth,
-      authDialog,
       searchText,
       history
     } = this.props;
@@ -332,15 +330,6 @@ class NavBar extends Component {
     );
 
 
-    const authenticationNotification = (
-      <AuthenticationNote
-        auth={auth}
-        open={authDialog}
-        authDialogOpen={this.props.authDialogOpen}
-      />
-    )
-
-
     return (
       <div>
         <div className={`${classes.appBarWrapper} ${hideHeader ? classes.appBarWrapperHide : null}`}>
@@ -360,7 +349,7 @@ class NavBar extends Component {
         </div>
         {filtersTop}
         {showDrawer ? menuDrawer : null}
-        {!auth.isAuthenticated() ? authenticationNotification : null}
+        {!auth.isAuthenticated() ? <AuthenticationNote /> : null}
       </div>
     )
   }
@@ -379,7 +368,6 @@ NavBar.propTypes = {
   fetchUserHistory: PropTypes.func,
   clearUserHistory: PropTypes.func,
   setWindowTop: PropTypes.func,
-  authDialogOpen: PropTypes.func,
   searchText: PropTypes.string.isRequired,
   mobileWithTouch: PropTypes.bool.isRequired,
   classes: PropTypes.object.isRequired,
@@ -392,7 +380,6 @@ NavBar.propTypes = {
   page: PropTypes.number,
   amount: PropTypes.number,
   windowTop: PropTypes.bool,
-  authDialog: PropTypes.bool,
 }
 
 const mapStateToProps = state => ({
@@ -406,7 +393,6 @@ const mapStateToProps = state => ({
   page: state.search.page,
   amount: state.search.amount,
   windowTop: state.appAdds.windowTop,
-  authDialog: state.appAdds.authDialog,
 })
 
 const mapDispatchToProps = {
@@ -422,7 +408,6 @@ const mapDispatchToProps = {
   setWindowTop,
   fetchUserHistory,
   clearUserHistory,
-  authDialogOpen,
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(compose(withStyles(styles), withWidth(), )(NavBar))

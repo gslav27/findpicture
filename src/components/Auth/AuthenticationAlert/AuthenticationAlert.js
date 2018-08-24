@@ -1,5 +1,9 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
+
+import { authDialogOpen } from '../../../actions/appAddsAction';
+
 import { withStyles } from '@material-ui/core/styles';
 import authenticationAlertStyle from './AuthenticationAlert.style';
 
@@ -12,6 +16,8 @@ import DialogActions from '@material-ui/core/DialogActions';
 
 import Report from '@material-ui/icons/Report';
 
+import { auth } from "../AuthHOC";
+
 
 const styles = authenticationAlertStyle
 
@@ -22,12 +28,12 @@ class AuthenticationNote extends Component {
   }
 
   render() {
-    const { classes, auth, open } = this.props;
+    const { classes, authDialog } = this.props;
 
     return (
       <Dialog
         className={classes.dialog}
-        open={open}
+        open={authDialog}
         onClose={this.handleClose}
       >
         <DialogTitle className={classes.center}>
@@ -54,9 +60,12 @@ class AuthenticationNote extends Component {
 
 AuthenticationNote.propTypes = {
   authDialogOpen: PropTypes.func,
-  open: PropTypes.bool,
-  auth: PropTypes.object,
-  classes: PropTypes.object.isRequired,
-}
+  authDialog: PropTypes.bool.isRequired,
+  classes: PropTypes.object.isRequired
+};
 
-export default withStyles(styles)(AuthenticationNote)
+const mapStateToProps = state => ({
+  authDialog: state.appAdds.authDialog
+});
+
+export default connect(mapStateToProps, { authDialogOpen })(withStyles(styles)(AuthenticationNote));
