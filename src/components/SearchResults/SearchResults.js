@@ -42,6 +42,18 @@ const html = document.documentElement;
 let docHeight;
 const updateDocHeightVar = () => { docHeight = Math.max(body.scrollHeight, body.offsetHeight, html.clientHeight, html.scrollHeight, html.offsetHeight)}
 
+// define gridList parameters
+let gridParams = {
+  gridCols: {
+    xl: [8, 5],
+    lg: [6, 4],
+    md: [4, 3],
+    sm: [3, 2],
+    xs: [2, 1]
+  },
+  cellHeight: [270, 180]
+};
+
 
 class SearchResults extends Component {
   constructor(props) {
@@ -271,12 +283,19 @@ class SearchResults extends Component {
     this.props.fetchViewerOpen(true, index, auth.isAuthenticated());
     (this.props.page === 1) ? (setTimeout(() => {this.updateSearchPath()}, 100)) : null;
   }
+
+
+  defineGridListParams = (type) => {
+    let { orientation, width } = this.props;
+    if (orientation === 'vertical') {
+      return type === 'cellHeight' ? gridParams.cellHeight[0] : gridParams.gridCols[width][0]
+    }
+    return type === 'cellHeight' ? gridParams.cellHeight[1] : gridParams.gridCols[width][1]
+  }
   
 
   render() {
-    let searchResponse,
-        _cellHeight,
-        _gridCols;
+    let searchResponse;
 
     const { 
       images,
@@ -330,56 +349,15 @@ class SearchResults extends Component {
       )}
       return _loadingIcon
     };
+
     
-
-    if (orientation === 'vertical') {
-      _cellHeight = 270;
-      switch (width) {
-        case 'xl':
-          _gridCols = 8
-          break;
-        case 'lg':
-          _gridCols = 6
-          break;
-        case 'md':
-          _gridCols = 4
-          break;
-        case 'sm':
-          _gridCols = 3
-          break;
-        default:
-          _gridCols = 2
-          break;
-      }
-    } else {
-      _cellHeight = 180;
-      switch (width) {
-        case 'xl':
-          _gridCols = 5
-          break;
-        case 'lg':
-          _gridCols = 4
-          break;
-        case 'md':
-          _gridCols = 3
-          break;
-        case 'sm':
-          _gridCols = 2
-          break;
-        default:
-          _gridCols = 1
-          break;
-      }
-    }
-
-
     const imagesResults = (
       <div>
         {this.state.showLoadPreviousImagesButton ? _loadPreviousImagesOption() : null}
         <GridList
           className={classes.gridList}
-          cols={_gridCols}
-          cellHeight={_cellHeight}
+          cols={this.defineGridListParams()}
+          cellHeight={this.defineGridListParams('cellHeight')}
         >
           {images.map((img, index) => (
             <GridListTile
