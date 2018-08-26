@@ -152,6 +152,26 @@ class ImgViewer extends Component {
     }
   }  
 
+
+  onImgLoad = () => {
+    window.clearTimeout(this.state.imgLoadedTimeOutId);
+    this.setState({
+      imgLoaded: true,
+      imgLoadedTimeOutId: null
+    })
+  }
+
+
+  calculateCurrentImgNumber = () => {
+    let {
+      currentImgInd,
+      page,
+      images,
+      amount
+    } = this.props;
+    return (currentImgInd + 1 + (page - Math.ceil(images.length / amount)) * amount)
+  }
+
   
   render() { 
     const { 
@@ -161,14 +181,11 @@ class ImgViewer extends Component {
       currentImgInd,
       totalHits,
       images,
-      amount,
-      page,
       open,
       ...otherProps,
     } = this.props;
 
     let currentImg = images[currentImgInd];
-    let currentImgNumber = currentImgInd + 1 + (page - Math.ceil(images.length / amount)) * amount;
 
 
     const viewerImg=(
@@ -184,7 +201,7 @@ class ImgViewer extends Component {
           className={classes.dialogImg}
           src={currentImg.largeImageURL}
           alt=''
-          onLoad={() => { window.clearTimeout(this.state.imgLoadedTimeOutId); this.setState({ imgLoaded: true, imgLoadedTimeOutId: null })}}
+          onLoad={() => this.onImgLoad()}
         />
       </Dialog>
     )
@@ -193,7 +210,7 @@ class ImgViewer extends Component {
     const _viewerHeader = (
       <div className={`${classes.toolBar} ${classes.toolBarTop}`}>
         <div className={classes.imgCounter}>
-          {currentImgNumber + '/' + formatData(totalHits)}
+          {this.calculateCurrentImgNumber() + '/' + formatData(totalHits)}
         </div>
         <IconButton
           className={`${classes.viewerIconButton} ${mobileWithTouch ? null : classes.buttonsHover}`}

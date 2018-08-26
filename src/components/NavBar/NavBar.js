@@ -122,16 +122,12 @@ class NavBar extends Component {
 
 
   handleMenuButtonClick = () => {
-    this.setState({
-      showDrawer: !this.state.showDrawer,
-    })
+    this.setState({ showDrawer: !this.state.showDrawer })
   }
 
 
   handleFiltersButtonClick = () => {
-    this.setState({
-      showFilters: !this.state.showFilters,
-    })
+    this.setState({ showFilters: !this.state.showFilters })
   }
 
 
@@ -139,6 +135,55 @@ class NavBar extends Component {
     this.props.fetchSearchText('');
     this.props.fetchImages();
     this.searchTextInput.focus();
+  }
+
+
+  handleSearchTextIconClick = () => {
+    this.state.inputOnFocus ? 
+      (this.props.fetchImages(), this.setState({ inputOnFocus: false })) 
+      : this.searchTextInput.focus()
+  }
+
+
+  handleUserAuthenticationIconClick = () => {
+    auth.isAuthenticated()
+      ? ( auth.logout(), this.props.clearUserHistory())
+      : auth.login()
+  }
+
+
+  handleFiltersChange = () => {
+    this.setState({ showFilters: false })
+  }
+
+
+  handleLocation = () => {
+    let { location, history } = this.props;
+    if ((location.pathname === '/findpicture/favorites') || (location.pathname === '/findpicture/recentlywatched')) {
+      history.push("/findpicture/")
+    }
+  }
+
+
+  handleSearchTextFormSubmit = (e) => {
+    e.preventDefault();
+    let { mobileWithTouch } = this.props;
+    this.searchTextInput.blur();
+    if (mobileWithTouch) {
+      this.props.fetchImages();
+      this.handleLocation()
+    }
+  }
+
+
+  handleSearchTextChange = (e) => {
+    e.preventDefault();
+    let { mobileWithTouch } = this.props;
+    this.props.fetchSearchText(e.target.value);
+    if (!mobileWithTouch) {
+      this.props.fetchImages();
+      this.handleLocation()
+    }
   }
 
   
@@ -150,14 +195,12 @@ class NavBar extends Component {
       location,
       width,
       searchText,
-      history
     } = this.props;
 
     const {
       showDrawer,
       showFilters,
       hideHeader,
-      inputOnFocus,
     } = this.state;
 
     let filtersType,
@@ -172,7 +215,7 @@ class NavBar extends Component {
     const _deleteSearchTextIcon = (
       <IconButton
         onClick={this.handleDeleteSearchText}
-        className={`${classes.deleteSearchTextButton} ${(searchText.length > 0) ? classes.deleteSearchTextButtonDisplay : null}`}
+        className={`${classes.deleteSearchTextButton} ${searchText.length ? classes.deleteSearchTextButtonDisplay : null}`}
       >
         <Close className={classes.inputFieldIcons}/>
       </IconButton>
@@ -182,7 +225,7 @@ class NavBar extends Component {
     const _searchTextIcon = (
       <div className={classes.searchTextIconWrap}>
         <IconButton
-          onClick={() => inputOnFocus ? (this.props.fetchImages(), this.setState({inputOnFocus: false })) : this.searchTextInput.focus()}
+          onClick={() => this.handleSearchTextIconClick()}
           className={classes.searchTextButton}
         >
           <Search className={classes.inputFieldIcons} />
@@ -200,11 +243,7 @@ class NavBar extends Component {
 
     const _userAuthenticationIcon = (
         <IconButton
-          onClick={() => { 
-            auth.isAuthenticated()
-              ? ( auth.logout(), this.props.clearUserHistory())
-              : auth.login()
-          }}
+          onClick={() => this.handleUserAuthenticationIconClick()}
           title={auth.isAuthenticated() ? 'Logout' : 'Login'}
         >
           <Person className={auth.isAuthenticated() ? classes.appBarIcons : classes.appBarIcons_noAuth} />
@@ -225,7 +264,7 @@ class NavBar extends Component {
     // define filters & filter icon type depends on current location
     switch (location.pathname) {
       case '/findpicture/favorites':
-        filtersType = <FavoritesFilters showFiltersBar={showFilters} onChange={() => this.setState({ showFilters: false })} />
+        filtersType = <FavoritesFilters showFiltersBar={showFilters} onChange={() => this.handleFiltersChange()} />
         filtersIconType = <Sort className={classes.appBarIcons} />
         break;
       case '/findpicture/recentlywatched':
@@ -233,7 +272,7 @@ class NavBar extends Component {
         filtersIconType = null
         break;
       default:
-        filtersType = <SearchFilters showFiltersBar={showFilters} onChange={() => this.setState({ showFilters: false })} />
+        filtersType = <SearchFilters showFiltersBar={showFilters} onChange={() => this.handleFiltersChange()} />
         filtersIconType = <FilterList className={classes.appBarIcons} />
         break;
     }
@@ -284,13 +323,7 @@ class NavBar extends Component {
         <form
           className={classes.searchFieldFormControl}
           action='#'
-          onSubmit={
-            (e) => {
-              e.preventDefault();
-              this.searchTextInput.blur();
-              mobileWithTouch ? (this.props.fetchImages(), ((location.pathname === '/findpicture/favorites') || (location.pathname === '/findpicture/recentlywatched')) ? history.push("/findpicture/") : null) : null;
-            }
-          }
+          onSubmit={(e) => this.handleSearchTextFormSubmit(e)}
         >
           <Input
             type={mobileWithTouch ? 'search' : null}
@@ -299,12 +332,7 @@ class NavBar extends Component {
               input: classes.searchFieldInput,
             }}
             value={searchText}
-            onChange={
-              (e) => {
-                this.props.fetchSearchText(e.target.value);
-                mobileWithTouch ? null : (this.props.fetchImages(), ((location.pathname === '/findpicture/favorites') || (location.pathname === '/findpicture/recentlywatched')) ? history.push("/findpicture/") : null);
-              }
-            }
+            onChange={(e) => this.handleSearchTextChange(e)}
             placeholder='Search...'
             disableUnderline={true}
             autoFocus={mobileWithTouch ? false : true}
