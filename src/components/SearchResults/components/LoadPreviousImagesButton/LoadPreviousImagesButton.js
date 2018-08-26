@@ -16,12 +16,20 @@ import Close from '@material-ui/icons/Close';
 const styles = loadPreviousImagesButton
 
 class LoadPreviousImagesButton extends Component {
+  addHiddenClass = () => {
+    let {windowTop, match} = this.props;
+    if ( windowTop && match.params.page != 1 && match.params.page != undefined ) {
+      return false
+    }
+    return true
+  }
+
+
   render() {
     const {
       classes,
       width,
       mobileWithTouch,
-      windowTop,
       match,
     } = this.props;
 
@@ -51,9 +59,9 @@ class LoadPreviousImagesButton extends Component {
       </IconButton>
     )
 
-
+    
     return (
-      <div className={`${classes.loadPreviousImagesRoot} ${windowTop && (match.params.page != 1) ? null : 'hidden'}`}>
+      <div className={`${classes.loadPreviousImagesRoot} ${this.addHiddenClass() ? 'hidden' : null}`}>
         {_loadButton}
         {_closeButton}
       </div>
