@@ -28,18 +28,6 @@ const style = (theme) => {
         },
       }
     },
-    filtersBarBackdrop: {
-      display: 'none',
-      height: '100vh',
-      width: '100vw',
-      bottom: 0,
-      zIndex: -1,
-      backgroundColor: 'rgba(0, 0, 0, 0.25)',
-      transition: 'all 0.3s ease',
-      [theme.breakpoints.only('xs')]: {
-        display: 'block',
-      },
-    },
     filtersLabel: {
       color: '#777',
       height: '2em',

@@ -8,6 +8,7 @@ import withWidth from '@material-ui/core/withWidth';
 import favoritesFiltersStyle from './FavoritesFilters.style';
 
 import { favoritesOrder } from '../../../../../actions/appAddsAction';
+import Backdrop from '../../../../UI/Backdrop';
 
 import IconButton from '@material-ui/core/IconButton';
 import Divider from '@material-ui/core/Divider';
@@ -17,6 +18,33 @@ import ExpandMore from '@material-ui/icons/ExpandMore';
 
 const styles = theme => (favoritesFiltersStyle(theme));
 
+
+const orderProps = {
+  date: {
+    type: 'addDate',
+    label: 'date',
+    titleButtonUp: 'the oldest first',
+    titleButtonDown: 'the newest first',
+  },
+  favorites: {
+    type: 'favorites',
+    label: 'favorites',
+    titleButtonUp: 'from lower to higher',
+    titleButtonDown: 'from higher to lower',
+  },
+  comments: {
+    type: 'comments',
+    label: 'comments',
+    titleButtonUp: 'from the less commented',
+    titleButtonDown: 'from the most commented',
+  },
+  downloads: {
+    type: 'downloads',
+    label: 'downloads',
+    titleButtonUp: 'from the less downloaded',
+    titleButtonDown: 'from the most downloaded',
+  },
+};
 
 
 class FavoritesFilters extends Component {
@@ -36,34 +64,7 @@ class FavoritesFilters extends Component {
   render() {
     const { classes, showFiltersBar, mobileWithTouch, width, favoritesOrderType } = this.props;
 
-    const orderProps = {
-      date: {
-        type: 'addDate',
-        label: 'date',
-        titleButtonUp: 'the oldest first',
-        titleButtonDown: 'the newest first',
-      },
-      favorites: {
-        type: 'favorites',
-        label: 'favorites',
-        titleButtonUp: 'from lower to higher', 
-        titleButtonDown: 'from higher to lower',
-      },
-      comments: {
-        type: 'comments',
-        label: 'comments',
-        titleButtonUp: 'from the less commented',
-        titleButtonDown: 'from the most commented',
-      },
-      downloads: {
-        type: 'downloads',
-        label: 'downloads',
-        titleButtonUp: 'from the less downloaded',
-        titleButtonDown: 'from the most downloaded',
-      },
-    }
-
-
+    
     const orderComponents = Object.keys(orderProps).map(orderType => {
       let orderObj = orderProps[orderType];
       return (
@@ -100,7 +101,7 @@ class FavoritesFilters extends Component {
         </div>
         <Divider />
         {/* add backdrop for mobile devices with touch screen && 'xs'-width */}
-        {(mobileWithTouch && showFiltersBar && (width === 'xs')) ? <div className={classes.filtersBarBackdrop} onClick={this.props.onChange}></div> : null}
+        {(mobileWithTouch && showFiltersBar && (width === 'xs')) ? <Backdrop onClose={this.props.onChange}/> : null}
       </div>
     )
   }

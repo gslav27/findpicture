@@ -9,12 +9,41 @@ import searchFiltersStyle from './SearchFilters.style';
 
 import FiltersTemplate from './components/FiltersTemplate/FiltersTemplate';
 import ImgColor from './components/ColorFilter/ColorFilter';
+import Backdrop from '../../../../UI/Backdrop';
 
 import Divider from '@material-ui/core/Divider';
 
 
 const styles = (theme) => (searchFiltersStyle(theme));
   
+
+const filtersProps = {
+  order: {
+    type: 'order',
+    options: ['popular', 'latest'],
+    label: 'order by',
+    allOptions: false,
+  },
+  orientation: {
+    type: 'orientation',
+    options: ['horizontal', 'vertical',],
+    label: 'orientation',
+    allOptions: true,
+  },
+  type: {
+    type: 'imageType',
+    options: ['photo', 'illustration', 'vector',],
+    label: 'type',
+    allOptions: true,
+  },
+  category: {
+    type: 'category',
+    options: ['fashion', 'nature', 'backgrounds', 'science', 'education', 'people', 'feelings', 'religion', 'health', 'places', 'animals', 'industry', 'food', 'computer', 'sports', 'transportation', 'travel', 'buildings', 'business', 'music'],
+    label: 'category',
+    allOptions: true,
+  },
+};
+
 
 class SearchFilters extends Component {
   constructor(props) {
@@ -62,33 +91,6 @@ class SearchFilters extends Component {
   render() {
     const { classes, showFiltersBar, mobileWithTouch, width } = this.props;
 
-    const filtersProps = {
-      order: {
-        type: 'order',
-        options: ['popular', 'latest'],
-        label: 'order by',
-        allOptions: false,
-      },
-      orientation: {
-        type: 'orientation',
-        options: ['horizontal', 'vertical',],
-        label: 'orientation',
-        allOptions: true,
-      },
-      type: {
-        type: 'imageType',
-        options: ['photo', 'illustration', 'vector',],
-        label: 'type',
-        allOptions: true,
-      },
-      category: {
-        type: 'category',
-        options: ['fashion', 'nature', 'backgrounds', 'science', 'education', 'people', 'feelings', 'religion', 'health', 'places', 'animals', 'industry', 'food', 'computer', 'sports', 'transportation', 'travel', 'buildings', 'business', 'music'],
-        label: 'category',
-        allOptions: true,
-      },
-    }
-
     
     const filtersComponents = Object.keys(filtersProps).map(filterType => {
       let filterObj = filtersProps[filterType];
@@ -118,7 +120,7 @@ class SearchFilters extends Component {
         </div>
         <Divider />
         {/* add backdrop for mobile devices with touch screen && 'xs'-width */}
-        {(mobileWithTouch && showFiltersBar && (width==='xs')) ? <div className={classes.filtersBarBackdrop} onClick={this.props.onChange}></div> : null}
+        {(mobileWithTouch && showFiltersBar && (width==='xs')) ?<Backdrop onClose={()=>this.props.onChange()}/> : null}
       </div>
     )
   }

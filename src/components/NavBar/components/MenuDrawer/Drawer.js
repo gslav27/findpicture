@@ -23,6 +23,35 @@ import Forward from '@material-ui/icons/Forward';
 const styles = drawerStyle;
  
 
+const _mainUserOptionsData = [
+  {
+    location: '/favorites',
+    text: 'Favorites',
+    icon: (className) => <Grade className={className} />,
+  },
+  {
+    location: '/recentlywatched',
+    text: 'Recently Watched',
+    icon: (className) => <History className={className} />,
+  }
+];
+
+
+const _additionalOptionsData = [
+  {
+    href: 'https://gslav27.github.io/other/parallax_1.html',
+    text: 'Parallax',
+  },
+  {
+    href: 'https://gslav27.github.io',
+    text: 'gslav27.github.io',
+  },
+  {
+    href: 'https://pixabay.com',
+    text: 'Pixabay.com',
+  },
+];
+
 
 class MenuDrawer extends Component {
   constructor(props) {
@@ -32,16 +61,23 @@ class MenuDrawer extends Component {
 
 
   handleListItemClick = (auth) => {
-    auth
-      ? (!this.props.auth.isAuthenticated() ? this.props.auth.login() : (this.props.auth.logout(), this.props.clearUserHistory()))
-      : null
+    if (auth) {
+      !this.props.auth.isAuthenticated() 
+        ? this.props.auth.login() 
+        : (this.props.auth.logout(), this.props.clearUserHistory())
+    }
     window.scrollTo(0, 0);  
     this.props.onChange(false);
   };
 
 
+  checkCurrentLocation = (locationForChecking) => (
+    this.props.location.pathname === `/findpicture${locationForChecking}`
+  )
+
+
   render() {
-    const { classes, auth, location, side, open } = this.props;
+    const { classes, auth, side, open } = this.props;
 
     let navigationCloseIconLeft, 
         navigationCloseIconRight;
@@ -87,9 +123,11 @@ class MenuDrawer extends Component {
 
     const _homeButton = (
       <ListItem className={classes.list} button component={Link} to='/findpicture/' onClick={() => this.handleListItemClick(false)}>
-        <ListItemIcon><Home className={`${(auth.isAuthenticated() && (location.pathname !== '/findpicture/favorites') && (location.pathname !== '/findpicture/recentlywatched')) ? classes.locationIcon : null}`} /></ListItemIcon>
+        <ListItemIcon 
+          children={<Home className={`${(auth.isAuthenticated() && !this.checkCurrentLocation('/favorites') && !this.checkCurrentLocation('/recentlywatched')) ? classes.locationIcon : null}`} />}
+        />
         <ListItemText 
-          className={`${classes.itemText} ${(auth.isAuthenticated() && (location.pathname !== '/findpicture/favorites') && (location.pathname !== '/findpicture/recentlywatched')) ? classes.locationText : null}`} 
+          className={`${classes.itemText} ${(auth.isAuthenticated() && !this.checkCurrentLocation('/favorites') && !this.checkCurrentLocation('/recentlywatched')) ? classes.locationText : null}`} 
           primary="Home" 
           disableTypography
         />
@@ -106,23 +144,27 @@ class MenuDrawer extends Component {
 
 
     const _userOptions = (
-      < div >
-        <ListItem button component={Link} to='/findpicture/favorites' onClick={() => this.handleListItemClick(false)}>
-          <ListItemIcon><Grade className={`${(location.pathname === '/findpicture/favorites') ? classes.locationIcon : null}`} /></ListItemIcon>
-          <ListItemText
-            className={`${classes.itemText} ${(location.pathname === '/findpicture/favorites') ? classes.locationText : null}`}
-            primary="Favorites"
-            disableTypography
-          />
-        </ListItem>
-        <ListItem button component={Link} to='/findpicture/recentlywatched' onClick={() => this.handleListItemClick(false)}>
-          <ListItemIcon><History className={`${(location.pathname === '/findpicture/recentlywatched') ? classes.locationIcon : null}`} /></ListItemIcon>
-          <ListItemText
-            className={`${classes.itemText} ${(location.pathname === '/findpicture/recentlywatched') ? classes.locationText : null}`}
-            primary="Recently Watched"
-            disableTypography
-          />
-        </ListItem>
+      <div >
+        {
+          _mainUserOptionsData.map(option => (
+            <ListItem
+              key={option.text}
+              button 
+              component={Link} 
+              to={`/findpicture${option.location}`}
+              onClick={() => this.handleListItemClick(false)}
+            >
+              <ListItemIcon 
+                children={option.icon(this.checkCurrentLocation(option.location) ? classes.locationIcon : null)}
+              />
+              <ListItemText
+                className={`${classes.itemText} ${this.checkCurrentLocation(option.location) ? classes.locationText : null}`}
+                primary={option.text}
+                disableTypography
+              />
+            </ListItem>
+          ))
+        }
         <ListItem button onClick={() => this.handleListItemClick(true)}>
           <ListItemIcon><ExitToApp /></ListItemIcon>
           <ListItemText className={classes.itemText} primary="Logout" disableTypography />
@@ -140,23 +182,26 @@ class MenuDrawer extends Component {
         <Divider />
       </div>
     )
-
+  
 
     const _additionalOptions = (
       <div>
         <List>
-          <ListItem button component='a' href='https://gslav27.github.io/other/parallax_1.html' target='_blank' onClick={() => this.props.onChange(false)}>
-            <ListItemIcon><ContentLink /></ListItemIcon>
-            <ListItemText className={classes.itemText} primary="Parallax" disableTypography />
-          </ListItem>
-          <ListItem button component='a' href='https://gslav27.github.io' target='_blank' onClick={() => this.props.onChange(false)}>
-            <ListItemIcon><ContentLink /></ListItemIcon>
-            <ListItemText className={classes.itemText} primary="gslav27.github.io" disableTypography />
-          </ListItem>
-          <ListItem button component='a' href='https://pixabay.com' target='_blank' onClick={() => this.props.onChange(false)}>
-            <ListItemIcon><ContentLink /></ListItemIcon>
-            <ListItemText className={classes.itemText} primary="Pixabay.com" disableTypography />
-          </ListItem>
+          {
+            _additionalOptionsData.map(option => (
+              <ListItem
+                key={option.text}
+                button
+                component='a'
+                href={option.href}
+                target='_blank'
+                onClick={() => this.props.onChange(false)}
+              >
+                <ListItemIcon><ContentLink /></ListItemIcon>
+                <ListItemText className={classes.itemText} primary={option.text} disableTypography />
+              </ListItem>
+            ))
+          }
         </List>
         <Divider />
       </div>
