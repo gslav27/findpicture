@@ -63,32 +63,24 @@ class VerticalXsControl extends Component {
 
   render() {
     const { options, classes, showFiltersBar, someItemCollapsed } = this.props;
-
-
-    // Fix flicker in Safari 9 when collapse finishes entering
-    const removeTransition = node => {
-      node.style.transition = '0s';
-      requestAnimationFrame(() => {
-        node.style.transitiіon = '';
-      });
-    };
+    const { open } = this.state;
 
 
     const _collapsedListHeader = (
       <ListItem
         button
         classes={{
-          root: `${classes.listItemHeader} ${this.state.open ? classes.listItemHeaderOpen : null} ${someItemCollapsed ? classes.listItemHeaderHidden : null}`,
+          root: `${classes.listItemHeader} ${open ? classes.listItemHeaderOpen : null} ${someItemCollapsed ? classes.listItemHeaderHidden : null}`,
         }}
         onClick={this.handleListHeaderClick}
       >
         <ListItemText
           classes={{ primary: classes.listItemTextHeader }}
           primary={
-            this.state.open ? <span>color: </span> : this.props.selectionRenderer()
+            open ? <span>color: </span> : this.props.selectionRenderer()
           }
         />
-        {this.state.open ? <ExpandLess /> : <ExpandMore />}
+        {open ? <ExpandLess /> : <ExpandMore />}
       </ListItem>
     )
 
@@ -140,17 +132,17 @@ class VerticalXsControl extends Component {
       <List className={classes.rootListWrap}>
         {_collapsedListHeader}
         <Collapse
-          in={(showFiltersBar && this.state.open)}
+          in={(showFiltersBar && open)}
           timeout="auto"
           unmountOnExit
-          onEntered={removeTransition}
+          onEntered={node => {node.style.transition = '0s'}} // Fix flicker in Safari 9 when collapse finishes entering
         >
           <div ref={this.collapsedListRef}>
             <List
               component="div"
               className={classes.listCollapsedItems}
               disablePadding
-              onScroll={() => this.props.calculateOverflow(false, this.state.open, this.collapseRefsObj)}
+              onScroll={() => this.props.calculateOverflow(false, open, this.collapseRefsObj)}
             >
               {_optionSelectAll}
               {_options}

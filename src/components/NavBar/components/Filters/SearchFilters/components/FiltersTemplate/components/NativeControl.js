@@ -22,17 +22,20 @@ class NativeControl extends Component {
     } = this.props;
 
 
+    const filterValue = this.props[filter.type];
+
+
     // set width of NativeControl selected value container
     let nativeControlWidth;
     switch (true) {
-      case (this.props[filter.type] === ''):
+      case (filterValue === ''):
         nativeControlWidth = '3em'
         break;
-      case (this.props[filter.type].length === 4):
+      case (filterValue.length === 4):
         nativeControlWidth = '4em'
         break;
       default:
-        nativeControlWidth = `${(this.props[filter.type].length - 4) * 0.5 + 4.2}em`
+        nativeControlWidth = `${(filterValue.length - 4) * 0.5 + 4.2}em`
         break;
     }
 
@@ -80,7 +83,7 @@ class NativeControl extends Component {
             select: classes.select,
           }}
           autoWidth={true}
-          value={this.props[filter.type]}
+          value={filterValue}
           onChange={(e) => { this.props[filterHandler](e.target.value); this.props.fetchImages() }}
           disableUnderline={true}
         >

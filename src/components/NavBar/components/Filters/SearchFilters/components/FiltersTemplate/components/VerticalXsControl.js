@@ -109,20 +109,16 @@ class VerticalXsControl extends Component {
     } = this.props;
 
 
-    // Fix flicker in Safari 9 when collapse finishes entering
-    const removeTransition = node => {
-      node.style.transition = '0s';
-      requestAnimationFrame(() => {
-        node.style.transitiіon = '';
-      });
-    };
+    const filterValue = this.props[filter.type];
+
+    const { open } = this.state;
 
 
     const _collapsedListHeader = (
       <ListItem
         button
         classes={{
-          root: `${classes.listItemHeader} ${this.state.open ? classes.listItemHeaderOpen : null} ${someItemCollapsed ? classes.listItemHeaderHidden : null}`,
+          root: `${classes.listItemHeader} ${open ? classes.listItemHeaderOpen : null} ${someItemCollapsed ? classes.listItemHeaderHidden : null}`,
         }}
         onClick={this.handleListHeaderClick}
       >
@@ -130,11 +126,11 @@ class VerticalXsControl extends Component {
           classes={{ primary: classes.listItemTextHeader }}
           primary={
             <span>
-              {filter.label}: {this.state.open ? null : <span className={classes.selectedValue}>{(this.props[filter.type] == '') ? 'all' : this.props[filter.type]}</span>}
+              {filter.label}: {open ? null : <span className={classes.selectedValue}>{(filterValue == '') ? 'all' : filterValue}</span>}
             </span>
           }
         />
-        {this.state.open ? <ExpandLess /> : <ExpandMore />}
+        {open ? <ExpandLess /> : <ExpandMore />}
       </ListItem>
     )
 
@@ -184,10 +180,10 @@ class VerticalXsControl extends Component {
       <List className={classes.rootListWrap}>
         {_collapsedListHeader}
         <Collapse
-          in={(showFiltersBar && this.state.open)}
+          in={(showFiltersBar && open)}
           timeout="auto"
           unmountOnExit
-          onEntered={removeTransition}
+          onEntered={node => {node.style.transition = '0s'}} // Fix flicker in Safari 9 when collapse finishes entering
         >
           <div ref={this.collapsedListRef}>
             <List

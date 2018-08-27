@@ -23,6 +23,28 @@ import LabelOutline from '@material-ui/icons/LabelOutline';
 const styles = theme => (mainComponentsStyles(theme))
 
 
+const options = ["grayscale", "transparent", "red", "orange", "yellow", "green",
+"turquoise", "blue", "lilac", "pink", "white", "gray", "black", "brown"];
+
+
+const optionsWithColor = new Map([
+  ["grayscale", '#708090'], 
+  ["transparent", 'transparent'],
+  ["red", '#f00'],
+  ["orange", '#ff8c00'],
+  ["yellow", '#ff0'],
+  ["green", '#008000'],
+  ["turquoise", '40e0d0'],
+  ["blue", '#00f'],
+  ["lilac", '#c8a2c8'],
+  ["pink", '#ff1493'],
+  ["white", 'white'],
+  ["gray", '#808080'],
+  ["black", '#000'],
+  ["brown", '#8B4513'],
+])
+
+
 
 class ImgColor extends Component {
   constructor(props) {
@@ -132,26 +154,6 @@ class ImgColor extends Component {
   render() {
     const { color } = this.props;
     const { classes, ...otherProps } = this.props;
-
-    const options = ["grayscale", "transparent", "red", "orange", "yellow", "green",
-    "turquoise", "blue", "lilac", "pink", "white", "gray", "black", "brown"];
-
-    const optionsWithColor = new Map([
-      ["grayscale", '#708090'], 
-      ["transparent", 'transparent'],
-      ["red", '#f00'],
-      ["orange", '#ff8c00'],
-      ["yellow", '#ff0'],
-      ["green", '#008000'],
-      ["turquoise", '40e0d0'],
-      ["blue", '#00f'],
-      ["lilac", '#c8a2c8'],
-      ["pink", '#ff1493'],
-      ["white", 'white'],
-      ["gray", '#808080'],
-      ["black", '#000'],
-      ["brown", '#8B4513'],
-    ])
 
    
     const SetCheckBoxIcon = (x) => {

@@ -21,6 +21,8 @@ class CustomControl extends Component {
       filterHandler,
     } = this.props;
 
+    const filterValue = this.props[filter.type];
+
 
     const _optionsHeader = (
       <MenuItem
@@ -29,7 +31,7 @@ class CustomControl extends Component {
         divider
         dense={true}
       >
-        <span className={classes.MenuItemDisabledText}>{filter.label}: </span><em className={classes.MenuItemDisabledHook}>{this.props[filter.type]}</em>
+        <span className={classes.MenuItemDisabledText}>{filter.label}: </span><em className={classes.MenuItemDisabledHook}>{filterValue}</em>
       </MenuItem>
     )
 
@@ -71,8 +73,8 @@ class CustomControl extends Component {
           select: classes.select,
         }}
         autoWidth={true}
-        value={this.props[filter.type]}
-        renderValue={() => <span>{filter.label}: <span className={classes.selectedValue}>{(this.props[filter.type] == '') ? 'all' : this.props[filter.type]}</span> </span>}
+        value={filterValue}
+        renderValue={() => <span>{filter.label}: <span className={classes.selectedValue}>{(filterValue == '') ? 'all' : filterValue}</span> </span>}
         onChange={(e) => { this.props[filterHandler](e.target.value); this.props.fetchImages() }}
         disableUnderline
         displayEmpty
