@@ -33,66 +33,80 @@ const initialState = {
 export default function(state = initialState, action) {
   switch (action.type) {
     case FETCH_SEARCH_TEXT:
-      return Object.assign({}, state, {
+      return {
+        ...state,
         searchText: action.payload,
-      })
+      }
     case FETCH_IMAGES:
-      return Object.assign({}, state, {
+      return {
+        ...state,
         images: action.payload[0],
         total: action.payload[1],
         waitApiResponseImages: false,
-      })
+      }
     case FETCH_AMOUNT:
-      return Object.assign({}, state, {
+      return {
+        ...state,
         amount: action.payload,
-      })
+      }
     case FETCH_ORDER:
-      return Object.assign({}, state, {
+      return {
+        ...state,
         order: action.payload,
-      }) 
+      } 
     case FETCH_ORIENTATION:
-      return Object.assign({}, state, {
+      return {
+        ...state,
         orientation: action.payload,
-      }) 
+      }
     case FETCH_IMAGE_TYPE:
-      return Object.assign({}, state, {
+      return {
+        ...state,
         imageType: action.payload,
-      })
+      }
     case FETCH_CATEGORY:
-      return Object.assign({}, state, {
+      return {
+        ...state,
         category: action.payload,
-      })
+      }
     case FETCH_COLOR:
-      return Object.assign({}, state, {
+      return {
+        ...state,
         color: action.payload,
-      })
+      }
     case FETCH_PAGE:
-      return Object.assign({}, state, {
+      return {
+        ...state,
         page: action.payload,
-      })
+      }
     case FETCH_MORE_IMAGES_NEXT_PAGE:
-      return Object.assign({}, state, {
+      return {
+        ...state,
         images: state.images.concat(action.payload),
         waitApiResponseMoreImages: { previous: false, next: false },
-      })
+      }
     case FETCH_MORE_IMAGES_PREVIOUS_PAGE:
-      return Object.assign({}, state, {
+      return {
+        ...state,
         images: action.payload.concat(state.images),
         waitApiResponseMoreImages: { previous: false, next: false },
-      })
+      }
     case CUT_DOWN_SEARCH_STORE:
-      return Object.assign({}, state, {
+      return {
+        ...state,
         images: state.images.slice(0, state.amount),
         page: 1,
-      })
+      }
     case WAIT_API_RESPONSE_TYPE_1:
-      return Object.assign({}, state, {
+      return {
+        ...state,
         waitApiResponseImages: action.payload,
-      })
+      }
     case WAIT_API_RESPONSE_TYPE_2:
-      return Object.assign({}, state, {
+      return {
+        ...state,
         waitApiResponseMoreImages: action.payload,
-      })
+      }
     default:
       return state;
   }

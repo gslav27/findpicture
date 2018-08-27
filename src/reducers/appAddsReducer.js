@@ -29,35 +29,42 @@ const initialState = {
 export default function (state = initialState, action) {
   switch (action.type) {
     case UPDATE_USER_HISTORY:
-      return Object.assign({}, state, {
+      return {
+        ...state,
         favorites: action.payload.favorites,
         recentlyWatchedImgs: action.payload.recentlywatched,
-      })
+      }
     case UPDATE_FAVORITES:
-      return Object.assign({}, state, {
+      return {
+        ...state,
         favorites: action.payload,
-      })
+      }
     case UPDATE_RECENTLY_WATCHED:
-      return Object.assign({}, state, {
+      return {
+        ...state,
         recentlyWatchedImgs: action.payload,
-      })
+      }
     case WINDOW_TOP:
-      return Object.assign({}, state, {
+      return {
+        ...state,
         windowTop: action.payload,
-      })
+      }
     case UPDATE_FAVORITES_ORDER:
-      return Object.assign({}, state, {
+      return {
+        ...state,
         favorites: action.payload[0],
         favoritesOrderType: action.payload[1],
-      })
+      }
     case WAIT_API_RESPONSE_TYPE_3:
-      return Object.assign({}, state, {
+      return {
+        ...state,
         waitApiResponseUserHistory: action.payload,
-      })
+      }
     case SET_AUTH_DIALOG_STATUS:
-      return Object.assign({}, state, {
+      return {
+        ...state,
         authDialog: action.payload,
-      })
+      }
     default:
       return state;
   }
