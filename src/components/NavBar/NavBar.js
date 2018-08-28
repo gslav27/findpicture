@@ -3,17 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import throttle from 'lodash/throttle';
 
-import { 
-  fetchImages,
-  fetchAmount,
-  fetchOrder,
-  fetchCategory,
-  fetchColor,
-  fetchImageType,
-  fetchOrientation,
-  fetchPage,
-  fetchSearchText,
-} from '../../actions/searchAction';
+import { fetchImages, fetchSearchText } from '../../actions/searchAction';
 import { setWindowTop, fetchUserHistory, clearUserHistory } from '../../actions/appAddsAction';
 
 import MenuDrawer from './components/MenuDrawer/Drawer';
@@ -386,13 +376,6 @@ class NavBar extends Component {
 NavBar.propTypes = {
   fetchSearchText: PropTypes.func.isRequired,
   fetchImages: PropTypes.func.isRequired,
-  fetchAmount: PropTypes.func.isRequired,
-  fetchOrder: PropTypes.func,
-  fetchCategory: PropTypes.func,
-  fetchColor: PropTypes.func,
-  fetchImageType: PropTypes.func,
-  fetchOrientation: PropTypes.func,
-  fetchPage: PropTypes.func,
   fetchUserHistory: PropTypes.func,
   clearUserHistory: PropTypes.func,
   setWindowTop: PropTypes.func,
@@ -400,39 +383,18 @@ NavBar.propTypes = {
   mobileWithTouch: PropTypes.bool.isRequired,
   classes: PropTypes.object.isRequired,
   width: PropTypes.string.isRequired,
-  order: PropTypes.string,
-  orientation: PropTypes.string,
-  imageType: PropTypes.string,
-  category: PropTypes.string,
-  color: PropTypes.array,
-  page: PropTypes.number,
-  amount: PropTypes.number,
   windowTop: PropTypes.bool,
 }
 
 const mapStateToProps = state => ({
   searchText: state.search.searchText,
   mobileWithTouch: state.appAdds.mobileWithTouch,
-  order: state.search.order,
-  orientation: state.search.orientation,
-  imageType: state.search.imageType,
-  category: state.search.category,
-  color: state.search.color,
-  page: state.search.page,
-  amount: state.search.amount,
   windowTop: state.appAdds.windowTop,
 })
 
 const mapDispatchToProps = {
   fetchImages,
   fetchSearchText,
-  fetchAmount,
-  fetchOrder,
-  fetchCategory,
-  fetchColor,
-  fetchImageType,
-  fetchOrientation,
-  fetchPage,
   setWindowTop,
   fetchUserHistory,
   clearUserHistory,
