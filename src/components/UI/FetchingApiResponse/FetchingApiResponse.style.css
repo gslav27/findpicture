@@ -1,0 +1,34 @@
+.loadingBarRoot {
+  text-align: center;
+}
+
+.loadingBarProgress {
+  margin: 10px 0 !important;
+  color: rgb(38, 50, 56) !important;
+}
+
+.waitApiResponseImages {
+  display: flex;
+  height: 80vh;
+  justify-content: center;
+  align-items: center
+}
+
+.noImagesWrapper {
+  display: flex;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 80vh;
+  align-items: center;
+  justify-content: center;
+}
+
+.noImages {
+  width: 90vw;
+  text-align: center;
+  font-size: 2.5em;
+  font-weight: bold;
+  color: #aaa;
+}

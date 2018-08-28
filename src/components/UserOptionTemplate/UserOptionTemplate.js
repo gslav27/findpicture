@@ -9,6 +9,7 @@ import userOptionTemplate from './UserOptionTemplate.style';
 
 import ImgTags from '../UI/ImgTags';
 import ImgSocialStat from '../UI/ImgSocialStat';
+import { WaitResponse, NoImages } from '../UI/FetchingApiResponse/FetchingApiResponse';
 
 import Card from '@material-ui/core/Card';
 import CardHeader from '@material-ui/core/CardHeader';
@@ -16,7 +17,6 @@ import CardMedia from '@material-ui/core/CardMedia';
 import CardContent from "@material-ui/core/CardContent";
 import CardActions from "@material-ui/core/CardActions";
 import Avatar from '@material-ui/core/Avatar';
-import CircularProgress from '@material-ui/core/CircularProgress';
 
 
 const styles = theme => (userOptionTemplate(theme));
@@ -105,33 +105,12 @@ class UserOptionTemplate extends Component {
     )
 
 
-    const waitResponse = (
-      <div className={classes.waitApiResponseImages}>
-        <div className={classes.loadingBarRoot} >
-          <CircularProgress
-            className={classes.loadingBarProgress}
-            size={50}
-          />
-        </div >
-      </div>
-    )
-
-
-    const noMatches = (
-      <div className={classes.noMatchesWrapper}>
-        <div className={classes.noMatches}>
-          {noMatchesText}
-        </div>
-      </div>
-    )
-
-
     if (this.props.waitApiResponseUserHistory) {
-      imageListContent = waitResponse
+      imageListContent = <WaitResponse />
     } else if (imagesData.length) {
       imageListContent = imagesResults
     } else {
-      imageListContent = noMatches
+      imageListContent = <NoImages children={noMatchesText}/>
     }
 
 

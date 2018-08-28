@@ -21,6 +21,7 @@ import { fetchViewerOpen } from '../../actions/imgViewerAction';
 import ImgViewer from '../ImageViewer/ImageViewer';
 import ImgCaption from './components/ImgCaption/ImgCaptions';
 import LoadPreviousImagesButton from './components/LoadPreviousImagesButton/LoadPreviousImagesButton';
+import { LoadingIcon, WaitResponse, NoImages } from '../UI/FetchingApiResponse/FetchingApiResponse';
 
 import { withStyles } from '@material-ui/core/styles';
 import compose from 'recompose/compose';
@@ -29,7 +30,6 @@ import searchResultsStyle from './SearchResults.styles';
 
 import GridList from '@material-ui/core/GridList';
 import GridListTile from '@material-ui/core/GridListTile';
-import CircularProgress from '@material-ui/core/CircularProgress';
 
 import { auth } from '../Auth/AuthHOC';
 
@@ -315,19 +315,12 @@ class SearchResults extends Component {
     } = this.props;
 
 
-    const _loadingIcon = (
-      < div className={classes.loadingBarRoot} >
-        <CircularProgress className={classes.loadingBarProgress} size={50}/>
-      </div >
-    );
-
-
     const _moreImagesLoadingIcon = () => {
       switch (true) {
         // define if there are more images in Pixabay API and show loading icon if its true.
         // (images.length < 500) is because Pixabay API return max 500 images per 1 search query
         case ((totalHits > images.length) && (images.length < 500) && ((amount * page) < totalHits)):
-          return _loadingIcon
+          return <LoadingIcon />
         
         // define if its all images from Pixabay API
         case ((totalHits === images.length) || ((amount * page) > totalHits)):
@@ -347,7 +340,7 @@ class SearchResults extends Component {
             onCloseButtonClick={() => this.setState({ showLoadPreviousImagesButton: false })}
           />
       )}
-      return _loadingIcon
+      return <LoadingIcon />
     };
 
     
@@ -383,22 +376,6 @@ class SearchResults extends Component {
     )
 
 
-    const waitResponse = (
-      <div className={classes.waitApiResponseImages}>
-        {_loadingIcon}
-      </div>
-    )
-
-
-    const noMatches = (
-      <div className={classes.noMatchesWrapper}>
-        <div className={classes.noMatches}>
-          no matches for "{searchText}"
-        </div>
-      </div>
-    )
-
-
     const imageViewer = (
       <ImgViewer 
         match={match} 
@@ -409,11 +386,11 @@ class SearchResults extends Component {
 
     
     if (waitApiResponseImages) {
-      searchResponse = waitResponse
+      searchResponse = <WaitResponse />
     } else if (images.length) {
       searchResponse = imagesResults
     } else if (searchText) {
-      searchResponse = noMatches
+      searchResponse = <NoImages children={`no matches for "${searchText}"`}/>
     }
 
 

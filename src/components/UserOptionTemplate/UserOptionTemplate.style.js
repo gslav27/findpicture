@@ -49,37 +49,6 @@ const style = (theme) => {
         marginLeft: '-7px',
       },
     },
-    loadingBarRoot: {
-      width: '100vw',
-      textAlign: 'center',
-    },
-    loadingBarProgress: {
-      margin: '10px 0',
-      color: 'rgb(38, 50, 56)',
-    },
-    waitApiResponseImages: {
-      display: 'flex',
-      height: '80vh',
-      justifyContent: 'center',
-      alignItems: 'center',
-    },
-    noMatchesWrapper: {
-      display: 'flex',
-      posititon: 'fixed',
-      top: '0',
-      left: '0',
-      width: '100%',
-      height: '80vh',
-      alignItems: 'center',
-      justifyContent: 'center',
-    },
-    noMatches: {
-      width: '90vw',
-      textAlign: 'center',
-      fontSize: '2.5em',
-      fontWeight: 'bold',
-      color: '#aaa',
-    },
     rootComponent: {
       position: 'relative',
       top: 67,
