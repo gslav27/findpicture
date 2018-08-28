@@ -1,8 +1,4 @@
-import { 
-  VIEWER_LOAD_IMG,
-  VIEWER_OPEN,
-  VIEWER_WAIT_API_RESPONSE,
-} from '../actions/types';
+import * as types from "../actions/types";
 
 const initialState = {
   open: false, 
@@ -12,20 +8,20 @@ const initialState = {
 
 export default function (state = initialState, action) {
   switch (action.type) {
-    case VIEWER_OPEN:
+    case types.VIEWER_OPEN:
       return {
         ...state,
         open: action.payload[0],
         currentImgInd: action.payload[1],
       }
-    case VIEWER_LOAD_IMG:
+    case types.VIEWER_LOAD_IMG:
       return {
         ...state,
         currentImgInd: action.payload,
         open: true,
         nextDataLoading: false,
       }
-    case VIEWER_WAIT_API_RESPONSE:
+    case types.VIEWER_WAIT_API_RESPONSE:
       return {
         ...state,
         nextDataLoading: action.payload,

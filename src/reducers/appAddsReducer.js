@@ -1,12 +1,4 @@
-import {
-  UPDATE_RECENTLY_WATCHED,
-  WINDOW_TOP,
-  UPDATE_FAVORITES,
-  UPDATE_FAVORITES_ORDER,
-  UPDATE_USER_HISTORY,
-  WAIT_API_RESPONSE_TYPE_3,
-  SET_AUTH_DIALOG_STATUS,
-} from '../actions/types';
+import * as types from "../actions/types";
 
 // define mobile devices with touch screen
 let _mobileWithTouch = (/Mobi/i.test(navigator.userAgent) || /Android/i.test(navigator.userAgent));
@@ -28,39 +20,39 @@ const initialState = {
 
 export default function (state = initialState, action) {
   switch (action.type) {
-    case UPDATE_USER_HISTORY:
+    case types.UPDATE_USER_HISTORY:
       return {
         ...state,
         favorites: action.payload.favorites,
         recentlyWatchedImgs: action.payload.recentlywatched,
       }
-    case UPDATE_FAVORITES:
+    case types.UPDATE_FAVORITES:
       return {
         ...state,
         favorites: action.payload,
       }
-    case UPDATE_RECENTLY_WATCHED:
+    case types.UPDATE_RECENTLY_WATCHED:
       return {
         ...state,
         recentlyWatchedImgs: action.payload,
       }
-    case WINDOW_TOP:
+    case types.WINDOW_TOP:
       return {
         ...state,
         windowTop: action.payload,
       }
-    case UPDATE_FAVORITES_ORDER:
+    case types.UPDATE_FAVORITES_ORDER:
       return {
         ...state,
         favorites: action.payload[0],
         favoritesOrderType: action.payload[1],
       }
-    case WAIT_API_RESPONSE_TYPE_3:
+    case types.WAIT_API_RESPONSE_TYPE_3:
       return {
         ...state,
         waitApiResponseUserHistory: action.payload,
       }
-    case SET_AUTH_DIALOG_STATUS:
+    case types.SET_AUTH_DIALOG_STATUS:
       return {
         ...state,
         authDialog: action.payload,

@@ -1,17 +1,9 @@
-import {
-  UPDATE_RECENTLY_WATCHED,
-  WINDOW_TOP,
-  UPDATE_FAVORITES,
-  UPDATE_FAVORITES_ORDER,
-  UPDATE_USER_HISTORY,
-  WAIT_API_RESPONSE_TYPE_3,
-  SET_AUTH_DIALOG_STATUS,
-} from './types';
+import * as types from "../actions/types";
 
 
-const waitApiResponse = (loading = true, type = 1) => {
+const waitApiResponse = (loading = true) => {
   return {
-    type: WAIT_API_RESPONSE_TYPE_3,
+    type: types.WAIT_API_RESPONSE_TYPE_3,
     payload: loading,
   };
 }
@@ -19,13 +11,13 @@ const waitApiResponse = (loading = true, type = 1) => {
 
 export const authDialogOpen = (open = true) => {
   return {
-    type: SET_AUTH_DIALOG_STATUS,
+    type: types.SET_AUTH_DIALOG_STATUS,
     payload: open,
   };
 }
 
 
-export const fetchUserHistory = () => (dispatch, getState) => {
+export const fetchUserHistory = () => (dispatch) => {
   dispatch(waitApiResponse());
   let userEmail = localStorage.getItem('findpicture_user');
   let fetchObj = {
@@ -70,7 +62,7 @@ export const fetchUserHistory = () => (dispatch, getState) => {
       (userHistory[0].recentlywatched == undefined) ? (userHistory[0].recentlywatched = []) : null;
       dispatch(waitApiResponse(false));
       dispatch({
-        type: UPDATE_USER_HISTORY,
+        type: types.UPDATE_USER_HISTORY,
         payload: userHistory[0],
       })
       }
@@ -87,7 +79,7 @@ export const clearUserHistory = () => {
     recentlywatched: [],
   }
   return {
-    type: UPDATE_USER_HISTORY,
+    type: types.UPDATE_USER_HISTORY,
     payload: userHistory,
   };
 }
@@ -204,7 +196,7 @@ export const addToFavorites = (ImgInd, type = 0) => (dispatch, getState) => {
     favoritesImgs.splice(checkImgInFavorites, 1);
   }
   dispatch({
-    type: UPDATE_FAVORITES,
+    type: types.UPDATE_FAVORITES,
     payload: favoritesImgs,
   })
 
@@ -226,7 +218,7 @@ export const updateRecentlyWatched = (ImgInd) => (dispatch, getState) => {
   let recentlyWatchedImgs = getState().appAdds.recentlyWatchedImgs;
   let filteredRecentlyWatchedImgs = recentlyWatchedImgs.filter(img => (img.id !== currentImg.id));
   dispatch({
-    type: UPDATE_RECENTLY_WATCHED,
+    type: types.UPDATE_RECENTLY_WATCHED,
     payload: [currentImg, ...filteredRecentlyWatchedImgs],
   })
   
@@ -237,7 +229,7 @@ export const updateRecentlyWatched = (ImgInd) => (dispatch, getState) => {
 
 export const setWindowTop = (current = true) => {
   return {
-    type: WINDOW_TOP,
+    type: types.WINDOW_TOP,
     payload: current,
   };
 }
@@ -259,7 +251,7 @@ export const favoritesOrder = (orderType, higherFirst) => (dispatch, getState) =
   newFavoritesOrderType[orderType] = higherFirst ? [true, false] : [false, true];
 
   dispatch ({
-    type: UPDATE_FAVORITES_ORDER,
+    type: types.UPDATE_FAVORITES_ORDER,
     payload: [favoritesImgs, newFavoritesOrderType],
   })
 }
@@ -283,7 +275,7 @@ export const formatData = (data) => {
 
 
 export const findInFavorites = (index, favorites, isAuthenticated) => {
-  // Array.findIndex() return -1 if there no matches, then tilda ('~') operator converts -1 to 0,
+  // Array.findIndex() return -1 if there are no matches, then tilda ('~') operator converts -1 to 0,
   // so img isn't favorite if _isFavorite = 0, while any logical operator implicitly coerce 0 to 'false'), 
   let imgIsFavorite = ~(
     isAuthenticated

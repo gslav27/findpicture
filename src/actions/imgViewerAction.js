@@ -1,15 +1,11 @@
-import { 
-  VIEWER_LOAD_IMG,
-  VIEWER_OPEN,
-  VIEWER_WAIT_API_RESPONSE,
-} from './types';
+import * as types from "../actions/types";
 
 import { updateRecentlyWatched } from './appAddsAction';
 
 
 export const fetchViewerOpen = (open, currentImgInd, isAuthenticated) => (dispatch) => {
   dispatch({
-    type: VIEWER_OPEN,
+    type: types.VIEWER_OPEN,
     payload: [open, currentImgInd],
   });
   
@@ -22,7 +18,7 @@ export const fetchViewerImg = (newImgInd = null, isAuthenticated) => (dispatch, 
     newImgInd = getState().imgViewer.currentImgInd + 1;
   }
   dispatch({
-    type: VIEWER_LOAD_IMG,
+    type: types.VIEWER_LOAD_IMG,
     payload: newImgInd,
   });
   
@@ -32,7 +28,7 @@ export const fetchViewerImg = (newImgInd = null, isAuthenticated) => (dispatch, 
 
 export const fetchWaitNextData = (loading = true) => {
   return {
-    type: VIEWER_WAIT_API_RESPONSE,
+    type: types.VIEWER_WAIT_API_RESPONSE,
     payload: loading,
   }
 }

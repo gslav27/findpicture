@@ -1,19 +1,4 @@
-import { 
-  FETCH_IMAGES,
-  FETCH_SEARCH_TEXT,
-  FETCH_AMOUNT,
-  FETCH_ORDER,
-  FETCH_ORIENTATION,
-  FETCH_IMAGE_TYPE,
-  FETCH_CATEGORY,
-  FETCH_COLOR,
-  FETCH_PAGE,
-  FETCH_MORE_IMAGES_NEXT_PAGE,
-  FETCH_MORE_IMAGES_PREVIOUS_PAGE,
-  CUT_DOWN_SEARCH_STORE,
-  WAIT_API_RESPONSE_TYPE_1,
-  WAIT_API_RESPONSE_TYPE_2,
-} from './types';
+import * as types from "../actions/types";
 
 import { fetchViewerImg, fetchViewerOpen, fetchWaitNextData } from './imgViewerAction';
 
@@ -21,7 +6,7 @@ import { fetchViewerImg, fetchViewerOpen, fetchWaitNextData } from './imgViewerA
 // type "1" = fetchImages, type "2" = fetchMoreImages
 const waitApiResponse = (loading = true, type = 1) => {
   return {
-    type: (type === 1) ? WAIT_API_RESPONSE_TYPE_1 : WAIT_API_RESPONSE_TYPE_2,
+    type: (type === 1) ? types.WAIT_API_RESPONSE_TYPE_1 : types.WAIT_API_RESPONSE_TYPE_2,
     payload: loading,
   };
 }
@@ -49,7 +34,7 @@ export const fetchImages = (pathPage = 1) => (dispatch, getState) => {
     .then(response => {
       window.scrollTo(0, 0);
       dispatch({
-        type: FETCH_IMAGES,
+        type: types.FETCH_IMAGES,
         payload: [response.hits, response.total, false]
       });
     })
@@ -63,14 +48,13 @@ export const fetchImages = (pathPage = 1) => (dispatch, getState) => {
 // export const fetchSearchText = (input) => dispatch => {
 export const fetchSearchText = (input) => {
   return {
-    type: FETCH_SEARCH_TEXT,
+    type: types.FETCH_SEARCH_TEXT,
     payload: input,    
   };
 }
 
 
 export const fetchAmount = (width, amount=null) => {
-  console.log('width', width);
   let _amount;
   if (amount !== null) { 
     _amount = amount;
@@ -90,7 +74,7 @@ export const fetchAmount = (width, amount=null) => {
     }
   }
   return {
-    type: FETCH_AMOUNT,
+    type: types.FETCH_AMOUNT,
     payload: _amount,
   };
 }
@@ -98,7 +82,7 @@ export const fetchAmount = (width, amount=null) => {
 
 export const fetchOrder = (input) => {
   return {
-    type: FETCH_ORDER,
+    type: types.FETCH_ORDER,
     payload: input,
   };
 }
@@ -106,7 +90,7 @@ export const fetchOrder = (input) => {
 
 export const fetchOrientation = (input) => {
   return {
-    type: FETCH_ORIENTATION,
+    type: types.FETCH_ORIENTATION,
     payload: input,
   };
 }
@@ -114,7 +98,7 @@ export const fetchOrientation = (input) => {
 
 export const fetchImageType = (input) => {
   return {
-    type: FETCH_IMAGE_TYPE,
+    type: types.FETCH_IMAGE_TYPE,
     payload: input,
   };
 }
@@ -122,7 +106,7 @@ export const fetchImageType = (input) => {
 
 export const fetchCategory = (input) => {
   return {
-    type: FETCH_CATEGORY,
+    type: types.FETCH_CATEGORY,
     payload: input,
   };
 }
@@ -130,7 +114,7 @@ export const fetchCategory = (input) => {
 
 export const fetchColor = (input = [null]) => {
   return {
-    type: FETCH_COLOR,
+    type: types.FETCH_COLOR,
     payload: input,
   };
 }
@@ -138,7 +122,7 @@ export const fetchColor = (input = [null]) => {
 
 export const fetchPage = (input) => {
   return {
-    type: FETCH_PAGE,
+    type: types.FETCH_PAGE,
     payload: input,
   };
 }
@@ -165,7 +149,7 @@ export const fetchMoreImages = (wait = false, addAfter = true, prevPage = null) 
       }
     })
     .then(response => dispatch({
-      type: (addAfter ? FETCH_MORE_IMAGES_NEXT_PAGE : FETCH_MORE_IMAGES_PREVIOUS_PAGE),
+      type: (addAfter ? types.FETCH_MORE_IMAGES_NEXT_PAGE : types.FETCH_MORE_IMAGES_PREVIOUS_PAGE),
       payload: response.hits
     })
     )
@@ -185,6 +169,6 @@ export const fetchMoreImages = (wait = false, addAfter = true, prevPage = null) 
 
 export const cutDownSearchStore = () => {
   return {
-    type: CUT_DOWN_SEARCH_STORE,
+    type: types.CUT_DOWN_SEARCH_STORE,
   };
 }
