@@ -18,6 +18,8 @@ import CircularProgress from '@material-ui/core/CircularProgress';
 
 import Close from '@material-ui/icons/Close';
 
+import { auth } from '../Auth/AuthHOC';
+
 
 const styles = imageViewerStyles();
 
@@ -35,12 +37,10 @@ class ImgViewer extends Component {
     this.handleNextButton = this.handleNextButton.bind(this);
     this.handleTouchStart = this.handleTouchStart.bind(this);
     this.handleTouchEnd = this.handleTouchEnd.bind(this);
-    this.updateSearchPath = this.updateSearchPath.bind(this);
   }
   
 
   componentDidMount() {
-    this.updateSearchPath();
     window.addEventListener('keydown', this.handleNextButton);
     if (this.props.mobileWithTouch) {
       window.addEventListener('touchstart', this.handleTouchStart);
@@ -59,24 +59,12 @@ class ImgViewer extends Component {
 
 
   componentDidUpdate = (prevProps) => {
-    const { currentImgInd, nextDataLoading } = this.props;
-    if (currentImgInd !== prevProps.currentImgInd) {
-      this.updateSearchPath();
-    }
+    const { nextDataLoading } = this.props;
     if (nextDataLoading && (nextDataLoading !== prevProps.nextDataLoading)) {
       window.removeEventListener('keydown', this.handleNextButton);
     } else if (!nextDataLoading && (nextDataLoading !== prevProps.nextDataLoading)) {
       window.addEventListener('keydown', this.handleNextButton);
     }
-  }
-
-
-  updateSearchPath = () => {
-    let { currentImgInd, images, page, amount, match, history, } = this.props;
-    let historyPath = (match.params.query === undefined) ? ('/findpicture/q_&q=' + amount) : ('/findpicture/q_' + match.params.query);
-    let currentImgNum = currentImgInd + 1 + (page - Math.ceil(images.length / amount)) * amount;
-    (currentImgInd !== -1) ? (historyPath += '/' + Math.ceil(currentImgNum / amount) + '/' + currentImgNum) : null;
-    history.push(historyPath); 
   }
 
 
@@ -110,7 +98,7 @@ class ImgViewer extends Component {
 
 
   handleImgClose = () => {
-    this.props.fetchViewerOpen(false, -1, this.props.auth.isAuthenticated());
+    this.props.fetchViewerOpen(false, -1, auth.isAuthenticated());
   }
 
 
@@ -126,7 +114,7 @@ class ImgViewer extends Component {
     if (nextArrInd > -1) {
       switch (true) {
         case (nextArrInd < images.length):
-          this.props.fetchViewerImg(nextArrInd, this.props.auth.isAuthenticated());
+          this.props.fetchViewerImg(nextArrInd, auth.isAuthenticated());
           // in case of fast user's 'NextButton'-clicking clear timeOut from previous 'handleNextButton()' execution'
           (this.state.imgLoadedTimeOutId !== null) ? window.clearTimeout(this.state.imgLoadedTimeOutId) : null;
           // set timeOut for Circular Progress render on slow image loading

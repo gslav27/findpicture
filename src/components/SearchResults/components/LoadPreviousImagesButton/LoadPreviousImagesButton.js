@@ -18,7 +18,7 @@ const styles = loadPreviousImagesButton
 class LoadPreviousImagesButton extends Component {
   addHiddenClass = () => {
     let {windowTop, match} = this.props;
-    if ( windowTop && match.params.page != 1 && match.params.page != undefined ) {
+    if (windowTop && Number(match.params.page) > 1) {
       return false
     }
     return true
