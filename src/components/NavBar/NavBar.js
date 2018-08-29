@@ -60,7 +60,7 @@ class NavBar extends Component {
   }
 
 
-  componentDidUpdate = (prevProps, prevState) => {
+  componentDidUpdate = (prevProps) => {
     if (!userHistoryLoaded && auth.isAuthenticated()) {
       userHistoryLoaded = true; 
       this.props.fetchUserHistory();
@@ -68,8 +68,9 @@ class NavBar extends Component {
       userHistoryLoaded = false;
     };
     if (this.props.width !== prevProps.width) {
-      (this.props.width === 'xs') ? this.setState({ showFilters: false }) : null;
-      (this.props.width !== 'xs') ? this.setState({ hideHeader: false }) : null;
+      (this.props.width === 'xs')
+        ? this.setState({ showFilters: false })
+        : this.setState({ hideHeader: false });
     };
   }
 
