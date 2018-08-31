@@ -42,7 +42,11 @@ module.exports = {
         "react/no-access-state-in-setstate": 1,
         "react/jsx-filename-extension": 0,
         "react/forbid-prop-types": 1,
+        "react/no-array-index-key": 1,
+        "react/jsx-no-target-blank": [2, {"enforceDynamicLinks": "never" }],
         "import/no-extraneous-dependencies": 0,
+        "jsx-a11y/click-events-have-key-events": 1,
+        "jsx-a11y/no-noninteractive-element-interactions": 1,
 
         "prefer-template": 2, // --fix
         "semi": 2,  // --fix

@@ -1,15 +1,15 @@
 import React, { Component } from 'react';
 
-import ImgTags from '../../../UI/ImgTags';
-import FavoritesButton from '../../../UI/FavoritesButton';
-
 import { withStyles } from '@material-ui/core/styles';
 import compose from 'recompose/compose';
 import withWidth from '@material-ui/core/withWidth';
 import imgCaptionsStyle from './ImgCaptions.style';
 
+import ImgTags from '../../../UI/ImgTags';
+import FavoritesButton from '../../../UI/FavoritesButton';
 
-const styles = (theme) => (imgCaptionsStyle(theme))
+
+const styles = theme => (imgCaptionsStyle(theme));
 
 
 class ImgCaption extends Component {
@@ -30,12 +30,13 @@ class ImgCaption extends Component {
       <div className={classes.gridListTileBarTitle}>
         <ImgTags tagsData={img.tags} />
       </div>
-    )
+    );
 
     const imgAuthor = (
       <div className={classes.gridListTileBarSubtitle}>
         <span>
-          by: <a
+          {'by: '}
+          <a
             className={classes.barTitleTag}
             href={`https://pixabay.com/users/${img.user}-${img.user_id}/`}
             target='_blank'
@@ -45,7 +46,7 @@ class ImgCaption extends Component {
           </a>
         </span>
       </div>
-    )
+    );
 
 
     return (
@@ -63,4 +64,4 @@ class ImgCaption extends Component {
   }
 }
 
-export default compose(withStyles(styles), withWidth(), )(ImgCaption)
+export default compose(withStyles(styles), withWidth())(ImgCaption);

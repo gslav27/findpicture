@@ -2,26 +2,27 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
-import { fetchMoreImages } from '../../../../actions/searchAction';
-
 import { withStyles } from '@material-ui/core/styles';
-import loadPreviousImagesButton from './LoadPreviousImagesButton.style';
 
 import IconButton from '@material-ui/core/IconButton';
 
 import ArrowUpward from '@material-ui/icons/ArrowUpward';
 import Close from '@material-ui/icons/Close';
 
+import { fetchMoreImages } from '../../../../actions/searchAction';
 
-const styles = loadPreviousImagesButton
+import loadPreviousImagesButton from './LoadPreviousImagesButton.style';
+
+
+const styles = loadPreviousImagesButton;
 
 class LoadPreviousImagesButton extends Component {
   addHiddenClass = () => {
-    let {windowTop, match} = this.props;
+    const { windowTop, match } = this.props;
     if (windowTop && Number(match.params.page) > 1) {
-      return false
+      return false;
     }
-    return true
+    return true;
   }
 
 
@@ -36,15 +37,15 @@ class LoadPreviousImagesButton extends Component {
 
     const _loadButton = (
       <IconButton
-        classes={{ root: classes.loadPreviousImagesButton, }}
-        onClick={() => { this.props.fetchMoreImages(false, false, (match.params.page - 1)) }}
+        classes={{ root: classes.loadPreviousImagesButton }}
+        onClick={() => { this.props.fetchMoreImages(false, false, (match.params.page - 1)); }}
         title='load previous images'
       >
         <ArrowUpward />
         <span> load previous images </span>
         {(width !== 'xs') ? <ArrowUpward /> : null}
       </IconButton>
-    )
+    );
 
 
     const _closeButton = (
@@ -57,7 +58,7 @@ class LoadPreviousImagesButton extends Component {
       >
         <Close />
       </IconButton>
-    )
+    );
 
     
     return (
@@ -65,7 +66,7 @@ class LoadPreviousImagesButton extends Component {
         {_loadButton}
         {_closeButton}
       </div>
-    )
+    );
   }
 }
 
@@ -77,12 +78,12 @@ LoadPreviousImagesButton.propTypes = {
   width: PropTypes.string.isRequired,
   mobileWithTouch: PropTypes.bool,
   windowTop: PropTypes.bool,
-}
+};
 
 const mapStateToProps = state => ({
   mobileWithTouch: state.appAdds.mobileWithTouch,
-  windowTop: state.appAdds.windowTop
+  windowTop: state.appAdds.windowTop,
 });
 
 
-export default connect(mapStateToProps, { fetchMoreImages })(withStyles(styles)(LoadPreviousImagesButton))
+export default connect(mapStateToProps, { fetchMoreImages })(withStyles(styles)(LoadPreviousImagesButton));

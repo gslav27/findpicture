@@ -3,7 +3,14 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import throttle from 'lodash/throttle';
 
-import { 
+import { withStyles } from '@material-ui/core/styles';
+import compose from 'recompose/compose';
+import withWidth from '@material-ui/core/withWidth';
+
+import GridList from '@material-ui/core/GridList';
+import GridListTile from '@material-ui/core/GridListTile';
+
+import {
   fetchMoreImages,
   cutDownSearchStore,
   fetchPage,
@@ -16,53 +23,45 @@ import ImgCaption from './components/ImgCaption/ImgCaptions';
 import LoadPreviousImagesButton from './components/LoadPreviousImagesButton/LoadPreviousImagesButton';
 import { LoadingIcon, WaitResponse, NoImages } from '../UI/FetchingApiResponse/FetchingApiResponse';
 
-import { withStyles } from '@material-ui/core/styles';
-import compose from 'recompose/compose';
-import withWidth from '@material-ui/core/withWidth';
 import searchResultsStyle from './SearchResults.styles';
-
-import GridList from '@material-ui/core/GridList';
-import GridListTile from '@material-ui/core/GridListTile';
 
 import { auth } from '../Auth/AuthHOC';
 
 
 import withSearchPathHandler from '../SearchPathHandler/SearchPathHandlerHOC';
 
-const styles = (theme) => (searchResultsStyle(theme))
+const styles = theme => (searchResultsStyle(theme));
 
 
 // for calculating whole document height & windowHeight (in handleScroll())
-const body = document.body;
-const html = document.documentElement; 
+const { body } = document;
+const html = document.documentElement;
 const getDocHeight = () => Math.max(body.scrollHeight, body.offsetHeight, html.clientHeight, html.scrollHeight, html.offsetHeight);
 
 // define gridList parameters
-let gridParams = {
+const gridParams = {
   gridCols: {
     xl: [8, 5],
     lg: [6, 4],
     md: [4, 3],
     sm: [3, 2],
-    xs: [2, 1]
+    xs: [2, 1],
   },
-  cellHeight: [270, 180]
+  cellHeight: [270, 180],
 };
 
 
 class SearchResults extends Component {
   constructor(props) {
     super(props);
-    this.state = {
-      showLoadPreviousImagesButton: false,
-    };
+    this.state = { showLoadPreviousImagesButton: false };
     this.handleScroll = this.handleScroll.bind(this);
     this.handleScrollThrottled = throttle(this.handleScroll, 250);
-  } 
+  }
 
 
   componentDidMount() {
-    // define if images from API were loaded not from the 1st page and if it's 'true' make 
+    // define if images from API were loaded not from the 1st page and if it's 'true' make
     // available showing LoadPreviousImagesButton when user is at the top of the page
     (Math.ceil(this.props.images.length / this.props.amount) < this.props.page)
       ? this.setState({ showLoadPreviousImagesButton: true })
@@ -78,16 +77,16 @@ class SearchResults extends Component {
   }
 
 
-  getSnapshotBeforeUpdate(prevProps, prevState) {
+  getSnapshotBeforeUpdate(prevProps) {
     const { images, waitApiResponseMoreImages } = this.props;
     // return last user position (in % of docHeight) if width will be changed (for user position correcting)
     if (this.props.width !== prevProps.width) {
-      let userPosition = window.pageYOffset / getDocHeight();
+      const userPosition = window.pageYOffset / getDocHeight();
       return userPosition;
     }
     // return docHeight before previous images was loaded (for user position correcting)
     if ((images.length !== prevProps.images.length) && (waitApiResponseMoreImages.previous !== prevProps.waitApiResponseMoreImages.previous)) {
-      return getDocHeight()
+      return getDocHeight();
     }
     return null;
   }
@@ -103,24 +102,24 @@ class SearchResults extends Component {
     if (width !== prevProps.width) {
       // forceUpdate with timeout is needed for correct calculation of images fit (inside GridListTile) & user position
       setTimeout(() => {
-        let userPosition = snapshot * getDocHeight();
+        const userPosition = snapshot * getDocHeight();
         window.scrollTo(0, userPosition);
         this.forceUpdate();
       }, 100);
     }
     // set correct user position after loading previous images
     ((images.length !== prevProps.images.length) && (waitApiResponseMoreImages.previous !== prevProps.waitApiResponseMoreImages.previous))
-      ? window.scrollBy(0, (getDocHeight()-snapshot))
+      ? window.scrollBy(0, (getDocHeight() - snapshot))
       : null;
   }
 
 
-  handleScroll() {
+  handleScroll = () => {
     const { page, amount, images, totalHits, waitApiResponseMoreImages } = this.props;
     // add new page if there are more images in Pixabay API and user scrolls to the document bottom
     if ((totalHits > images.length) && ((amount * page) < totalHits) && (!this.props.waitApiResponseImages)) {
-      // get height of the window 
-      const windowHeight = "innerHeight" in window ? window.innerHeight : document.documentElement.offsetHeight;
+      // get height of the window
+      const windowHeight = 'innerHeight' in window ? window.innerHeight : document.documentElement.offsetHeight;
       // calculate bottom of window
       const windowBottom = windowHeight + window.pageYOffset;
       // add more images if window bottom is less then 60px to document bottom
@@ -138,18 +137,18 @@ class SearchResults extends Component {
 
 
   defineGridListParams = (type) => {
-    let { orientation, width } = this.props;
+    const { orientation, width } = this.props;
     if (orientation === 'vertical') {
-      return type === 'cellHeight' ? gridParams.cellHeight[0] : gridParams.gridCols[width][0]
+      return type === 'cellHeight' ? gridParams.cellHeight[0] : gridParams.gridCols[width][0];
     }
-    return type === 'cellHeight' ? gridParams.cellHeight[1] : gridParams.gridCols[width][1]
+    return type === 'cellHeight' ? gridParams.cellHeight[1] : gridParams.gridCols[width][1];
   }
   
 
   render() {
     let searchResponse;
 
-    const { 
+    const {
       images,
       totalHits,
       searchText,
@@ -171,26 +170,27 @@ class SearchResults extends Component {
         // define if there are more images in Pixabay API and show loading icon if its true.
         // (images.length < 500) is because Pixabay API return max 500 images per 1 search query
         case ((totalHits > images.length) && (images.length < 500) && ((amount * page) < totalHits)):
-          return <LoadingIcon />
+          return <LoadingIcon />;
         
         // define if its all images from Pixabay API
         case ((totalHits === images.length) || ((amount * page) > totalHits)):
-          return null
+          return null;
         default:
-          return <div className={classes.exceededLimitMessage}>API limit is exceeded</div> 
+          return <div className={classes.exceededLimitMessage}>API limit is exceeded</div>;
       }
-    }
+    };
 
     const _loadPreviousImagesOption = () => {
       if (!waitApiResponseMoreImages.previous) {
         return (
-          <LoadPreviousImagesButton 
+          <LoadPreviousImagesButton
             width={width}
             match={match}
             onCloseButtonClick={() => this.setState({ showLoadPreviousImagesButton: false })}
           />
-      )}
-      return <LoadingIcon />
+        );
+      }
+      return <LoadingIcon />;
     };
 
     
@@ -205,7 +205,7 @@ class SearchResults extends Component {
           {images.map((img, index) => (
             <GridListTile
               className={classes.gridListTile}
-              key={index + '_' + img.id}
+              key={`${index}_${img.id}`}
             >
               <img
                 className={classes.gridImg}
@@ -218,23 +218,23 @@ class SearchResults extends Component {
                 imgIndex={index}
                 {...otherProps}
               />
-            </GridListTile >
+            </GridListTile>
           ))}
         </GridList>
         {_moreImagesLoadingIcon()}
       </div>
-    )
+    );
 
 
-    const imageViewer = <ImgViewer match={match} />
+    const imageViewer = <ImgViewer match={match} />;
 
     
     if (waitApiResponseImages) {
-      searchResponse = <WaitResponse />
+      searchResponse = <WaitResponse />;
     } else if (images.length) {
-      searchResponse = imagesResults
+      searchResponse = imagesResults;
     } else if (searchText) {
-      searchResponse = <NoImages children={`no matches for "${searchText}"`}/>
+      searchResponse = <NoImages children={`no matches for "${searchText}"`} />;
     }
 
 
@@ -243,7 +243,7 @@ class SearchResults extends Component {
         {searchResponse}
         {open ? imageViewer : null}
       </div>
-    )
+    );
   }
 }
 
@@ -265,7 +265,7 @@ SearchResults.propTypes = {
   width: PropTypes.string.isRequired,
   waitApiResponseImages: PropTypes.bool,
   waitApiResponseMoreImages: PropTypes.object,
-}
+};
 
 const mapStateToProps = state => ({
   images: state.search.images,
@@ -277,7 +277,7 @@ const mapStateToProps = state => ({
   waitApiResponseImages: state.search.waitApiResponseImages,
   waitApiResponseMoreImages: state.search.waitApiResponseMoreImages,
   amount: state.search.amount,
-})
+});
 
 const mapDispatchToProps = {
   fetchMoreImages,
@@ -285,6 +285,6 @@ const mapDispatchToProps = {
   fetchViewerOpen,
   cutDownSearchStore,
   fetchSearchText,
-}
+};
 
-export default connect(mapStateToProps, mapDispatchToProps)(compose(withStyles(styles), withWidth(), )(withSearchPathHandler(SearchResults)))
+export default connect(mapStateToProps, mapDispatchToProps)(compose(withStyles(styles), withWidth())(withSearchPathHandler(SearchResults)));
