@@ -12,9 +12,7 @@ const style = {
     fontSize: '1.5em',
     color: '#fff',
   },
-  itemText: {
-    fontSize: '1.1em',
-  },
+  itemText: { fontSize: '1.1em' },
   authItem: {
     padding: '5px 24px 5px 24px',
     opacity: 0.8,
@@ -27,12 +25,8 @@ const style = {
     overflowX: 'hidden',
     textOverflow: 'ellipsis',
   },
-  locationIcon: {
-    color: '#000',
-  },
-  locationText: {
-    fontWeight: 500,
-  }
-}
+  locationIcon: { color: '#000' },
+  locationText: { fontWeight: 500 },
+};
 
-export default style
+export default style;
