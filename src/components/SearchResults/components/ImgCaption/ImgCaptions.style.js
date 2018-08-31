@@ -1,12 +1,10 @@
-const style = (theme) => {
-  let barTitleTag = {
+const style = () => {
+  const barTitleTag = {
     paddingRight: '0.35em',
     cursor: 'pointer',
     textDecoration: 'none',
     color: '#eee',
-    '&:hover': {
-      textDecoration: 'underline',
-    },
+    '&:hover': { textDecoration: 'underline' },
   };
 
   return {
@@ -32,9 +30,7 @@ const style = (theme) => {
           fontSize: '2em',
           color: '#fff',
           transition: 'all 0.1s linear',
-          '&:hover': {
-            fontSize: '3em',
-          },
+          '&:hover': { fontSize: '3em' },
         },
       },
       '& .socialDataQty': {
@@ -68,7 +64,8 @@ const style = (theme) => {
       whiteSpace: 'nowrap',
       textOverflow: 'ellipsis',
     },
-  }
-}
+  };
+};
 
-export default style
+export default style;
+

@@ -1,15 +1,14 @@
 import React, { Component } from 'react';
 
 import { withStyles } from '@material-ui/core/styles';
-import compose from 'recompose/compose';
-import withWidth from '@material-ui/core/withWidth';
-import imgCaptionsStyle from './ImgCaptions.style';
 
 import ImgTags from '../../../UI/ImgTags';
 import FavoritesButton from '../../../UI/FavoritesButton';
 
+import imgCaptionsStyle from './ImgCaptions.style';
 
-const styles = theme => (imgCaptionsStyle(theme));
+
+const styles = imgCaptionsStyle();
 
 
 class ImgCaption extends Component {
@@ -64,4 +63,4 @@ class ImgCaption extends Component {
   }
 }
 
-export default compose(withStyles(styles), withWidth())(ImgCaption);
+export default withStyles(styles)(ImgCaption);

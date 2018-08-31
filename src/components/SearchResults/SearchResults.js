@@ -30,7 +30,7 @@ import { auth } from '../Auth/AuthHOC';
 
 import withSearchPathHandler from '../SearchPathHandler/SearchPathHandlerHOC';
 
-const styles = theme => (searchResultsStyle(theme));
+const styles = searchResultsStyle();
 
 
 // for calculating whole document height & windowHeight (in handleScroll())

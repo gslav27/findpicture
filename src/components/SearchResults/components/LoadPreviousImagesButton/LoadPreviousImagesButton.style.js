@@ -27,7 +27,7 @@ const style = {
     '&:hover': {
       backgroundColor: 'rgba(255,235,59,1)',
       color: 'rgba(0,0,0,0.7)',
-    }
+    },
   },
   loadPreviousImagesCloseButton: {
     width: '1em',
@@ -47,19 +47,16 @@ const style = {
       height: '0.7em',
     },
     '&:hover': {
-      '& > span': {
-        backgroundColor: 'rgba(38, 50, 56, 1)',
-      },
-      '& > span > svg': {
-        fill: 'rgba(255,235,59,1)',
-      },
-    }
+      '& > span': { backgroundColor: 'rgba(38, 50, 56, 1)' },
+      '& > span > svg': { fill: 'rgba(255,235,59,1)' },
+    },
   },
   loadPreviousImagesCloseButtonMobile: {
     width: '2em',
     height: '2em',
     margin: '-1em 0 0 -1em',
-  }
-}
+  },
+};
 
-export default style
+export default style;
+
