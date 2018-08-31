@@ -19,6 +19,7 @@ module.exports = {
         "no-multiple-empty-lines": 0,
         "one-var": 0,
         "no-return-assign": 1,
+        "no-bitwise": 1,
         "no-multi-spaces": [2, { "ignoreEOLComments": true }], //--fix
         "jsx-quotes": [2, "prefer-single"], //--fix
         "quotes": [2, "single", { "allowTemplateLiterals": true }], // --fix
