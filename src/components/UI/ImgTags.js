@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import PropTypes from "prop-types";
 import { connect } from 'react-redux';
 
@@ -30,7 +30,7 @@ class ImgTags extends Component {
     let _tagArray = () => this.getTagsArray();
 
     return (  
-      <div>
+      <Fragment>
         {_tagArray().map((tag, tagIndex) => {
           let trimmedTag = tag.trim();
           return (
@@ -44,7 +44,7 @@ class ImgTags extends Component {
               #{trimmedTag}
             </Link>
         )})}
-      </div>
+      </Fragment>
     )
   }
 }
