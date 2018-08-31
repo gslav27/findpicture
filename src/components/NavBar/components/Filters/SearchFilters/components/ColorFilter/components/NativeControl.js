@@ -3,8 +3,6 @@ import React, { Component } from 'react';
 import { withStyles } from '@material-ui/core/styles';
 import compose from 'recompose/compose';
 import withWidth from '@material-ui/core/withWidth';
-import { nativeControlClrStyles } from '../../Filters.style';
-
 
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
@@ -20,23 +18,23 @@ import Checkbox from '@material-ui/core/Checkbox';
 import MoreHoriz from '@material-ui/icons/MoreHoriz';
 import ArrowDropDownIcon from '@material-ui/icons/ArrowDropDown';
 
+import { nativeControlClrStyles } from '../../Filters.style';
 
-const styles = theme => (nativeControlClrStyles(theme))
+
+const styles = theme => (nativeControlClrStyles(theme));
 
 
 
 class NativeControl extends Component {
   constructor(props) {
     super(props);
-    this.state = {
-      openDialog: false,
-    }
+    this.state = { openDialog: false };
     this.collapseRefsObj = {
       collapsedListRef: (this.collapsedListRef = React.createRef()),
       categoryListItem_firstRef: (this.categoryListItem_firstRef = React.createRef()),
       categoryListItem_lastRef: (this.categoryListItem_lastRef = React.createRef()),
       nativeControlBoardsWrapRef: (this.nativeControlBoardsWrapRef = React.createRef()),
-    }
+    };
   }
 
 
@@ -45,20 +43,18 @@ class NativeControl extends Component {
       setTimeout(() => this.props.calculateOverflow(true, this.state.openDialog, this.collapseRefsObj), 100);
     }
     if ((this.props.width !== prevProps.width) && (this.props.width === 'xs') && this.state.openDialog) {
-      this.setState({ openDialog: false })
+      this.setState({ openDialog: false });
     }
   }
 
 
   handleDialogOpen = () => {
-    this.setState({
-      openDialog: !this.state.openDialog
-    })
+    this.setState({ openDialog: !this.state.openDialog });
   }
 
 
   render() {
-    const { options, classes, color, } = this.props;
+    const { options, classes, color } = this.props;
 
     const _selectLabel = (
       <InputLabel
@@ -68,7 +64,7 @@ class NativeControl extends Component {
       >
         color
       </InputLabel>
-    )
+    );
 
 
     const _select = (
@@ -81,7 +77,7 @@ class NativeControl extends Component {
           <ArrowDropDownIcon />
         </InputAdornment>
       </div>
-    )
+    );
 
 
     const _selectFieldHeader = (
@@ -97,13 +93,13 @@ class NativeControl extends Component {
         >
           <ListItemText
             className={`${classes.MenuItemText} filtersMenuItemText`}
-            disableTypography={true}
+            disableTypography
             primary='ALL'
           />
           <Checkbox checked={color.indexOf(null) > -1} />
         </ListItem>
       </DialogTitle>
-    )
+    );
 
 
     const _options = options.map((option, index) => (
@@ -116,13 +112,13 @@ class NativeControl extends Component {
           {this.props.SetIconColor(option)}
           <ListItemText
             className={`${classes.MenuItemText} filtersMenuItemText`}
-            disableTypography={true}
+            disableTypography
             primary={option}
           />
           <Checkbox checked={color.indexOf(option) > -1} />
         </ListItem>
       </div>
-    ))
+    ));
 
 
     const _selectFieldBody = (
@@ -133,14 +129,14 @@ class NativeControl extends Component {
         <div ref={this.collapsedListRef}>
           <List
             className={classes.nativeColorDialogContentList}
-            component="div"
+            component='div'
             disablePadding
           >
             {_options}
           </List>
         </div>
       </DialogContent>
-    )
+    );
 
 
     const _overflowIndicator = (
@@ -148,7 +144,7 @@ class NativeControl extends Component {
         <span className={`${classes.overflow} ${classes.overflowTopNative} spanStartNative`}><MoreHoriz /></span>
         <span className={`${classes.overflow} ${classes.overflowBottomNative} spanEndNative`}><MoreHoriz /></span>
       </div>
-    )
+    );
 
 
     return (
@@ -156,7 +152,7 @@ class NativeControl extends Component {
         {_selectLabel}
         {_select}
         <Dialog
-          classes={{ paperWidthSm: classes.dialogPaperWidthSm, }}
+          classes={{ paperWidthSm: classes.dialogPaperWidthSm }}
           open={this.state.openDialog}
           onClose={this.handleDialogOpen}
         >
@@ -170,4 +166,4 @@ class NativeControl extends Component {
   }
 }
 
-export default compose(withStyles(styles), withWidth())(NativeControl)
+export default compose(withStyles(styles), withWidth())(NativeControl);

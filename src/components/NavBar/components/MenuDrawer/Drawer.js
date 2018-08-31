@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 
 import { withStyles } from '@material-ui/core/styles';
-import drawerStyle from './Drawer.style';
 
 import Drawer from '@material-ui/core/Drawer';
 import List from '@material-ui/core/List';
@@ -20,6 +19,8 @@ import ContentLink from '@material-ui/icons/Link';
 import ExitToApp from '@material-ui/icons/ExitToApp';
 import Forward from '@material-ui/icons/Forward';
 
+import drawerStyle from './Drawer.style';
+
 const styles = drawerStyle;
  
 
@@ -27,13 +28,13 @@ const _mainUserOptionsData = [
   {
     location: '/favorites',
     text: 'Favorites',
-    icon: (className) => <Grade className={className} />,
+    icon: className => <Grade className={className} />,
   },
   {
     location: '/recentlywatched',
     text: 'Recently Watched',
-    icon: (className) => <History className={className} />,
-  }
+    icon: className => <History className={className} />,
+  },
 ];
 
 
@@ -62,16 +63,16 @@ class MenuDrawer extends Component {
 
   handleListItemClick = (auth) => {
     if (auth) {
-      !this.props.auth.isAuthenticated() 
-        ? this.props.auth.login() 
-        : (this.props.auth.logout(), this.props.clearUserHistory())
+      !this.props.auth.isAuthenticated()
+        ? this.props.auth.login()
+        : (this.props.auth.logout(), this.props.clearUserHistory());
     }
-    window.scrollTo(0, 0);  
+    window.scrollTo(0, 0);
     this.props.onChange(false);
   };
 
 
-  checkCurrentLocation = (locationForChecking) => (
+  checkCurrentLocation = locationForChecking => (
     this.props.location.pathname === `/findpicture${locationForChecking}`
   )
 
@@ -79,15 +80,15 @@ class MenuDrawer extends Component {
   render() {
     const { classes, auth, side, open } = this.props;
 
-    let navigationCloseIconLeft, 
-        navigationCloseIconRight;
+    let navigationCloseIconLeft,
+      navigationCloseIconRight;
 
 
-    let _navigationCloseIcon = (
+    const _navigationCloseIcon = (
       <ListItemIcon>
         <Close className={classes.headerIcon} onClick={() => this.props.onChange(false)} />
       </ListItemIcon>
-    )
+    );
 
 
     switch (side) {
@@ -103,36 +104,36 @@ class MenuDrawer extends Component {
 
 
     const _drawerHeader = (
-      <div> 
-        <ListItem className={classes.drawerHeader} >
+      <div>
+        <ListItem className={classes.drawerHeader}>
           {navigationCloseIconLeft}
-          <ListItemText className={classes.headerText} primary="FindPicture" disableTypography />
+          <ListItemText className={classes.headerText} primary='FindPicture' disableTypography />
           {navigationCloseIconRight}
         </ListItem>
         <Divider />
       </div>
-    )
+    );
 
 
     const _userName = (
-      <ListItem disabled={true} className={classes.authItem} button onClick={() => this.handleListItemClick(true)}>
+      <ListItem disabled className={classes.authItem} button onClick={() => this.handleListItemClick(true)}>
         <ListItemText className={`${classes.itemText} ${classes.authText}`} primary={localStorage.getItem('findpicture_user')} disableTypography />
       </ListItem>
-    ) 
+    );
 
 
     const _homeButton = (
       <ListItem className={classes.list} button component={Link} to='/findpicture/' onClick={() => this.handleListItemClick(false)}>
-        <ListItemIcon 
+        <ListItemIcon
           children={<Home className={`${(auth.isAuthenticated() && !this.checkCurrentLocation('/favorites') && !this.checkCurrentLocation('/recentlywatched')) ? classes.locationIcon : null}`} />}
         />
-        <ListItemText 
-          className={`${classes.itemText} ${(auth.isAuthenticated() && !this.checkCurrentLocation('/favorites') && !this.checkCurrentLocation('/recentlywatched')) ? classes.locationText : null}`} 
-          primary="Home" 
+        <ListItemText
+          className={`${classes.itemText} ${(auth.isAuthenticated() && !this.checkCurrentLocation('/favorites') && !this.checkCurrentLocation('/recentlywatched')) ? classes.locationText : null}`}
+          primary='Home'
           disableTypography
         />
       </ListItem>
-    )
+    );
 
 
     const _loginButton = (
@@ -140,21 +141,21 @@ class MenuDrawer extends Component {
         <ListItemIcon><Forward /></ListItemIcon>
         <ListItemText className={classes.itemText} primary='Login' disableTypography />
       </ListItem>
-    )
+    );
 
 
     const _userOptions = (
-      <div >
+      <div>
         {
           _mainUserOptionsData.map(option => (
             <ListItem
               key={option.text}
-              button 
-              component={Link} 
+              button
+              component={Link}
               to={`/findpicture${option.location}`}
               onClick={() => this.handleListItemClick(false)}
             >
-              <ListItemIcon 
+              <ListItemIcon
                 children={option.icon(this.checkCurrentLocation(option.location) ? classes.locationIcon : null)}
               />
               <ListItemText
@@ -167,10 +168,10 @@ class MenuDrawer extends Component {
         }
         <ListItem button onClick={() => this.handleListItemClick(true)}>
           <ListItemIcon><ExitToApp /></ListItemIcon>
-          <ListItemText className={classes.itemText} primary="Logout" disableTypography />
+          <ListItemText className={classes.itemText} primary='Logout' disableTypography />
         </ListItem>
-      </div >
-    )
+      </div>
+    );
 
 
     const _mainOptions = (
@@ -181,7 +182,7 @@ class MenuDrawer extends Component {
         </List>
         <Divider />
       </div>
-    )
+    );
   
 
     const _additionalOptions = (
@@ -205,7 +206,7 @@ class MenuDrawer extends Component {
         </List>
         <Divider />
       </div>
-    )
+    );
 
     
     return (
@@ -213,7 +214,7 @@ class MenuDrawer extends Component {
         anchor={side}
         open={open}
         onClose={() => this.props.onChange(false)}
-      > 
+      >
         <div>
           { _drawerHeader }
           { auth.isAuthenticated() ? _userName : null }
@@ -221,7 +222,7 @@ class MenuDrawer extends Component {
           { _additionalOptions }
         </div>
       </Drawer>
-    )
+    );
   }
 }
 
@@ -230,6 +231,6 @@ MenuDrawer.propTypes = {
   onChange: PropTypes.func.isRequired,
   side: PropTypes.string,
   classes: PropTypes.object.isRequired,
-}
+};
 
-export default withStyles(styles)(MenuDrawer)
+export default withStyles(styles)(MenuDrawer);

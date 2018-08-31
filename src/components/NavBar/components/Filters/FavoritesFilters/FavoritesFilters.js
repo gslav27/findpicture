@@ -5,15 +5,16 @@ import { connect } from 'react-redux';
 import { withStyles } from '@material-ui/core/styles';
 import compose from 'recompose/compose';
 import withWidth from '@material-ui/core/withWidth';
-import favoritesFiltersStyle from './FavoritesFilters.style';
-
-import { favoritesOrder } from '../../../../../actions/appAddsAction';
-import Backdrop from '../../../../UI/Backdrop';
 
 import IconButton from '@material-ui/core/IconButton';
 import Divider from '@material-ui/core/Divider';
 import ExpandLess from '@material-ui/icons/ExpandLess';
 import ExpandMore from '@material-ui/icons/ExpandMore';
+
+import { favoritesOrder } from '../../../../../actions/appAddsAction';
+import Backdrop from '../../../../UI/Backdrop';
+
+import favoritesFiltersStyle from './FavoritesFilters.style';
 
 
 const styles = theme => (favoritesFiltersStyle(theme));
@@ -64,9 +65,9 @@ class FavoritesFilters extends Component {
   render() {
     const { classes, showFiltersBar, mobileWithTouch, width, favoritesOrderType } = this.props;
 
-    
-    const orderComponents = Object.keys(orderProps).map(orderType => {
-      let orderObj = orderProps[orderType];
+
+    const orderComponents = Object.keys(orderProps).map((orderType) => {
+      const orderObj = orderProps[orderType];
       return (
         <div key={orderType} className={classes.filtersLabel}>
           <span className={`${classes.orderLabel} ${mobileWithTouch ? classes.mobileFont : null} ${(favoritesOrderType[orderObj.type][0] || favoritesOrderType[orderObj.type][1]) ? classes.selected : null}`}>
@@ -79,7 +80,7 @@ class FavoritesFilters extends Component {
               title={orderObj.titleButtonDown}
             >
               <ExpandMore />
-              <div className={`${classes.orderButtonSelected} ${favoritesOrderType[orderObj.type][0] ? 'visible' : 'hidden'}`}><div/></div>
+              <div className={`${classes.orderButtonSelected} ${favoritesOrderType[orderObj.type][0] ? 'visible' : 'hidden'}`}><div /></div>
             </IconButton>
             <IconButton
               onClick={() => this.handleOrderButtonClick(orderObj.type, false)}
@@ -87,11 +88,12 @@ class FavoritesFilters extends Component {
               title={orderObj.titleButtonUp}
             >
               <ExpandLess />
-              <div className={`${classes.orderButtonSelected} ${favoritesOrderType[orderObj.type][1] ? 'visible' : 'hidden'}`}><div/></div>
+              <div className={`${classes.orderButtonSelected} ${favoritesOrderType[orderObj.type][1] ? 'visible' : 'hidden'}`}><div /></div>
             </IconButton>
           </div>
         </div>
-    )});
+      );
+    });
 
     
     return (
@@ -101,9 +103,9 @@ class FavoritesFilters extends Component {
         </div>
         <Divider />
         {/* add backdrop for mobile devices with touch screen && 'xs'-width */}
-        {(mobileWithTouch && showFiltersBar && (width === 'xs')) ? <Backdrop onClose={this.props.onChange}/> : null}
+        {(mobileWithTouch && showFiltersBar && (width === 'xs')) ? <Backdrop onClose={this.props.onChange} /> : null}
       </div>
-    )
+    );
   }
 }
 
@@ -113,11 +115,11 @@ FavoritesFilters.propTypes = {
   mobileWithTouch: PropTypes.bool.isRequired,
   favoritesOrder: PropTypes.func,
   favoritesOrderType: PropTypes.object,
-}
+};
 
 const mapStateToProps = state => ({
   mobileWithTouch: state.appAdds.mobileWithTouch,
   favoritesOrderType: state.appAdds.favoritesOrderType,
-})
+});
 
-export default connect(mapStateToProps, { favoritesOrder })(compose(withStyles(styles), withWidth(), )(FavoritesFilters))
+export default connect(mapStateToProps, { favoritesOrder })(compose(withStyles(styles), withWidth())(FavoritesFilters));

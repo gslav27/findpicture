@@ -3,7 +3,6 @@ import React, { Component } from 'react';
 import { withStyles } from '@material-ui/core/styles';
 import compose from 'recompose/compose';
 import withWidth from '@material-ui/core/withWidth';
-import { verticalXsControlStyles } from '../../Filters.style';
 
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
@@ -14,17 +13,17 @@ import ExpandLess from '@material-ui/icons/ExpandLess';
 import ExpandMore from '@material-ui/icons/ExpandMore';
 import MoreHoriz from '@material-ui/icons/MoreHoriz';
 
+import { verticalXsControlStyles } from '../../Filters.style';
 
-const styles = theme => (verticalXsControlStyles(theme))
+
+const styles = theme => (verticalXsControlStyles(theme));
 
 
 
 class VerticalXsControl extends Component {
   constructor(props) {
     super(props);
-    this.state = {
-      open: false
-    }
+    this.state = { open: false };
     this.collapsedListRef = React.createRef();
     this.categoryListItem_firstRef = React.createRef();
     this.categoryListItem_lastRef = React.createRef();
@@ -34,15 +33,15 @@ class VerticalXsControl extends Component {
 
   static getDerivedStateFromProps = (props, state) => {
     if ((props.showFiltersBar !== true) || (props.collapse) !== true) {
-      state.open = false
+      state.open = false;
     }
-    return null
+    return null;
   }
 
 
   componentDidUpdate = (prevProps, prevState) => {
     if (this.state.open !== prevState.open) {
-      this.calculateOverflow()
+      this.calculateOverflow();
     }
   }
 
@@ -50,7 +49,7 @@ class VerticalXsControl extends Component {
   collapseFilters = () => {
     this.state.open === false
       ? this.props.onChange(true)
-      : this.props.onChange(false)
+      : this.props.onChange(false);
   }
 
 
@@ -61,7 +60,7 @@ class VerticalXsControl extends Component {
 
 
   handleListItemClick = (val) => {
-    let filterHandler = 'fetch' + this.props.filter.type[0].toUpperCase() + this.props.filter.type.slice(1);
+    const filterHandler = `fetch${this.props.filter.type[0].toUpperCase()}${this.props.filter.type.slice(1)}`;
     this.props[filterHandler](val);
     this.props.fetchImages();
     this.collapseFilters();
@@ -71,16 +70,15 @@ class VerticalXsControl extends Component {
 
   calculateOverflow = () => {
     if (this.props.filter.options.length > 7) {
-      let el = this.collapsedListRef.current;
+      const el = this.collapsedListRef.current;
       if (this.state.open) {
-        let listStart, listEnd, listItem_first, listItem_last;
         // get position of elements
-        listStart = el.getBoundingClientRect().top + window.pageYOffset;
-        listEnd = listStart + el.getBoundingClientRect().height;
-        let firstEl = this.categoryListItem_firstRef.current;
-        let lastEl = this.categoryListItem_lastRef.current;
-        listItem_first = firstEl.getBoundingClientRect().top + window.pageYOffset + 20;
-        listItem_last = lastEl.getBoundingClientRect().top + window.pageYOffset + 20;
+        const listStart = el.getBoundingClientRect().top + window.pageYOffset,
+          listEnd = listStart + el.getBoundingClientRect().height,
+          firstEl = this.categoryListItem_firstRef.current,
+          lastEl = this.categoryListItem_lastRef.current,
+          listItem_first = firstEl.getBoundingClientRect().top + window.pageYOffset + 20,
+          listItem_last = lastEl.getBoundingClientRect().top + window.pageYOffset + 20;
 
         if (listItem_first < listStart) {
           el.classList.add('startOverflow');
@@ -108,7 +106,6 @@ class VerticalXsControl extends Component {
       someItemCollapsed,
     } = this.props;
 
-
     const filterValue = this.props[filter.type];
 
     const { open } = this.state;
@@ -117,22 +114,20 @@ class VerticalXsControl extends Component {
     const _collapsedListHeader = (
       <ListItem
         button
-        classes={{
-          root: `${classes.listItemHeader} ${open ? classes.listItemHeaderOpen : null} ${someItemCollapsed ? classes.listItemHeaderHidden : null}`,
-        }}
+        classes={{ root: `${classes.listItemHeader} ${open ? classes.listItemHeaderOpen : null} ${someItemCollapsed ? classes.listItemHeaderHidden : null}` }}
         onClick={this.handleListHeaderClick}
       >
         <ListItemText
           classes={{ primary: classes.listItemTextHeader }}
-          primary={
+          primary={(
             <span>
               {filter.label}: {open ? null : <span className={classes.selectedValue}>{(filterValue == '') ? 'all' : filterValue}</span>}
             </span>
-          }
+          )}
         />
         {open ? <ExpandLess /> : <ExpandMore />}
       </ListItem>
-    )
+    );
 
 
     const _optionSelectAll = () => {
@@ -153,9 +148,9 @@ class VerticalXsControl extends Component {
               />
             </ListItem>
           </div>
-        )
+        );
       }
-    }
+    };
 
 
     const _options = filter.options.map((option, index) => (
@@ -173,7 +168,7 @@ class VerticalXsControl extends Component {
           />
         </ListItem>
       </div>
-    ))
+    ));
 
 
     return (
@@ -181,14 +176,14 @@ class VerticalXsControl extends Component {
         {_collapsedListHeader}
         <Collapse
           in={(showFiltersBar && open)}
-          timeout="auto"
+          timeout='auto'
           unmountOnExit
-          onEntered={node => {node.style.transition = '0s'}} // Fix flicker in Safari 9 when collapse finishes entering
+          onEntered={(node) => { node.style.transition = '0s'; }} // Fix flicker in Safari 9 when collapse finishes entering
         >
           <div ref={this.collapsedListRef}>
             <List
               className={classes.listCollapsedItems}
-              component="div"
+              component='div'
               disablePadding
               onScroll={this.calculateOverflow}
             >
@@ -204,4 +199,4 @@ class VerticalXsControl extends Component {
   }
 }
 
-export default compose(withStyles(styles), withWidth())(VerticalXsControl)
+export default compose(withStyles(styles), withWidth())(VerticalXsControl);
