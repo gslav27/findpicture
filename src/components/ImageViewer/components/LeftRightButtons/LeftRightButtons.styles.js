@@ -25,7 +25,7 @@ const style = {
     maxHeight: 50,
     color: '#ccc',
   },
-  ...imageViewerStyles,
+  ...imageViewerStyles(),
 };
 
 export default style;
