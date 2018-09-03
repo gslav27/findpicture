@@ -33,6 +33,8 @@ module.exports = {
                 }
             }
         ], //--fix
+        "class-methods-use-this": [2, { "exceptMethods": ["setSession", "logout", "isAuthenticated"] }],
+        "quote-props": [2, "consistent-as-needed"], 
         "react/prefer-stateless-function": 1,
         "react/jsx-one-expression-per-line": [0, { "allow": "single-child" }],
         "react/button-has-type": 1,

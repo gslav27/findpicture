@@ -1,4 +1,4 @@
-import * as types from "../actions/types";
+import * as types from './types';
 
 import { updateRecentlyWatched } from './appAddsAction';
 
@@ -10,11 +10,11 @@ export const fetchViewerOpen = (open, currentImgInd, isAuthenticated) => (dispat
   });
   
   (open && isAuthenticated) ? dispatch(updateRecentlyWatched(currentImgInd)) : null;
-}
+};
 
 
 export const fetchViewerImg = (newImgInd = null, isAuthenticated) => (dispatch, getState) => {
-  if(newImgInd === null) {
+  if (newImgInd === null) {
     newImgInd = getState().imgViewer.currentImgInd + 1;
   }
   dispatch({
@@ -23,12 +23,10 @@ export const fetchViewerImg = (newImgInd = null, isAuthenticated) => (dispatch, 
   });
   
   isAuthenticated ? dispatch(updateRecentlyWatched(newImgInd)) : null;
-}
+};
 
 
-export const fetchWaitNextData = (loading = true) => {
-  return {
-    type: types.VIEWER_WAIT_API_RESPONSE,
-    payload: loading,
-  }
-}
+export const fetchWaitNextData = (loading = true) => ({
+  type: types.VIEWER_WAIT_API_RESPONSE,
+  payload: loading,
+});

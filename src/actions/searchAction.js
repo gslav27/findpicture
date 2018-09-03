@@ -1,21 +1,25 @@
-import * as types from "../actions/types";
+import * as types from './types';
 
 import { fetchViewerImg, fetchViewerOpen, fetchWaitNextData } from './imgViewerAction';
 
 
 // type "1" = fetchImages, type "2" = fetchMoreImages
-const waitApiResponse = (loading = true, type = 1) => {
-  return {
-    type: (type === 1) ? types.WAIT_API_RESPONSE_TYPE_1 : types.WAIT_API_RESPONSE_TYPE_2,
-    payload: loading,
-  };
-}
+const waitApiResponse = (loading = true, type = 1) => ({
+  type: (type === 1) ? types.WAIT_API_RESPONSE_TYPE_1 : types.WAIT_API_RESPONSE_TYPE_2,
+  payload: loading,
+});
+
+
+export const fetchPage = input => ({
+  type: types.FETCH_PAGE,
+  payload: input,
+});
 
 
 export const fetchImages = (pathPage = 1) => (dispatch, getState) => {
-  dispatch(waitApiResponse()); 
+  dispatch(waitApiResponse());
   dispatch(fetchPage(pathPage));
-  let {
+  const {
     searchText,
     amount,
     order,
@@ -26,37 +30,35 @@ export const fetchImages = (pathPage = 1) => (dispatch, getState) => {
     page,
   } = getState().search;
   fetch(`https://pixabay.com/api/?key=8913420-89429fef6031f24fd40903778&q=${searchText}&image_type=${imageType}&per_page=${amount}&order=${order}&orientation=${orientation}&category=${category}&colors=${color.join()}&safesearch=true&page=${page}`)
-    .then(response => {
+    .then((response) => {
       if (response.ok) {
-        return response.json()
+        return response.json();
       }
     })
-    .then(response => {
+    .then((response) => {
       window.scrollTo(0, 0);
       dispatch({
         type: types.FETCH_IMAGES,
-        payload: [response.hits, response.total, false]
+        payload: [response.hits, response.total, false],
       });
     })
-    .catch(function (error) {
+    .catch((error) => {
       console.log('There has been a problem with fetching more images: ', error.message);
       dispatch(waitApiResponse(false));
     });
-}
+};
 
 
 // export const fetchSearchText = (input) => dispatch => {
-export const fetchSearchText = (input) => {
-  return {
-    type: types.FETCH_SEARCH_TEXT,
-    payload: input,    
-  };
-}
+export const fetchSearchText = input => ({
+  type: types.FETCH_SEARCH_TEXT,
+  payload: input,
+});
 
 
-export const fetchAmount = (width, amount=null) => {
+export const fetchAmount = (width, amount = null) => {
   let _amount;
-  if (amount !== null) { 
+  if (amount !== null) {
     _amount = amount;
   } else {
     switch (width) {
@@ -77,61 +79,43 @@ export const fetchAmount = (width, amount=null) => {
     type: types.FETCH_AMOUNT,
     payload: _amount,
   };
-}
+};
 
 
-export const fetchOrder = (input) => {
-  return {
-    type: types.FETCH_ORDER,
-    payload: input,
-  };
-}
+export const fetchOrder = input => ({
+  type: types.FETCH_ORDER,
+  payload: input,
+});
 
 
-export const fetchOrientation = (input) => {
-  return {
-    type: types.FETCH_ORIENTATION,
-    payload: input,
-  };
-}
+export const fetchOrientation = input => ({
+  type: types.FETCH_ORIENTATION,
+  payload: input,
+});
 
 
-export const fetchImageType = (input) => {
-  return {
-    type: types.FETCH_IMAGE_TYPE,
-    payload: input,
-  };
-}
+export const fetchImageType = input => ({
+  type: types.FETCH_IMAGE_TYPE,
+  payload: input,
+});
 
 
-export const fetchCategory = (input) => {
-  return {
-    type: types.FETCH_CATEGORY,
-    payload: input,
-  };
-}
+export const fetchCategory = input => ({
+  type: types.FETCH_CATEGORY,
+  payload: input,
+});
 
 
-export const fetchColor = (input = [null]) => {
-  return {
-    type: types.FETCH_COLOR,
-    payload: input,
-  };
-}
-
-
-export const fetchPage = (input) => {
-  return {
-    type: types.FETCH_PAGE,
-    payload: input,
-  };
-}
+export const fetchColor = (input = [null]) => ({
+  type: types.FETCH_COLOR,
+  payload: input,
+});
 
 
 export const fetchMoreImages = (wait = false, addAfter = true, prevPage = null) => (dispatch, getState) => {
-  let loading = addAfter ? { previous: false, next: true } : { previous: true, next: false };
-  dispatch(waitApiResponse(loading, 2))
-  let {
+  const loading = addAfter ? { previous: false, next: true } : { previous: true, next: false };
+  dispatch(waitApiResponse(loading, 2));
+  const {
     searchText,
     amount,
     order,
@@ -139,36 +123,31 @@ export const fetchMoreImages = (wait = false, addAfter = true, prevPage = null) 
     imageType,
     category,
     color,
-    page,
   } = getState().search;
+  let { page } = getState().search;
   (prevPage !== null) ? (page = prevPage) : null;
   fetch(`https://pixabay.com/api/?key=8913420-89429fef6031f24fd40903778&q=${searchText}&image_type=${imageType}&per_page=${amount}&order=${order}&orientation=${orientation}&category=${category}&colors=${color.join()}&safesearch=true&page=${page}`)
-    .then(response => {
+    .then((response) => {
       if (response.ok) {
-        return response.json()
+        return response.json();
       }
     })
     .then(response => dispatch({
       type: (addAfter ? types.FETCH_MORE_IMAGES_NEXT_PAGE : types.FETCH_MORE_IMAGES_PREVIOUS_PAGE),
-      payload: response.hits
-    })
-    )
-    .then(response => {
-      if(wait === true){
-        let newImgInd = addAfter ? null : (amount - 1);
-        dispatch(fetchViewerImg(newImgInd))
+      payload: response.hits,
+    }))
+    .then(() => {
+      if (wait === true) {
+        const newImgInd = addAfter ? null : (amount - 1);
+        dispatch(fetchViewerImg(newImgInd));
       }
     })
-    .catch(function (error) {
+    .catch((error) => {
       dispatch(fetchViewerOpen(false, -1));
       dispatch(fetchWaitNextData(false));
       console.log('There has been a problem with fetching more images: ', error.message);
     });
-}
+};
 
 
-export const cutDownSearchStore = () => {
-  return {
-    type: types.CUT_DOWN_SEARCH_STORE,
-  };
-}
+export const cutDownSearchStore = () => ({ type: types.CUT_DOWN_SEARCH_STORE });
