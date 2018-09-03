@@ -25,7 +25,7 @@ class FavoritesButton extends Component {
       switch (componentType) {
         case 'favorites':
           return 2;
-        case 'recentlywatched':
+        case 'recentlyWatched':
           return 1;
         default:
           return 0;
