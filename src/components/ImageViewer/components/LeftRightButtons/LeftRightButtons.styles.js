@@ -14,26 +14,18 @@ const style = {
     height: '40vh',
     padding: 3,
     cursor: 'pointer',
-    '&:hover': {
-      backgroundColor: 'rgba(0,0,0,0)',
-    },
+    '&:hover': { backgroundColor: 'rgba(0,0,0,0)' },
     zIndex: 1502,
   },
-  viewerIconButtonLabel: {
-    width: '10vw',
-  },
-  viewerIconButtonLabelRight: {
-    '& span': {
-      float: 'right',
-    },
-  },
+  viewerIconButtonLabel: { width: '10vw' },
+  viewerIconButtonLabelRight: { '& span': { float: 'right' } },
   viewerIconStyleLR: {
     width: '1.3em',
     height: '1.3em',
     maxHeight: 50,
     color: '#ccc',
   },
-  ...imageViewerStyles
-}
+  ...imageViewerStyles,
+};
 
 export default style;

@@ -1,5 +1,5 @@
 const style = (theme) => {
-  let barTitleTag = {
+  const barTitleTag = {
     display: 'inline-block',
     paddingRight: '0.35em',
     textDecoration: 'none',
@@ -12,14 +12,10 @@ const style = (theme) => {
 
   return {
     barTitleTag,
-    card: {
-      padding: '5px 0px',
-    },
+    card: { padding: '5px 0px' },
     cardDivider: {
       display: 'block',
-      [theme.breakpoints.only('xs')]: {
-        display: 'none',
-      },
+      [theme.breakpoints.only('xs')]: { display: 'none' },
     },
     cardHeader: {
       paddingTop: '0.5em',
@@ -41,7 +37,7 @@ const style = (theme) => {
           color: '#333',
           height: '1.3em',
           width: '1.3em',
-        }
+        },
       },
       '& .socialDataQty': {
         color: '#333',
@@ -61,7 +57,7 @@ const style = (theme) => {
         width: '100%',
       },
     },
-  }
-}
+  };
+};
 
 export default style;
