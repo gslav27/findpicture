@@ -1,46 +1,46 @@
 import React, { Component } from 'react';
 
-import { formatData, } from '../../actions/appAddsAction';
-
-import FavoritesButton from "./FavoritesButton";
-
 import IconButton from '@material-ui/core/IconButton';
 
 import Chat from '@material-ui/icons/Chat';
 import Pageview from '@material-ui/icons/Pageview';
 import GetApp from '@material-ui/icons/GetApp';
 
+import { formatData } from '../../actions/appAddsAction';
+
+import FavoritesButton from './FavoritesButton';
+
 
 
 class ImgSocialStat extends Component {
-  getActionsArray = actionsDataObj => {
-    let _actionsDataKeys = Object.keys(actionsDataObj);
-    if (this.props.componentType === "imageviewer") {
-      return _actionsDataKeys.slice(0, -1)
+  getActionsArray = (actionsDataObj) => {
+    const _actionsDataKeys = Object.keys(actionsDataObj);
+    if (this.props.componentType === 'imageviewer') {
+      return _actionsDataKeys.slice(0, -1);
     }
-    return _actionsDataKeys
+    return _actionsDataKeys;
   };
 
   
   render() {
     const { img, imgIndex, componentType } = this.props;
 
-    let _actionsData = {
+    const _actionsData = {
       comments: {
-        title: "read at Pixabay",
-        icon: <Chat />
+        title: 'read at Pixabay',
+        icon: <Chat />,
       },
       views: {
-        title: "see at Pixabay",
-        icon: <Pageview />
+        title: 'see at Pixabay',
+        icon: <Pageview />,
       },
       downloads: {
-        title: "download from Pixabay",
-        icon: <GetApp />
-      }
+        title: 'download from Pixabay',
+        icon: <GetApp />,
+      },
     };
 
-    let _favoritesAction = (
+    const _favoritesAction = (
       <FavoritesButton
         img={img}
         imgIndex={imgIndex}
@@ -48,19 +48,19 @@ class ImgSocialStat extends Component {
       />
     );
 
-    let _actionsDataArray = this.getActionsArray(_actionsData);
+    const _actionsDataArray = this.getActionsArray(_actionsData);
 
-    let _otherActions = _actionsDataArray.map(statType => (
+    const _otherActions = _actionsDataArray.map(statType => (
       <React.Fragment key={statType}>
         <IconButton
-          className="socialDataIconButton"
+          className='socialDataIconButton'
           title={_actionsData[statType].title}
           href={img.pageURL}
-          target="_blank"
+          target='_blank'
           children={_actionsData[statType].icon}
         />
         <div
-          className="socialDataQty"
+          className='socialDataQty'
           children={formatData(img[statType])}
         />
       </React.Fragment>
@@ -76,4 +76,4 @@ class ImgSocialStat extends Component {
 }
 
 
-export default ImgSocialStat
+export default ImgSocialStat;

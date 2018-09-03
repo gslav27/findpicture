@@ -1,6 +1,6 @@
 
-import React from 'react'
+import React from 'react';
 
-const Backdrop = (props) => <div className='filtersBarBackdrop' onClick={props.onClose} />
+const Backdrop = ({ onClose }) => <div className='filtersBarBackdrop' onClick={onClose} role='button' tabIndex={0} />;
 
-export default Backdrop
+export default Backdrop;

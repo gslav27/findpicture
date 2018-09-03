@@ -1,22 +1,21 @@
 import React, { Component, Fragment } from 'react';
-import PropTypes from "prop-types";
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
-import { fetchImages, fetchPage, fetchSearchText } from '../../actions/searchAction';
-
 import { Link } from 'react-router-dom';
+
+import { fetchImages, fetchPage, fetchSearchText } from '../../actions/searchAction';
 
 
 
 class ImgTags extends Component {
   getTagsArray = () => {
-    let { tagsData } = this.props
+    const { tagsData } = this.props;
     // check divider type in tagsData (',' or ' ' ) and convert tags string to array
     if (tagsData.split(',').length > 1) {
-      return tagsData.split(',')
-    } else {
-      return tagsData.split(' ')
+      return tagsData.split(',');
     }
+    return tagsData.split(' ');
   }
 
   handleOnTagClick = (tag) => {
@@ -27,15 +26,15 @@ class ImgTags extends Component {
 
 
   render() {
-    let _tagArray = () => this.getTagsArray();
+    const _tagArray = () => this.getTagsArray();
 
-    return (  
+    return (
       <Fragment>
         {_tagArray().map((tag, tagIndex) => {
-          let trimmedTag = tag.trim();
+          const trimmedTag = tag.trim();
           return (
             <Link
-              to="/findpicture/"
+              to='/findpicture/'
               className='barTitleTag'
               key={tagIndex}
               title={`search for '${trimmedTag}'`}
@@ -43,9 +42,10 @@ class ImgTags extends Component {
             >
               #{trimmedTag}
             </Link>
-        )})}
+          );
+        })}
       </Fragment>
-    )
+    );
   }
 }
 
@@ -54,13 +54,13 @@ ImgTags.propTypes = {
   fetchImages: PropTypes.func.isRequired,
   fetchPage: PropTypes.func.isRequired,
   fetchSearchText: PropTypes.func.isRequired,
-  tagsData: PropTypes.string.isRequired
+  tagsData: PropTypes.string.isRequired,
 };
   
 const mapDispatchToProps = {
   fetchImages,
   fetchPage,
   fetchSearchText,
-}
+};
 
 export default connect(null, mapDispatchToProps)(ImgTags);

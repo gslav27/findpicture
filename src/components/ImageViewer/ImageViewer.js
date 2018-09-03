@@ -2,15 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
-import { fetchMoreImages, fetchPage, } from '../../actions/searchAction';
-import { fetchViewerImg, fetchViewerOpen, fetchWaitNextData, } from '../../actions/imgViewerAction';
-import { formatData, } from '../../actions/appAddsAction';
-
 import { withStyles } from '@material-ui/core/styles';
-import imageViewerStyles from './ImageViewer.styles';
-
-import ImgSocialStat from '../UI/ImgSocialStat';
-import LeftRightButtons from './components/LeftRightButtons/LeftRightButtons';
 
 import Dialog from '@material-ui/core/Dialog';
 import IconButton from '@material-ui/core/IconButton';
@@ -18,10 +10,20 @@ import CircularProgress from '@material-ui/core/CircularProgress';
 
 import Close from '@material-ui/icons/Close';
 
+import { fetchMoreImages, fetchPage } from '../../actions/searchAction';
+import { fetchViewerImg, fetchViewerOpen, fetchWaitNextData } from '../../actions/imgViewerAction';
+import { formatData } from '../../actions/appAddsAction';
+
+import ImgSocialStat from '../UI/ImgSocialStat';
+import LeftRightButtons from './components/LeftRightButtons/LeftRightButtons';
+
+import imageViewerStyles from './ImageViewer.styles';
+
 import { auth } from '../Auth/AuthHOC';
 
 
 const styles = imageViewerStyles();
+
 
 
 class ImgViewer extends Component {
@@ -78,21 +80,21 @@ class ImgViewer extends Component {
 
 
   handleTouchEnd = (e) => {
-    let touchEndX = e.changedTouches[0].clientX;
-    let touchEndY = e.changedTouches[0].clientY;
-    let distance = touchEndX - this.state.touchStartX;
-    let elapsedTime = new Date().getTime() - this.state.touchStartTime;
+    const touchEndX = e.changedTouches[0].clientX;
+    const touchEndY = e.changedTouches[0].clientY;
+    const distance = touchEndX - this.state.touchStartX;
+    const elapsedTime = new Date().getTime() - this.state.touchStartTime;
     if ((Math.abs(touchEndY - this.state.touchStartY) <= 100) && (Math.abs(distance) >= 50) && (elapsedTime <= 2000)) {
       switch (true) {
         case (distance > 0):
-          this.handleNextButton({}, 'left')
+          this.handleNextButton({}, 'left');
           break;
         case (distance < 0):
-          this.handleNextButton({}, 'right')
+          this.handleNextButton({}, 'right');
           break;
         default:
           break;
-      }  
+      }
     }
   }
 
@@ -103,13 +105,13 @@ class ImgViewer extends Component {
 
 
   handleNextButton = (e = { keyCode: 0, key: '' }, side) => {
-    let { currentImgInd, images, totalHits, page, amount } = this.props;
+    const { currentImgInd, images, totalHits, page, amount } = this.props;
     let nextArrInd;
     if ((side === 'right') || (e.key === 'ArrowRight') || (e.keyCode === 39)) {
       nextArrInd = currentImgInd + 1;
     } else if ((side === 'left') || (e.key === 'ArrowLeft') || (e.keyCode === 37)) {
       nextArrInd = currentImgInd - 1;
-    } else return null
+    }
 
     if (nextArrInd > -1) {
       switch (true) {
@@ -118,7 +120,7 @@ class ImgViewer extends Component {
           // in case of fast user's 'NextButton'-clicking clear timeOut from previous 'handleNextButton()' execution'
           (this.state.imgLoadedTimeOutId !== null) ? window.clearTimeout(this.state.imgLoadedTimeOutId) : null;
           // set timeOut for Circular Progress render on slow image loading
-          this.setState({imgLoadedTimeOutId: setTimeout(() => this.setState({ imgLoaded: !this.state.imgLoaded }), 500)}); 
+          this.setState({ imgLoadedTimeOutId: setTimeout(() => this.setState({ imgLoaded: !this.state.imgLoaded }), 500) });
           break;
         case (nextArrInd === images.length):
           this.props.fetchWaitNextData(true);
@@ -126,7 +128,7 @@ class ImgViewer extends Component {
             this.props.fetchPage(page + 1);
             this.props.fetchMoreImages(true);
           } else {
-            this.handleImgClose()
+            this.handleImgClose();
           }
           break;
         default:
@@ -136,33 +138,33 @@ class ImgViewer extends Component {
       this.props.fetchWaitNextData(true);
       this.props.fetchMoreImages(true, false, (this.props.match.params.page - 1));
     } else {
-      this.handleImgClose()
+      this.handleImgClose();
     }
-  }  
+  }
 
 
   onImgLoad = () => {
     window.clearTimeout(this.state.imgLoadedTimeOutId);
     this.setState({
       imgLoaded: true,
-      imgLoadedTimeOutId: null
-    })
+      imgLoadedTimeOutId: null,
+    });
   }
 
 
   calculateCurrentImgNumber = () => {
-    let {
+    const {
       currentImgInd,
       page,
       images,
-      amount
+      amount,
     } = this.props;
-    return (currentImgInd + 1 + (page - Math.ceil(images.length / amount)) * amount)
+    return (currentImgInd + 1 + (page - Math.ceil(images.length / amount)) * amount);
   }
 
   
-  render() { 
-    const { 
+  render() {
+    const {
       classes,
       mobileWithTouch,
       nextDataLoading,
@@ -170,13 +172,13 @@ class ImgViewer extends Component {
       totalHits,
       images,
       open,
-      ...otherProps,
+      ...otherProps
     } = this.props;
 
-    let currentImg = images[currentImgInd];
+    const currentImg = images[currentImgInd];
 
 
-    const viewerImg=(
+    const viewerImg = (
       <Dialog
         classes={{
           root: classes.dialogRoot,
@@ -192,13 +194,13 @@ class ImgViewer extends Component {
           onLoad={() => this.onImgLoad()}
         />
       </Dialog>
-    )
+    );
 
 
     const _viewerHeader = (
       <div className={`${classes.toolBar} ${classes.toolBarTop}`}>
         <div className={classes.imgCounter}>
-          {this.calculateCurrentImgNumber() + '/' + formatData(totalHits)}
+          {`${this.calculateCurrentImgNumber()}/${formatData(totalHits)}`}
         </div>
         <IconButton
           className={`${classes.viewerIconButton} ${mobileWithTouch ? null : classes.buttonsHover}`}
@@ -209,15 +211,15 @@ class ImgViewer extends Component {
           <Close className={classes.viewerIconStyle} />
         </IconButton>
       </div>
-    )
+    );
 
 
     const viewerAdds = (
       <div className={classes.viewerAdds}>
-        <div className={classes.backDrop} onClick={this.handleImgClose} />
+        <div className={classes.backDrop} onClick={this.handleImgClose} role='button' tabIndex={0} />
         {_viewerHeader}
         <LeftRightButtons
-          onChange={(side) => this.handleNextButton({}, side)}
+          onChange={side => this.handleNextButton({}, side)}
           mobileWithTouch={mobileWithTouch}
           {...otherProps}
         />
@@ -229,7 +231,7 @@ class ImgViewer extends Component {
           />
         </div>
       </div>
-    )
+    );
 
 
     const currentImgLoading = (
@@ -239,7 +241,7 @@ class ImgViewer extends Component {
           size={50}
         />
       </div>
-    )
+    );
 
     
     const moreImagesLoading = (
@@ -259,7 +261,7 @@ class ImgViewer extends Component {
         {viewerAdds}
         {nextDataLoading ? moreImagesLoading : null}
       </div>
-    )
+    );
   }
 }
 
@@ -278,8 +280,8 @@ ImgViewer.propTypes = {
   currentImgInd: PropTypes.number,
   nextDataLoading: PropTypes.bool.isRequired,
   classes: PropTypes.object.isRequired,
-  mobileWithTouch: PropTypes.bool
-}
+  mobileWithTouch: PropTypes.bool,
+};
 
 const mapStateToProps = state => ({
   images: state.search.images,
@@ -289,8 +291,8 @@ const mapStateToProps = state => ({
   currentImgInd: state.imgViewer.currentImgInd,
   nextDataLoading: state.imgViewer.nextDataLoading,
   mobileWithTouch: state.appAdds.mobileWithTouch,
-  amount: state.search.amount,  
-})
+  amount: state.search.amount,
+});
 
 const mapDispatchToProps = {
   fetchMoreImages,
@@ -298,6 +300,6 @@ const mapDispatchToProps = {
   fetchViewerOpen,
   fetchViewerImg,
   fetchWaitNextData,
-}
+};
 
-export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(ImgViewer))
+export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(ImgViewer));

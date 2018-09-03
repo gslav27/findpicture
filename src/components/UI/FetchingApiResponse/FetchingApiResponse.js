@@ -1,28 +1,28 @@
 import React from 'react';
-import CircularProgress from "@material-ui/core/CircularProgress";
+import CircularProgress from '@material-ui/core/CircularProgress';
 
 
 export const LoadingIcon = () => (
-  <div className='loadingBarRoot' >
+  <div className='loadingBarRoot'>
     <CircularProgress
       className='loadingBarProgress'
       size={50}
     />
-  </div >
+  </div>
 );
 
 
 export const WaitResponse = () => (
   <div className='waitApiResponseImages'>
-    <LoadingIcon/>
+    <LoadingIcon />
   </div>
-)
+);
 
 
-export const NoImages = (props) => (
+export const NoImages = ({ children }) => (
   <div className='noImagesWrapper'>
     <div className='noImages'>
-      {props.children}
+      {children}
     </div>
   </div>
-)
+);
