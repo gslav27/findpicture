@@ -1,7 +1,5 @@
 const style = {
-  dialog: {
-    zIndex: 1503,
-  },
+  dialog: { zIndex: 1503 },
   dialogContent: {
     display: 'flex',
     flexFlow: 'column',
@@ -13,9 +11,7 @@ const style = {
     backgroundColor: '#ffeb3b',
     minWidth: 150,
     marginBottom: 10,
-    '&:hover ': {
-      backgroundColor: '#efdb2b',
-    }
+    '&:hover ': { backgroundColor: '#efdb2b' },
   },
   center: {
     justifyContent: 'center',
@@ -25,7 +21,7 @@ const style = {
     width: '2.5em',
     height: '2.5em',
     color: '#ffeb3b',
-  }
-}
+  },
+};
 
-export default style
+export default style;
