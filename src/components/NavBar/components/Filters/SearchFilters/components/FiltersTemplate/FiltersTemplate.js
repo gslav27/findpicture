@@ -17,7 +17,7 @@ import {
   fetchCategory,
   fetchImageType,
   fetchOrientation,
-} from '../../../../../../../actions/searchAction';
+} from '../../../../../../../operations/searchOperations';
 
 import NativeControl from './components/NativeControl';
 import CustomControl from './components/CustomControl';

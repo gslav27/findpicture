@@ -13,7 +13,7 @@ import {
   fetchOrientation,
   fetchPage,
   fetchSearchText,
-} from '../../actions/searchAction';
+} from '../../operations/searchOperations';
 import { fetchViewerOpen } from '../../actions/imgViewerAction';
 
 import { auth } from '../Auth/AuthHOC';

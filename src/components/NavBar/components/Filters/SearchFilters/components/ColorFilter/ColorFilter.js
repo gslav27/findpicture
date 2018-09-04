@@ -13,7 +13,7 @@ import CheckBoxOutlineBlank from '@material-ui/icons/CheckBoxOutlineBlank';
 import Label from '@material-ui/icons/Label';
 import LabelOutline from '@material-ui/icons/LabelOutline';
 
-import { fetchImages, fetchColor } from '../../../../../../../actions/searchAction';
+import { fetchImages, fetchColor } from '../../../../../../../operations/searchOperations';
 
 import NativeControl from './components/NativeControl';
 import CustomControl from './components/CustomControl';

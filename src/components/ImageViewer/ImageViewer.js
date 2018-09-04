@@ -10,7 +10,7 @@ import CircularProgress from '@material-ui/core/CircularProgress';
 
 import Close from '@material-ui/icons/Close';
 
-import { fetchMoreImages, fetchPage } from '../../actions/searchAction';
+import { fetchMoreImages, fetchPage } from '../../operations/searchOperations';
 import { fetchViewerImg, fetchViewerOpen, fetchWaitNextData } from '../../actions/imgViewerAction';
 import { formatData } from '../../actions/appAddsAction';
 
@@ -111,8 +111,7 @@ class ImgViewer extends Component {
       nextArrInd = currentImgInd + 1;
     } else if ((side === 'left') || (e.key === 'ArrowLeft') || (e.keyCode === 37)) {
       nextArrInd = currentImgInd - 1;
-    }
-
+    } else return;
     if (nextArrInd > -1) {
       switch (true) {
         case (nextArrInd < images.length):

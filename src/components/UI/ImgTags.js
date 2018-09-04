@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 
 import { Link } from 'react-router-dom';
 
-import { fetchImages, fetchPage, fetchSearchText } from '../../actions/searchAction';
+import { fetchImages, fetchPage, fetchSearchText } from '../../operations/searchOperations';
 
 
 

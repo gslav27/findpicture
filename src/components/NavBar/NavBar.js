@@ -17,7 +17,7 @@ import FilterList from '@material-ui/icons/FilterList';
 import Sort from '@material-ui/icons/Sort';
 import Person from '@material-ui/icons/Person';
 
-import { fetchImages, fetchSearchText } from '../../actions/searchAction';
+import { fetchImages, fetchSearchText } from '../../operations/searchOperations';
 import { setWindowTop, fetchUserHistory, clearUserHistory } from '../../actions/appAddsAction';
 
 import MenuDrawer from './components/MenuDrawer/Drawer';

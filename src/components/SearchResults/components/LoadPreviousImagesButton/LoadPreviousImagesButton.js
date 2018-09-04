@@ -9,7 +9,7 @@ import IconButton from '@material-ui/core/IconButton';
 import ArrowUpward from '@material-ui/icons/ArrowUpward';
 import Close from '@material-ui/icons/Close';
 
-import { fetchMoreImages } from '../../../../actions/searchAction';
+import { fetchMoreImages } from '../../../../operations/searchOperations';
 
 import loadPreviousImagesButton from './LoadPreviousImagesButton.style';
 

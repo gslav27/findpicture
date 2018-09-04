@@ -14,8 +14,7 @@ import {
   fetchMoreImages,
   cutDownSearchStore,
   fetchPage,
-  fetchSearchText,
-} from '../../actions/searchAction';
+} from '../../operations/searchOperations';
 import { fetchViewerOpen } from '../../actions/imgViewerAction';
 
 import ImgViewer from '../ImageViewer/ImageViewer';
@@ -160,8 +159,6 @@ class SearchResults extends Component {
       waitApiResponseMoreImages,
       match,
       open,
-      history,
-      ...otherProps
     } = this.props;
 
 
@@ -216,7 +213,6 @@ class SearchResults extends Component {
               <ImgCaption
                 img={img}
                 imgIndex={index}
-                {...otherProps}
               />
             </GridListTile>
           ))}
@@ -234,7 +230,7 @@ class SearchResults extends Component {
     } else if (images.length) {
       searchResponse = imagesResults;
     } else if (searchText) {
-      searchResponse = <NoImages children={`no matches for "${searchText}"`} />;
+      searchResponse = <NoImages>no matches for {searchText}</NoImages>;
     }
 
 
@@ -252,7 +248,6 @@ SearchResults.propTypes = {
   fetchMoreImages: PropTypes.func.isRequired,
   fetchPage: PropTypes.func.isRequired,
   fetchViewerOpen: PropTypes.func.isRequired,
-  fetchSearchText: PropTypes.func.isRequired,
   cutDownSearchStore: PropTypes.func.isRequired,
   images: PropTypes.array.isRequired,
   totalHits: PropTypes.number.isRequired,
@@ -284,7 +279,6 @@ const mapDispatchToProps = {
   fetchPage,
   fetchViewerOpen,
   cutDownSearchStore,
-  fetchSearchText,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(compose(withStyles(styles), withWidth())(withSearchPathHandler(SearchResults)));
