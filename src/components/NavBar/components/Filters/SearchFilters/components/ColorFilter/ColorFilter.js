@@ -1,4 +1,4 @@
-import React, { Component, Fragment } from 'react';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
@@ -61,10 +61,10 @@ class ImgColor extends Component {
     const values = this.props.color;
 
     const headerLabel = value => (
-      <Fragment>
+      <span>
         {!native ? `color: ` : null}
         <span className={this.props.classes.selectedValue}>{value}</span>
-      </Fragment>
+      </span>
     );
     
     switch (values.length) {

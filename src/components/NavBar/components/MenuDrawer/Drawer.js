@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
+import classNames from 'classnames';
 
 import { withStyles } from '@material-ui/core/styles';
 
@@ -77,6 +78,11 @@ class MenuDrawer extends Component {
   )
 
 
+  checkLocationIsHome = () => (
+    this.props.auth.isAuthenticated() && !this.checkCurrentLocation('/favorites') && !this.checkCurrentLocation('/recentlywatched')
+  )
+
+
   render() {
     const { classes, auth, side, open } = this.props;
 
@@ -124,11 +130,11 @@ class MenuDrawer extends Component {
 
     const _homeButton = (
       <ListItem className={classes.list} button component={Link} to='/findpicture/' onClick={() => this.handleListItemClick(false)}>
-        <ListItemIcon
-          children={<Home className={`${(auth.isAuthenticated() && !this.checkCurrentLocation('/favorites') && !this.checkCurrentLocation('/recentlywatched')) ? classes.locationIcon : null}`} />}
-        />
+        <ListItemIcon>
+          <Home className={classNames({ [classes.locationIcon]: this.checkLocationIsHome() })} />
+        </ListItemIcon>
         <ListItemText
-          className={`${classes.itemText} ${(auth.isAuthenticated() && !this.checkCurrentLocation('/favorites') && !this.checkCurrentLocation('/recentlywatched')) ? classes.locationText : null}`}
+          className={classNames(classes.itemText, { [classes.locationText]: this.checkLocationIsHome() })}
           primary='Home'
           disableTypography
         />
@@ -155,11 +161,11 @@ class MenuDrawer extends Component {
               to={`/findpicture${option.location}`}
               onClick={() => this.handleListItemClick(false)}
             >
-              <ListItemIcon
-                children={option.icon(this.checkCurrentLocation(option.location) ? classes.locationIcon : null)}
-              />
+              <ListItemIcon>
+                {option.icon(this.checkCurrentLocation(option.location) ? classes.locationIcon : null)}
+              </ListItemIcon>
               <ListItemText
-                className={`${classes.itemText} ${this.checkCurrentLocation(option.location) ? classes.locationText : null}`}
+                className={classNames(classes.itemText, { [classes.locationText]: this.checkCurrentLocation(option.location) })}
                 primary={option.text}
                 disableTypography
               />
@@ -217,7 +223,7 @@ class MenuDrawer extends Component {
       >
         <div>
           { _drawerHeader }
-          { auth.isAuthenticated() ? _userName : null }
+          { auth.isAuthenticated() && _userName }
           { _mainOptions }
           { _additionalOptions }
         </div>

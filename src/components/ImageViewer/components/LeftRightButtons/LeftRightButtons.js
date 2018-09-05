@@ -1,4 +1,5 @@
 import React from 'react';
+import classNames from 'classnames';
 
 import { withStyles } from '@material-ui/core/styles';
 
@@ -24,7 +25,7 @@ const LeftRightButtons = (props) => {
       <IconButton
         onClick={() => props.onChange('left')}
         classes={{
-          root: `${classes.viewerIconButtonLR} ${mobileWithTouch ? null : classes.buttonsHover}`,
+          root: classNames(classes.viewerIconButtonLR, { [classes.buttonsHover]: !mobileWithTouch }),
           label: classes.viewerIconButtonLabel,
         }}
         disableRipple
@@ -36,7 +37,7 @@ const LeftRightButtons = (props) => {
         onClick={() => props.onChange('right')}
         className={classes.viewerIconButtonLabelRight}
         classes={{
-          root: `${classes.viewerIconButtonLR} ${mobileWithTouch ? null : classes.buttonsHover}`,
+          root: classNames(classes.viewerIconButtonLR, { [classes.buttonsHover]: !mobileWithTouch }),
           label: classes.viewerIconButtonLabel,
         }}
         disableRipple

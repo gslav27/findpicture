@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import classNames from 'classnames';
 
 import { withStyles } from '@material-ui/core/styles';
 import compose from 'recompose/compose';
@@ -68,7 +69,12 @@ class VerticalXsControl extends Component {
     const _collapsedListHeader = (
       <ListItem
         button
-        classes={{ root: `${classes.listItemHeader} ${open ? classes.listItemHeaderOpen : null} ${someItemCollapsed ? classes.listItemHeaderHidden : null}` }}
+        classes={{
+          root: classNames(classes.listItemHeader, {
+            [classes.listItemHeaderOpen]: open,
+            [classes.listItemHeaderHidden]: someItemCollapsed,
+          }),
+        }}
         onClick={this.handleListHeaderClick}
       >
         <ListItemText

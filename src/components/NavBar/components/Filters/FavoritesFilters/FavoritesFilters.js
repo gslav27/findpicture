@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import classNames from 'classnames';
 
 import { withStyles } from '@material-ui/core/styles';
 import compose from 'recompose/compose';
@@ -67,28 +68,33 @@ class FavoritesFilters extends Component {
 
 
     const orderComponents = Object.keys(orderProps).map((orderType) => {
-      const orderObj = orderProps[orderType];
+      const { type, label, titleButtonDown, titleButtonUp } = orderProps[orderType];
       return (
         <div key={orderType} className={classes.filtersLabel}>
-          <span className={`${classes.orderLabel} ${mobileWithTouch ? classes.mobileFont : null} ${(favoritesOrderType[orderObj.type][0] || favoritesOrderType[orderObj.type][1]) ? classes.selected : null}`}>
-            {orderObj.label}
+          <span
+            className={classNames(classes.orderLabel, {
+              [classes.mobileFont]: mobileWithTouch,
+              [classes.selected]: (favoritesOrderType[type][0] || favoritesOrderType[type][1]),
+            })}
+          >
+            {label}
           </span>
           <div className={classes.orderButtonWrap}>
             <IconButton
-              onClick={() => this.handleOrderButtonClick(orderObj.type, true)}
+              onClick={() => this.handleOrderButtonClick(type, true)}
               className={`${classes.orderButton} ${classes.orderButtonFirst}`}
-              title={orderObj.titleButtonDown}
+              title={titleButtonDown}
             >
               <ExpandMore />
-              <div className={`${classes.orderButtonSelected} ${favoritesOrderType[orderObj.type][0] ? 'visible' : 'hidden'}`}><div /></div>
+              <div className={`${classes.orderButtonSelected} ${favoritesOrderType[type][0] ? 'visible' : 'hidden'}`}><div /></div>
             </IconButton>
             <IconButton
-              onClick={() => this.handleOrderButtonClick(orderObj.type, false)}
+              onClick={() => this.handleOrderButtonClick(type, false)}
               className={classes.orderButton}
-              title={orderObj.titleButtonUp}
+              title={titleButtonUp}
             >
               <ExpandLess />
-              <div className={`${classes.orderButtonSelected} ${favoritesOrderType[orderObj.type][1] ? 'visible' : 'hidden'}`}><div /></div>
+              <div className={`${classes.orderButtonSelected} ${favoritesOrderType[type][1] ? 'visible' : 'hidden'}`}><div /></div>
             </IconButton>
           </div>
         </div>

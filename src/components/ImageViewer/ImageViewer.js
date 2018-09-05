@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import classNames from 'classnames';
 
 import { withStyles } from '@material-ui/core/styles';
 
@@ -202,7 +203,7 @@ class ImgViewer extends Component {
           {`${this.calculateCurrentImgNumber()}/${formatData(totalHits)}`}
         </div>
         <IconButton
-          className={`${classes.viewerIconButton} ${mobileWithTouch ? null : classes.buttonsHover}`}
+          className={classNames(classes.viewerIconButton, { [classes.buttonsHover]: !mobileWithTouch })}
           onClick={this.handleImgClose}
           disableRipple
           title='close'

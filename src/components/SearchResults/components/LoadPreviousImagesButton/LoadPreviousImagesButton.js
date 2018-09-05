@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import classNames from 'classnames';
 
 import { withStyles } from '@material-ui/core/styles';
 
@@ -50,7 +51,7 @@ class LoadPreviousImagesButton extends Component {
 
     const _closeButton = (
       <IconButton
-        className={`${classes.loadPreviousImagesCloseButton} ${mobileWithTouch ? classes.loadPreviousImagesCloseButtonMobile : null}`}
+        className={classNames(classes.loadPreviousImagesCloseButton, { [classes.loadPreviousImagesCloseButtonMobile]: mobileWithTouch })}
         onClick={() => this.props.onCloseButtonClick()}
         disableRipple
         title='close'
@@ -62,7 +63,7 @@ class LoadPreviousImagesButton extends Component {
 
     
     return (
-      <div className={`${classes.loadPreviousImagesRoot} ${this.addHiddenClass() ? 'hidden' : null}`}>
+      <div className={classNames(classes.loadPreviousImagesRoot, { hidden: this.addHiddenClass() })}>
         {_loadButton}
         {_closeButton}
       </div>

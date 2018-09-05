@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import throttle from 'lodash/throttle';
+import classNames from 'classnames';
 
 import { withStyles } from '@material-ui/core/styles';
 import compose from 'recompose/compose';
@@ -200,7 +201,7 @@ class NavBar extends Component {
     const _deleteSearchTextIcon = (
       <IconButton
         onClick={this.handleDeleteSearchText}
-        className={`${classes.deleteSearchTextButton} ${searchText.length ? classes.deleteSearchTextButtonDisplay : null}`}
+        className={classNames(classes.deleteSearchTextButton, { [classes.deleteSearchTextButtonDisplay]: searchText.length })}
       >
         <Close className={classes.inputFieldIcons} />
       </IconButton>
@@ -238,7 +239,7 @@ class NavBar extends Component {
 
     const _searchIcon = (
       <IconButton
-        className={mobileWithTouch ? classes.hidden : null}
+        className={classNames({ [classes.hidden]: mobileWithTouch })}
         onClick={() => this.searchTextInput.focus()}
       >
         <Search className={classes.appBarIcons} />
@@ -266,7 +267,7 @@ class NavBar extends Component {
     const filtersIcon = (
       <IconButton
         onClick={this.handleFiltersButtonClick}
-        className={`${classes.filtersButton} ${windowTop ? classes.filtersButtonTop : null}`}
+        className={classNames(classes.filtersButton, { [classes.filtersButtonTop]: windowTop })}
       >
         {filtersIconType}
       </IconButton>
@@ -274,14 +275,14 @@ class NavBar extends Component {
 
 
     const filtersTop = (
-      <div className={`${classes.filtersTop} ${showFilters ? classes.hidden : null}`}>
+      <div className={classNames(classes.filtersTop, { [classes.hidden]: showFilters })}>
         {filtersType}
       </div>
     );
 
 
     const filtersBody = (
-      <div className={`${classes.filtersBody} ${showFilters ? classes.filtersBodyTransform : null}`}>
+      <div className={classNames(classes.filtersBody, { [classes.filtersBodyTransform]: showFilters })}>
         {filtersType}
       </div>
     );
@@ -304,7 +305,7 @@ class NavBar extends Component {
 
 
     const inputField = (
-      <div className={`${classes.searchFieldWrap} ${mobileWithTouch ? classes.searchFieldWrapMobile : null}`}>
+      <div className={classNames(classes.searchFieldWrap, { [classes.searchFieldWrapMobile]: mobileWithTouch })}>
         <form
           className={classes.searchFieldFormControl}
           action='#'
@@ -345,8 +346,8 @@ class NavBar extends Component {
 
     return (
       <div>
-        <div className={`${classes.appBarWrapper} ${hideHeader ? classes.appBarWrapperHide : null}`}>
-          <AppBar className={`${classes.appBar} ${(windowTop || showFilters) ? classes.appBarBorder : null}`}>
+        <div className={classNames(classes.appBarWrapper, { [classes.appBarWrapperHide]: hideHeader })}>
+          <AppBar className={classNames(classes.appBar, { [classes.appBarBorder]: (windowTop || showFilters) })}>
             {navigationMenuIconLeft}
             <div className={classes.appBarInputGroup}>
               {searchIcon}

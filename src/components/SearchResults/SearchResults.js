@@ -193,7 +193,7 @@ class SearchResults extends Component {
     
     const imagesResults = (
       <div>
-        {this.state.showLoadPreviousImagesButton ? _loadPreviousImagesOption() : null}
+        {this.state.showLoadPreviousImagesButton && _loadPreviousImagesOption()}
         <GridList
           className={classes.gridList}
           cols={this.defineGridListParams()}
