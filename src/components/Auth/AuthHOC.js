@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 
 import Auth from './AuthActions';
 
-import { authDialogOpen } from '../../actions/appAddsAction';
+import { authDialogOpen } from '../../operations/appAddsOperations';
 
 
 export const auth = new Auth();

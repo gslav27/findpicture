@@ -13,7 +13,7 @@ import DialogActions from '@material-ui/core/DialogActions';
 
 import Report from '@material-ui/icons/Report';
 
-import { authDialogOpen } from '../../../actions/appAddsAction';
+import { authDialogOpen } from '../../../operations/appAddsOperations';
 
 import authenticationAlertStyle from './AuthenticationAlert.style';
 

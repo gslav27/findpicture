@@ -11,7 +11,7 @@ import {
   authDialogOpen,
   formatData,
   findInFavorites,
-} from '../../actions/appAddsAction';
+} from '../../operations/appAddsOperations';
 
 
 import { auth } from '../Auth/AuthHOC';

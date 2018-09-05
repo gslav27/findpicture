@@ -15,7 +15,7 @@ import {
   cutDownSearchStore,
   fetchPage,
 } from '../../operations/searchOperations';
-import { fetchViewerOpen } from '../../actions/imgViewerAction';
+import { fetchViewerOpen } from '../../operations/imgViewerOperations';
 
 import ImgViewer from '../ImageViewer/ImageViewer';
 import ImgCaption from './components/ImgCaption/ImgCaptions';

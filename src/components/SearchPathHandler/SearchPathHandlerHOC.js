@@ -14,7 +14,7 @@ import {
   fetchPage,
   fetchSearchText,
 } from '../../operations/searchOperations';
-import { fetchViewerOpen } from '../../actions/imgViewerAction';
+import { fetchViewerOpen } from '../../operations/imgViewerOperations';
 
 import { auth } from '../Auth/AuthHOC';
 

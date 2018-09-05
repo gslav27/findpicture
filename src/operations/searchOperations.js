@@ -1,5 +1,6 @@
 import * as searchActions from '../actions/searchAction';
-import * as imgViewerAction from '../actions/imgViewerAction';
+import * as imgViewerAction from './imgViewerOperations';
+
 
 export const {
   fetchPage,

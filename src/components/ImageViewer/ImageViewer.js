@@ -11,8 +11,8 @@ import CircularProgress from '@material-ui/core/CircularProgress';
 import Close from '@material-ui/icons/Close';
 
 import { fetchMoreImages, fetchPage } from '../../operations/searchOperations';
-import { fetchViewerImg, fetchViewerOpen, fetchWaitNextData } from '../../actions/imgViewerAction';
-import { formatData } from '../../actions/appAddsAction';
+import { fetchViewerImg, fetchViewerOpen, fetchWaitNextData } from '../../operations/imgViewerOperations';
+import { formatData } from '../../operations/appAddsOperations';
 
 import ImgSocialStat from '../UI/ImgSocialStat';
 import LeftRightButtons from './components/LeftRightButtons/LeftRightButtons';

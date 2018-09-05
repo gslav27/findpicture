@@ -11,7 +11,7 @@ import Divider from '@material-ui/core/Divider';
 import ExpandLess from '@material-ui/icons/ExpandLess';
 import ExpandMore from '@material-ui/icons/ExpandMore';
 
-import { favoritesOrder } from '../../../../../actions/appAddsAction';
+import { favoritesOrder } from '../../../../../operations/appAddsOperations';
 import Backdrop from '../../../../UI/Backdrop';
 
 import favoritesFiltersStyle from './FavoritesFilters.style';

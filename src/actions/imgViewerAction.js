@@ -1,29 +1,16 @@
 import * as types from './types';
 
-import { updateRecentlyWatched } from './appAddsAction';
+
+export const setViewerOpen = (open, currentImgInd) => ({
+  type: types.VIEWER_OPEN,
+  payload: [open, currentImgInd],
+});
 
 
-export const fetchViewerOpen = (open, currentImgInd, isAuthenticated) => (dispatch) => {
-  dispatch({
-    type: types.VIEWER_OPEN,
-    payload: [open, currentImgInd],
-  });
-  
-  (open && isAuthenticated) ? dispatch(updateRecentlyWatched(currentImgInd)) : null;
-};
-
-
-export const fetchViewerImg = (newImgInd = null, isAuthenticated) => (dispatch, getState) => {
-  if (newImgInd === null) {
-    newImgInd = getState().imgViewer.currentImgInd + 1;
-  }
-  dispatch({
-    type: types.VIEWER_LOAD_IMG,
-    payload: newImgInd,
-  });
-  
-  isAuthenticated ? dispatch(updateRecentlyWatched(newImgInd)) : null;
-};
+export const setViewerImg = newImgInd => ({
+  type: types.VIEWER_LOAD_IMG,
+  payload: newImgInd,
+});
 
 
 export const fetchWaitNextData = (loading = true) => ({

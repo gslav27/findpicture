@@ -6,7 +6,7 @@ import Chat from '@material-ui/icons/Chat';
 import Pageview from '@material-ui/icons/Pageview';
 import GetApp from '@material-ui/icons/GetApp';
 
-import { formatData } from '../../actions/appAddsAction';
+import { formatData } from '../../operations/appAddsOperations';
 
 import FavoritesButton from './FavoritesButton';
 
