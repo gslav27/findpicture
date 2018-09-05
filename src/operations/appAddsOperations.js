@@ -9,17 +9,31 @@ export const {
 } = appAddsAction;
 
 
+const getFetchObj = (method, contentType = 'json', bodyData) => {
+  const obj = {
+    method,
+    headers: { 'Authorization': `Bearer ${localStorage.getItem('findpicture_id_token')}`, },
+    body: (contentType === 'json') ? JSON.stringify(bodyData) : bodyData,
+  };
+  if (contentType === 'json') { obj['Content-Type'] = 'application/json; charset=utf-8'; }
+  return obj;
+};
+
+
+const getFetchURL = (type = 'history', searchPATH) => {
+  const dbURL = 'https://findpicture-6dee.restdb.io';
+  const collectionLocation = (type === 'history')
+    ? '/rest/usershistory'
+    : '/media';
+  const url = dbURL + collectionLocation + searchPATH;
+  return url;
+};
+
+
 export const fetchUserHistory = () => (dispatch) => {
   dispatch(appAddsAction.waitApiResponse());
-  const userEmail = localStorage.getItem('findpicture_user');
-  const fetchObj = {
-    method: ('GET'),
-    headers: {
-      'Authorization': `Bearer ${localStorage.getItem('findpicture_id_token')}`,
-      'Content-Type': 'application/json; charset=utf-8',
-    },
-  };
-  fetch(`https://findpicture-6dee.restdb.io/rest/usershistory?q={"user.email":"${userEmail}"}`, fetchObj)
+  const user = localStorage.getItem('findpicture_user');
+  fetch(getFetchURL(undefined, `?q={"user.email":"${user}"}`), getFetchObj('GET'))
     .then((response) => {
       if (response.ok) {
         return response.json();
@@ -31,15 +45,7 @@ export const fetchUserHistory = () => (dispatch) => {
       // if user is new, create record in usersHistory collection (in database)
       if (userHistory.length === 0) {
         dispatch(appAddsAction.waitApiResponse(false));
-        const fetchObj = {
-          method: ('POST'),
-          headers: {
-            'Authorization': `Bearer ${localStorage.getItem('findpicture_id_token')}`,
-            'Content-Type': 'application/json; charset=utf-8',
-          },
-          body: JSON.stringify({ user: userEmail }),
-        };
-        fetch(`https://findpicture-6dee.restdb.io/rest/usershistory`, fetchObj)
+        fetch(getFetchURL(), getFetchObj('POST', 'json', { user }))
           .then((response) => {
             if (response.ok) {
               return response.json();
@@ -75,16 +81,7 @@ const updateUsersHistory = (method, dataType, data) => {
     default:
       break;
   }
-
-  const fetchObj = {
-    method,
-    headers: {
-      'Authorization': `Bearer ${localStorage.getItem('findpicture_id_token')}`,
-      'Content-Type': 'application/json; charset=utf-8',
-    },
-    body: JSON.stringify(body),
-  };
-  fetch(`https://findpicture-6dee.restdb.io/rest/usershistory/${userID}`, fetchObj)
+  fetch(getFetchURL(undefined, `/${userID}`), getFetchObj(method, 'json', body))
     .then((response) => {
       if (response.ok) {
         console.log('usersHistory update, status: done ');
@@ -98,14 +95,7 @@ const updateUsersHistory = (method, dataType, data) => {
 
 const checkImgInDatabase = (currentImg) => {
   // 1. check if current img is presented in the RestdbMediaArchive
-  const fetchObj = {
-    method: 'GET',
-    headers: {
-      'Authorization': `Bearer ${localStorage.getItem('findpicture_id_token')}`,
-      'Content-Type': 'application/json; charset=utf-8',
-    },
-  };
-  fetch(`https://findpicture-6dee.restdb.io/media/*/meta`, fetchObj)
+  fetch(getFetchURL('media', `/*/meta`), getFetchObj('GET'))
     .then((response) => {
       if (response.ok) {
         return response.json();
@@ -124,12 +114,7 @@ const checkImgInDatabase = (currentImg) => {
           .then((newBlob) => {
             const formData = new FormData();
             formData.append('bloba', newBlob, currentImg.id);
-            const fetchObj = {
-              method: 'POST',
-              headers: { Authorization: `Bearer ${localStorage.getItem('findpicture_id_token')}` },
-              body: formData,
-            };
-            fetch(`https://findpicture-6dee.restdb.io/media`, fetchObj)
+            fetch(getFetchURL('media'), getFetchObj('POST', 'img', formData))
               .catch((error) => {
                 console.log('There has been a problem with img uploading: ', error.message);
               });
