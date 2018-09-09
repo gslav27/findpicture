@@ -1,0 +1,159 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<LeftRightButtons /> when "mobileWithTouch" props is false should render component with "buttonsHover" class for all buttons 1`] = `
+<div
+  className="LeftRightButtons-viewerAddsNavigation-1"
+>
+  <button
+    className="MuiButtonBase-root-27 MuiIconButton-root-21 LeftRightButtons-viewerIconButtonLR-2 LeftRightButtons-buttonsHover-7"
+    disabled={false}
+    onBlur={[Function]}
+    onClick={[Function]}
+    onFocus={[Function]}
+    onKeyDown={[Function]}
+    onKeyUp={[Function]}
+    onMouseDown={[Function]}
+    onMouseLeave={[Function]}
+    onMouseUp={[Function]}
+    onTouchEnd={[Function]}
+    onTouchMove={[Function]}
+    onTouchStart={[Function]}
+    tabIndex="0"
+    title="left"
+    type="button"
+  >
+    <span
+      className="MuiIconButton-label-26 LeftRightButtons-viewerIconButtonLabel-3"
+    >
+      <svg
+        aria-hidden="true"
+        className="MuiSvgIcon-root-30 LeftRightButtons-viewerIconStyleLR-5"
+        color={undefined}
+        focusable="false"
+        viewBox="0 0 24 24"
+      >
+        <g>
+          <path
+            d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z"
+          />
+        </g>
+      </svg>
+    </span>
+  </button>
+  <button
+    className="MuiButtonBase-root-27 MuiIconButton-root-21 LeftRightButtons-viewerIconButtonLR-2 LeftRightButtons-buttonsHover-7 LeftRightButtons-viewerIconButtonLabelRight-4"
+    disabled={false}
+    onBlur={[Function]}
+    onClick={[Function]}
+    onFocus={[Function]}
+    onKeyDown={[Function]}
+    onKeyUp={[Function]}
+    onMouseDown={[Function]}
+    onMouseLeave={[Function]}
+    onMouseUp={[Function]}
+    onTouchEnd={[Function]}
+    onTouchMove={[Function]}
+    onTouchStart={[Function]}
+    tabIndex="0"
+    title="right"
+    type="button"
+  >
+    <span
+      className="MuiIconButton-label-26 LeftRightButtons-viewerIconButtonLabel-3"
+    >
+      <svg
+        aria-hidden="true"
+        className="MuiSvgIcon-root-30 LeftRightButtons-viewerIconStyleLR-5"
+        color={undefined}
+        focusable="false"
+        viewBox="0 0 24 24"
+      >
+        <g>
+          <path
+            d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"
+          />
+        </g>
+      </svg>
+    </span>
+  </button>
+</div>
+`;
+
+exports[`<LeftRightButtons /> when "mobileWithTouch" props is true should render component without "buttonsHover" class for all buttons 1`] = `
+<div
+  className="LeftRightButtons-viewerAddsNavigation-1"
+>
+  <button
+    className="MuiButtonBase-root-27 MuiIconButton-root-21 LeftRightButtons-viewerIconButtonLR-2"
+    disabled={false}
+    onBlur={[Function]}
+    onClick={[Function]}
+    onFocus={[Function]}
+    onKeyDown={[Function]}
+    onKeyUp={[Function]}
+    onMouseDown={[Function]}
+    onMouseLeave={[Function]}
+    onMouseUp={[Function]}
+    onTouchEnd={[Function]}
+    onTouchMove={[Function]}
+    onTouchStart={[Function]}
+    tabIndex="0"
+    title="left"
+    type="button"
+  >
+    <span
+      className="MuiIconButton-label-26 LeftRightButtons-viewerIconButtonLabel-3"
+    >
+      <svg
+        aria-hidden="true"
+        className="MuiSvgIcon-root-30 LeftRightButtons-viewerIconStyleLR-5"
+        color={undefined}
+        focusable="false"
+        viewBox="0 0 24 24"
+      >
+        <g>
+          <path
+            d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z"
+          />
+        </g>
+      </svg>
+    </span>
+  </button>
+  <button
+    className="MuiButtonBase-root-27 MuiIconButton-root-21 LeftRightButtons-viewerIconButtonLR-2 LeftRightButtons-viewerIconButtonLabelRight-4"
+    disabled={false}
+    onBlur={[Function]}
+    onClick={[Function]}
+    onFocus={[Function]}
+    onKeyDown={[Function]}
+    onKeyUp={[Function]}
+    onMouseDown={[Function]}
+    onMouseLeave={[Function]}
+    onMouseUp={[Function]}
+    onTouchEnd={[Function]}
+    onTouchMove={[Function]}
+    onTouchStart={[Function]}
+    tabIndex="0"
+    title="right"
+    type="button"
+  >
+    <span
+      className="MuiIconButton-label-26 LeftRightButtons-viewerIconButtonLabel-3"
+    >
+      <svg
+        aria-hidden="true"
+        className="MuiSvgIcon-root-30 LeftRightButtons-viewerIconStyleLR-5"
+        color={undefined}
+        focusable="false"
+        viewBox="0 0 24 24"
+      >
+        <g>
+          <path
+            d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"
+          />
+        </g>
+      </svg>
+    </span>
+  </button>
+</div>
+`;

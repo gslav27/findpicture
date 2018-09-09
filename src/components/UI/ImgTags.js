@@ -8,7 +8,7 @@ import { fetchImages, fetchPage, fetchSearchText } from '../../operations/search
 
 
 
-class ImgTags extends Component {
+export class ImgTags extends Component {
   getTagsArray = () => {
     const { tagsData } = this.props;
     // check divider type in tagsData (',' or ' ' ) and convert tags string to array

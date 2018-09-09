@@ -1,0 +1,55 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<LodingIcon /> should render component with svg element 1`] = `
+<div
+  className="loadingBarRoot"
+>
+  <div
+    className="MuiCircularProgress-root-1 MuiCircularProgress-colorPrimary-4 MuiCircularProgress-indeterminate-3 loadingBarProgress"
+    role="progressbar"
+    style={
+      Object {
+        "height": 50,
+        "width": 50,
+      }
+    }
+  >
+    <svg
+      className="MuiCircularProgress-svg-6"
+      viewBox="0 0 50 50"
+    >
+      <circle
+        className="MuiCircularProgress-circle-7 MuiCircularProgress-circleIndeterminate-9"
+        cx={25}
+        cy={25}
+        fill="none"
+        r={20}
+        strokeWidth={3.6}
+        style={Object {}}
+      />
+    </svg>
+  </div>
+</div>
+`;
+
+exports[`<NoImages /> when children are passed  should render component with "some text" nested 1`] = `
+<div
+  className="noImagesWrapper"
+>
+  <div
+    className="noImages"
+  >
+    some text
+  </div>
+</div>
+`;
+
+exports[`<NoImages /> when no children are passed  should render empty component 1`] = `
+<div
+  className="noImagesWrapper"
+>
+  <div
+    className="noImages"
+  />
+</div>
+`;
