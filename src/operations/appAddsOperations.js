@@ -12,15 +12,15 @@ export const {
 const getFetchObj = (method, contentType = 'json', bodyData) => {
   const obj = {
     method,
-    headers: { 'Authorization': `Bearer ${localStorage.getItem('findpicture_id_token')}`, },
+    headers: { Authorization: `Bearer ${localStorage.getItem('findpicture_id_token')}` },
     body: (contentType === 'json') ? JSON.stringify(bodyData) : bodyData,
   };
-  if (contentType === 'json') { obj['Content-Type'] = 'application/json; charset=utf-8'; }
+  if (contentType === 'json') { obj.headers['Content-Type'] = 'application/json; charset=utf-8'; }
   return obj;
 };
 
 
-const getFetchURL = (type = 'history', searchPATH) => {
+const getFetchURL = (type = 'history', searchPATH = '') => {
   const dbURL = 'https://findpicture-6dee.restdb.io';
   const collectionLocation = (type === 'history')
     ? '/rest/usershistory'
