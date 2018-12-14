@@ -105,7 +105,7 @@ const style = theme => ({
     height: 57,
     width: '100%',
     display: 'flex',
-    alignItems: 'end',
+    // alignItems: 'end',
     transition: 'all 0.3s',
     [theme.breakpoints.only('xs')]: { top: -200 },
   },
