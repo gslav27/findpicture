@@ -1,5 +1,6 @@
 # findpicture
 App to find images by text and filters (with user account)
+Web page: http://gslav27.github.io/findpicture
 
 ### Bootstrapping
 
